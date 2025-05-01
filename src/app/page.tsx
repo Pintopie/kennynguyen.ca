@@ -37,24 +37,24 @@ export default function Home() {
   }, [dark]);
 
   useEffect(() => {
-      if (typingIndex < typingRoles[roleIdx].length) {
-        typingTimeout.current = setTimeout(() => {
-          setTypingText((prev) => prev + typingRoles[roleIdx][typingIndex]);
-          setTypingIndex((i) => i + 1);
-        }, 60);
-      } else {
-        typingTimeout.current = setTimeout(() => {
-          setTypingText("");
-          setTypingIndex(0);
-          setRoleIdx((idx) => (idx + 1) % typingRoles.length);
-        }, 1200);
+    if (typingIndex < typingRoles[roleIdx].length) {
+      typingTimeout.current = setTimeout(() => {
+        setTypingText((prev) => prev + typingRoles[roleIdx][typingIndex]);
+        setTypingIndex((i) => i + 1);
+      }, 60);
+    } else {
+      typingTimeout.current = setTimeout(() => {
+        setTypingText("");
+        setTypingIndex(0);
+        setRoleIdx((idx) => (idx + 1) % typingRoles.length);
+      }, 1200);
+    }
+    return () => {
+      if (typingTimeout.current) {
+        clearTimeout(typingTimeout.current);
       }
-      return () => {
-        if (typingTimeout.current) {
-          clearTimeout(typingTimeout.current);
-        }
-      };
-    }, [typingIndex, roleIdx]);
+    };
+  }, [typingIndex, roleIdx, typingRoles]);
 
   useEffect(() => {
     AOS.init({ duration: 700, once: true });
@@ -129,32 +129,32 @@ export default function Home() {
             <li title="React – UI library" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <FaReact className="text-[#61DAFB]" />
               <span className="font-medium text-[var(--foreground)]">React</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">React – UI library</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">React &ndash; UI library</span>
             </li>
             <li title="Next.js – React Framework" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <SiNextdotjs className="text-black dark:text-white" />
               <span className="font-medium text-[var(--foreground)]">Next.js</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Next.js – React Framework</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Next.js &ndash; React Framework</span>
             </li>
             <li title="TypeScript – Typed JS" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <SiTypescript className="text-[#3178C6]" />
               <span className="font-medium text-[var(--foreground)]">TypeScript</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">TypeScript – Typed JS</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">TypeScript &ndash; Typed JS</span>
             </li>
             <li title="Node.js – Backend" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <FaNodeJs className="text-[#68A063]" />
               <span className="font-medium text-[var(--foreground)]">Node.js</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Node.js – Backend</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Node.js &ndash; Backend</span>
             </li>
             <li title="Tailwind CSS – Utility-first CSS" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <SiTailwindcss className="text-[#38BDF8]" />
               <span className="font-medium text-[var(--foreground)]">Tailwind CSS</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Tailwind CSS – Utility-first CSS</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Tailwind CSS &ndash; Utility-first CSS</span>
             </li>
             <li title="Cloud – Deployments" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <FaCloud className="text-[#a3e635]" />
               <span className="font-medium text-[var(--foreground)]">Cloud</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Cloud – Deployments</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Cloud &ndash; Deployments</span>
             </li>
           </ul>
         </section>
@@ -267,7 +267,7 @@ export default function Home() {
               <button onClick={() => setCommandPaletteOpen(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
               <h3 className="text-lg font-bold mb-2 text-[var(--primary)]">Command Palette</h3>
               <input className="w-full px-3 py-2 rounded bg-[var(--background)] border border-[var(--border)] mb-2" placeholder="Type a command or page..." autoFocus />
-              <div className="text-xs text-[var(--muted-foreground)]">Try: "about", "projects", "contact"</div>
+              <div className="text-xs text-[var(--muted-foreground)]">Try: &quot;about&quot;, &quot;projects&quot;, &quot;contact&quot;</div>
             </div>
           </div>
         )}
