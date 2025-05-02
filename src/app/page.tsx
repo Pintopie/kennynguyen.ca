@@ -17,6 +17,44 @@ const NAV_LINKS = [
   { href: "#contact", label: "Contact" },
 ];
 
+const ABOUT_SNIPPETS = [
+  {
+    lang: "JavaScript",
+    code: `const aboutMe = {
+  name: "Kenny Nguyen",
+  role: "Software Engineer",
+  location: "Toronto, Canada",
+  interests: ["Web", "AI", "Cloud"],
+  funFact: "Always learning, always building!"
+};` },
+  {
+    lang: "TypeScript",
+    code: `interface AboutMe {
+  name: string;
+  role: string;
+  location: string;
+  interests: string[];
+  funFact: string;
+}
+
+const aboutMe: AboutMe = {
+  name: "Kenny Nguyen",
+  role: "Software Engineer",
+  location: "Toronto, Canada",
+  interests: ["Web", "AI", "Cloud"],
+  funFact: "Always learning, always building!"
+};` },
+  {
+    lang: "Python",
+    code: `about_me = {
+    "name": "Kenny Nguyen",
+    "role": "Software Engineer",
+    "location": "Toronto, Canada",
+    "interests": ["Web", "AI", "Cloud"],
+    "fun_fact": "Always learning, always building!"
+}` },
+];
+
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [dark, setDark] = useState(false);
@@ -31,6 +69,7 @@ export default function Home() {
   const [showResumePreview, setShowResumePreview] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [aboutLang, setAboutLang] = useState(0);
 
   useEffect(() => {
     if (dark) {
@@ -125,7 +164,21 @@ export default function Home() {
         </section>
         <section className="w-full max-w-3xl mb-16" id="about">
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">About Me</h2>
-          <p className="text-base text-[var(--muted-foreground)] leading-relaxed">I'm a software engineer with a love for clean code, scalable systems, and beautiful UIs. I thrive in collaborative teams and enjoy mentoring others. When not coding, I explore new tech, write, and travel.</p>
+          <div className="mb-4 flex gap-2">
+            {ABOUT_SNIPPETS.map((snippet, idx) => (
+              <button
+                key={snippet.lang}
+                className={`px-3 py-1 rounded-t font-mono text-xs border-b-2 transition-colors ${aboutLang === idx ? 'bg-[var(--card)] border-[var(--primary)] text-[var(--primary)]' : 'bg-transparent border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
+                onClick={() => setAboutLang(idx)}
+                aria-label={`Show About Me in ${snippet.lang}`}
+              >
+                {snippet.lang}
+              </button>
+            ))}
+          </div>
+          <pre className="rounded-b-lg rounded-tr-lg bg-[var(--card)]/80 ] p-4 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
+            <code>{ABOUT_SNIPPETS[aboutLang].code}</code>
+          </pre>
         </section>
         <section className="w-full max-w-3xl mb-16" id="skills" data-aos="fade-up">
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Skills</h2>
