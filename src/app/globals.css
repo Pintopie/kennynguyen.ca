@@ -4,11 +4,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #075f9be2;
+  --primary: #024dbee2;
   --muted: #64748b;
   --muted-foreground: #475569;
-  --border: #e2e8f0;
-  --card: #ffffff;
+  --border: #111111;
+  --card: #fffef8;
 }
 
 @theme inline {
@@ -20,12 +20,12 @@
 
 .dark {
   --background: #0a0a0a;
-  --foreground: #f4f3f3;
-  --primary: #07224d;
+  --foreground: #ffffff;
+  --primary: #dcefff;
   --muted: #94a3b8;
-  --muted-foreground: #cbd5e1;
-  --border: #1f385f;
-  --card: #1e293b;
+  --muted-foreground: #ffffff;
+  --border: #003589;
+  --card: #0a0f16;
 }
 
 @media (prefers-color-scheme: dark) {

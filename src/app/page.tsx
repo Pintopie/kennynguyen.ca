@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useHotkeys } from "react-hotkeys-hook";
 import { FaReact, FaNodeJs, FaCloud } from "react-icons/fa";
@@ -22,7 +22,11 @@ export default function Home() {
   const [dark, setDark] = useState(false);
   const [typingIndex, setTypingIndex] = useState(0);
   const [typingText, setTypingText] = useState("");
-  const typingRoles = ["I'm a Software Engineer based in Toronto, Canada...", "I'm a Frontend Developer...", "I'm a Problem Solver..."];
+  const typingRoles = useMemo(() => [
+    "Software Engineer",
+    "Developer who is always curious",
+    'AI enthusiast – loves solving real-world problems',
+    ], []);
   const [roleIdx, setRoleIdx] = useState(0);
   const [showResumePreview, setShowResumePreview] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -49,11 +53,7 @@ export default function Home() {
         setRoleIdx((idx) => (idx + 1) % typingRoles.length);
       }, 1200);
     }
-    return () => {
-      if (typingTimeout.current) {
-        clearTimeout(typingTimeout.current);
-      }
-    };
+    return () => typingTimeout.current && clearTimeout(typingTimeout.current);
   }, [typingIndex, roleIdx, typingRoles]);
 
   useEffect(() => {
