@@ -53,7 +53,11 @@ export default function Home() {
         setRoleIdx((idx) => (idx + 1) % typingRoles.length);
       }, 1200);
     }
-    return () => typingTimeout.current && clearTimeout(typingTimeout.current);
+    return () => {
+      if (typingTimeout.current) {
+        clearTimeout(typingTimeout.current);
+      }
+    };
   }, [typingIndex, roleIdx, typingRoles]);
 
   useEffect(() => {
