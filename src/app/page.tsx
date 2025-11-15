@@ -4,13 +4,27 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useHotkeys } from "react-hotkeys-hook";
-import { FaReact, FaNodeJs, FaCloud, FaRobot, FaCode } from "react-icons/fa";
-import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter } from "react-icons/si";
-import { ArrowUpRight, CalendarDays, Command, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ArrowUpRight, CalendarDays, Command } from "lucide-react";
+import {
+  NAV_LINKS,
+  ABOUT_SNIPPETS,
+  PROJECTS,
+  EXPERIENCE,
+  EDUCATION,
+  HACKATHONS,
+  TOOLING,
+  SKILLS,
+  METRICS,
+  CURRENT_YEAR,
+  AVATAR_URL,
+  containerVariants,
+  itemVariants,
+  cardVariants,
+} from "@/constants";
 
 type CommandItem = {
   label: string;
@@ -19,348 +33,6 @@ type CommandItem = {
   shortcut?: string;
   chips?: string[];
   feedback?: string;
-};
-
-const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#ship-log", label: "Now Shipping" },
-  { href: "#features", label: "Workflow" },
-  { href: "#stack", label: "Tools" },
-  { href: "#contact", label: "Contact Me" },
-];
-
-const ABOUT_SNIPPETS = [
-  {
-    lang: "Java",
-    code: `// Full-stack software engineer passionate about scalable systems
-public class AboutMe {
-  private String name = "Kenny Nguyen";
-  private String role = "Full-Stack Software Engineer";
-  private String location = "Toronto, Canada";
-  private String[] frontend = {"React", "Next.js", "TypeScript", "Tailwind CSS"};
-  private String[] backend = {"Node.js", "FastAPI", "PostgreSQL", "Docker"};
-  private String[] cloud = {"AWS", "Vercel", "Docker Compose"};
-  private String[] ml = {"LLMs", "RAG Systems", "ML Pipelines", "Computer Vision"};
-  private String[] interests = {"Web Development", "AI Systems", "Cloud Architecture"};
-  
-  public static void main(String[] args) {
-    AboutMe kenny = new AboutMe();
-    System.out.println("Name: " + kenny.name);
-    System.out.println("Role: " + kenny.role);
-    System.out.println("Location: " + kenny.location);
-    System.out.println("Philosophy: Build impactful solutions with clean code");
-  }
-  
-  public String getProfile() {
-    return "Full-Stack Engineer | AI Enthusiast | Cloud Architect";
-  }
-}`,
-  },
-  {
-    lang: "TypeScript",
-    code: `// Type-safe representation of my professional profile
-interface Developer {
-  name: string;
-  role: string;
-  location: string;
-  yearsExperience: number;
-  skills: SkillSet;
-  projects: Project[];
-  openToRoles: string[];
-}
-
-interface SkillSet {
-  frontend: Technology[];
-  backend: Technology[];
-  cloud: Technology[];
-  ml: string[];
-}
-
-interface Technology {
-  name: string;
-  level: "expert" | "intermediate" | "learning";
-  yearsUsed: number;
-}
-
-const aboutMe: Developer = {
-  name: "Kenny Nguyen",
-  role: "Full-Stack Software Engineer",
-  location: "Toronto, Canada",
-  yearsExperience: 2,
-  skills: {
-    frontend: [
-      { name: "React", level: "expert", yearsUsed: 2 },
-      { name: "TypeScript", level: "expert", yearsUsed: 2 },
-      { name: "Next.js", level: "intermediate", yearsUsed: 1 }
-    ],
-    backend: [
-      { name: "FastAPI", level: "expert", yearsUsed: 1 },
-      { name: "Node.js", level: "intermediate", yearsUsed: 2 }
-    ],
-    cloud: ["AWS", "Docker", "Vercel", "Docker Compose"],
-    ml: ["LLM Integration", "RAG Systems", "ML Pipelines"]
-  },
-  projects: [
-    { title: "Local RAG System", impact: "Self-hosted LLM with offline embeddings" },
-    { title: "Liver Tumor ML", impact: "Medical imaging analysis with CV" }
-  ],
-  openToRoles: ["Full-Stack Engineer", "ML Engineer", "Backend Engineer"]
-};
-
-export const isHiring = true;`,
-  },
-  {
-    lang: "Python",
-    code: `"""
-Kenny Nguyen - Full-Stack Software Engineer
-Building scalable systems with clean code and modern tech stack
-"""
-from dataclasses import dataclass
-from typing import List, Dict
-
-@dataclass
-class Expertise:
-    frontend: List[str]
-    backend: List[str]
-    cloud: List[str]
-    ml_systems: List[str]
-
-@dataclass
-class Developer:
-    name: str
-    role: str
-    location: str
-    github: str
-    linkedin: str
-    expertise: Expertise
-    interests: List[str]
-    
-    def describe_skills(self) -> Dict[str, List[str]]:
-        return {
-            "full_stack": self.expertise.frontend + self.expertise.backend,
-            "cloud_devops": self.expertise.cloud,
-            "ml_specialization": self.expertise.ml_systems
-        }
-
-# Initialize my profile
-kenny = Developer(
-    name="Kenny Nguyen",
-    role="Full-Stack Software Engineer",
-    location="Toronto, Canada",
-    github="github.com/Pintopie",
-    linkedin="linkedin.com/in/kennyngdev-ca",
-    expertise=Expertise(
-        frontend=["React", "Next.js", "TypeScript", "Tailwind CSS"],
-        backend=["FastAPI", "Node.js", "PostgreSQL"],
-        cloud=["AWS", "Docker", "Docker Compose", "Vercel"],
-        ml_systems=["LLM Integration", "RAG", "Medical Imaging ML"]
-    ),
-    interests=["Scalable Systems", "AI/ML", "Web Development", "Open Source"]
-`,
-  },
-];
-
-const PROJECTS = [
-  {
-    title: "Local RAG System",
-    description: "Self-hosted retrieval augmented generation stack that keeps proprietary notes on-device while chatting through a React front-end.",
-    impact: "FastAPI + Ollama + Docker Compose deliver an offline workflow with data-secured local embedding LLM",
-    tech: ["FastAPI", "Ollama", "React", "Docker"],
-    links: [
-      { label: "GitHub", href: "https://github.com/Pintopie/local-rag-system" },
-      { label: "README", href: "https://github.com/Pintopie/local-rag-system/blob/main/README.md" },
-    ],
-  },
-  {
-    title: "Liver Tumor segmentation and analysis",
-    description: "Classical Machine Learning pipeline for analyzing NIfTI/NII scans, featuring feature extraction, segmentation, and CLI visualizations using Kaggle dataset of pregnancy & liver scans.",
-    impact: "Provides reproducible experimentation for medical imaging by wrapping preprocessing, training.",
-    tech: ["Python", "scikit-learn", "Docker", "NII analysis & segmentation"],
-    links: [
-      { label: "GitHub", href: "https://github.com/Pintopie/Liver-Tumor-ML" },
-      { label: "Model notebook", href: "https://github.com/Pintopie/Liver-Tumor-ML/blob/main/Model.ipynb" },
-    ],
-  },
-];
-
-const SHIP_LOG = [
-  {
-    title: "Local-first copilots",
-    week: "Week 46",
-    status: "In progress",
-    summary: "Hardening the local-rag-system docker-compose stack with background embeddings jobs and tighter logging.",
-    link: "https://github.com/Pintopie/local-rag-system",
-  },
-  {
-    title: "Medical imaging research",
-    week: "Week 45",
-    status: "Stabilized",
-    summary: "Packaging Liver-Tumor-ML into a CLI so researchers can queue feature extraction on shared clusters.",
-    link: "https://github.com/Pintopie/Liver-Tumor-ML",
-  },
-  {
-    //TODO: update link when website is ready
-    title: "Bachelor of Information Student Association (BISA) Central Website",
-    week: "Week 44",
-    status: "In progress",
-    summary: "Building BISA Central Website as a platform for students in the Bachelor of Information program to connect, share information, and learn about events and opportunities. The website is built with modern web technologies and is designed to be a central hub for the BISA community.",
-  }
-];
-
-const QUICK_ACTIONS = [
-  {
-    label: "Drop a message",
-    description: "hoangnhan20192@gmail.com",
-    href: "mailto:hoangnhan20192@gmail.com",
-    icon: Mail,
-  },
-  {
-    label: "GitHub",
-    description: "github.com/Pintopie",
-    href: "https://github.com/Pintopie",
-    icon: Github,
-  },
-  {
-    label: "LinkedIn",
-    description: "Connect @ kennyngdev-ca",
-    href: "https://www.linkedin.com/in/kennyngdev-ca/",
-    icon: Linkedin,
-  },
-  {
-    label: "Resume (.docx)",
-    description: "Updated Nov 2025",
-    href: "/resumes/resume.docx",
-    icon: ExternalLink,
-  },
-];
-
-const TOOLING = [
-  {
-    name: "Next.js + Vercel",
-    detail: "Ships this site with edge rendering, image optimization, and one-click previews.",
-    href: "https://nextjs.org/",
-    icon: SiNextdotjs,
-  },
-  {
-    name: "React + TypeScript",
-    detail: "Type-safe component libraries and hooks for scalable front-end development.",
-    href: "https://react.dev/",
-    icon: FaReact,
-  },
-  {
-    name: "FastAPI + Python",
-    detail: "Typed Python APIs for ML services, instrumented with OpenAPI and Pydantic.",
-    href: "https://fastapi.tiangolo.com/",
-    icon: SiFastapi,
-  },
-  {
-    name: "LangChain + Ollama",
-    detail: "Local inference plus retrieval orchestration for custom AI copilots.",
-    href: "https://www.langchain.com/",
-    icon: FaRobot,
-  },
-  {
-    name: "Docker & Compose",
-    detail: "Reproducible dev containers—especially handy for ML notebooks and GPU labs.",
-    href: "https://www.docker.com/",
-    icon: SiDocker,
-  },
-  {
-    name: "Tailwind CSS v4",
-    detail: "Utility-first design tokens that keep experiments consistent in dark/light.",
-    href: "https://tailwindcss.com/",
-    icon: SiTailwindcss,
-  },
-  {
-    name: "Node.js + Express",
-    detail: "Backend services and CLI tools with async/await and npm ecosystem.",
-    href: "https://nodejs.org/",
-    icon: FaNodeJs,
-  },
-  {
-    name: "PostgreSQL + Supabase",
-    detail: "Postgres + auth + storage for prototypes that still need production discipline.",
-    href: "https://supabase.com/",
-    icon: SiPostgresql,
-  },
-  {
-    name: "AWS + Cloud Services",
-    detail: "Scalable deployments with EC2, S3, Lambda, and serverless architectures.",
-    href: "https://aws.amazon.com/",
-    icon: SiAmazonwebservices,
-  },
-  {
-    name: "Git + GitHub",
-    detail: "Version control and collaboration with CI/CD pipelines and issue tracking.",
-    href: "https://github.com/",
-    icon: SiGit,
-  },
-  {
-    name: "VS Code + Extensions",
-    detail: "Customizable IDE with Copilot, ESLint, and Prettier for efficient coding.",
-    href: "https://code.visualstudio.com/",
-    icon: FaCode,
-  },
-  {
-    name: "Jupyter + scikit-learn",
-    detail: "Data science workflows with notebooks, ML models, and visualization.",
-    href: "https://jupyter.org/",
-    icon: SiJupyter,
-  },
-];
-
-const SKILLS = [
-  { label: "React", tooltip: "React – UI library", icon: FaReact, color: "#61DAFB" },
-  { label: "Next.js", tooltip: "Next.js – React Framework", icon: SiNextdotjs, color: "#000000" },
-  { label: "TypeScript", tooltip: "TypeScript – Typed JS", icon: SiTypescript, color: "#3178C6" },
-  { label: "Node.js", tooltip: "Node.js – Backend", icon: FaNodeJs, color: "#68A063" },
-  { label: "Tailwind CSS", tooltip: "Tailwind – Utility-first CSS", icon: SiTailwindcss, color: "#38BDF8" },
-  { label: "Python", tooltip: "Python – Data & ML", icon: SiPython, color: "#3776AB" },
-  { label: "FastAPI", tooltip: "FastAPI – Python Web", icon: SiFastapi, color: "#009688" },
-  { label: "Docker", tooltip: "Docker – Containerization", icon: SiDocker, color: "#2496ED" },
-  { label: "Git", tooltip: "Git – Version control", icon: SiGit, color: "#F05032" },
-  { label: "GitHub", tooltip: "GitHub – Collaboration", icon: SiGithub, color: "#000000" },
-  { label: "Cloud", tooltip: "Cloud – Deployments", icon: FaCloud, color: "#a3e635" },
-];
-
-const CURRENT_YEAR = new Date().getFullYear();
-const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
-
-// Framer Motion animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-  hover: {
-    y: -8,
-    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
-    transition: { duration: 0.3, ease: "easeOut" },
-  },
 };
 
 // ScrollReveal component for scroll-triggered animations
@@ -411,9 +83,28 @@ const AnimatedCard = ({
   );
 };
 
-const METRICS = [
-  { label: "Timezone", value: "Toronto • EST" },
-  { label: "Focus", value: "Backend Development" },
+// Local constants not exported from constants.ts
+const SHIP_LOG = [
+  {
+    title: "Local-first copilots",
+    week: "Week 46",
+    status: "In progress",
+    summary: "Hardening the local-rag-system docker-compose stack with background embeddings jobs and tighter logging.",
+    link: "https://github.com/Pintopie/local-rag-system",
+  },
+  {
+    title: "Medical imaging research",
+    week: "Week 45",
+    status: "Stabilized",
+    summary: "Packaging Liver-Tumor-ML into a CLI so researchers can queue feature extraction on shared clusters.",
+    link: "https://github.com/Pintopie/Liver-Tumor-ML",
+  },
+  {
+    title: "Bachelor of Information Student Association (BISA) Central Website",
+    week: "Week 44",
+    status: "In progress",
+    summary: "Building BISA Central Website as a platform for students in the Bachelor of Information program to connect, share information, and learn about events and opportunities. The website is built with modern web technologies and is designed to be a central hub for the BISA community.",
+  }
 ];
 
 export default function Home() {
@@ -757,7 +448,7 @@ export default function Home() {
               <motion.a 
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                href="/resumes/resume.docx" 
+                href="/resumes/resume.pdf" 
                 download 
                 className="btn btn-secondary">Download Resume</motion.a>
             </motion.div>
@@ -831,40 +522,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-        <ScrollReveal className="w-full max-w-6xl grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-16">
-          {QUICK_ACTIONS.map((action, idx) => {
-            const Icon = action.icon;
-            return (
-              <AnimatedCard
-                key={action.label}
-                delay={idx * 0.08}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_15px_35px_rgba(15,23,42,0.15)]"
-              >
-                <a
-                  href={action.href}
-                  className="group flex flex-col h-full"
-                  target={action.href.startsWith("http") ? "_blank" : undefined}
-                  rel={action.href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  <motion.div 
-                    className="flex items-center gap-2 text-sm font-semibold"
-                    whileHover={{ x: 2 }}
-                  >
-                    <Icon size={16} />
-                    {action.label}
-                    <motion.span 
-                      initial={{ opacity: 0, x: -5 }}
-                      whileHover={{ opacity: 1, x: 0 }}
-                      className="ml-auto">
-                      <ArrowUpRight size={14} />
-                    </motion.span>
-                  </motion.div>
-                  <p className="text-sm text-[var(--muted-foreground)] mt-2">{action.description}</p>
-                </a>
-              </AnimatedCard>
-            );
-          })}
-        </ScrollReveal>
+        
         <section className="w-full max-w-5xl mb-16" id="about">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -972,6 +630,322 @@ export default function Home() {
             })}
           </motion.div>
         </section>
+        <section className="w-full max-w-5xl mb-16" id="experience">
+          <motion.div 
+            className="flex items-center justify-between mb-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-2xl font-semibold text-[var(--primary)]">Experience & Education</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Timeline</p>
+          </motion.div>
+          
+          <div className="space-y-8">
+            {/* Work Experience */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl"
+            >
+              <motion.h3 
+                className="text-xl font-bold mb-6 text-[var(--primary)]"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+              >
+              Work Experience
+              </motion.h3>
+              
+              <div className="relative">
+                {/* Timeline line */}
+                <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)] to-[var(--primary)]/30" />
+                
+                <motion.div className="space-y-6">
+                  {EXPERIENCE.map((item, idx) => (
+                    <motion.div
+                      key={`${item.company}-${idx}`}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ delay: idx * 0.1, duration: 0.5 }}
+                      className="relative pl-20"
+                    >
+                      {/* Timeline dot with logo */}
+                      <motion.div 
+                        className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)] shadow-lg flex items-center justify-center text-white overflow-hidden"
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 + 0.2, type: "spring", stiffness: 200 }}
+                      >
+                        {item.logo ? (
+                          <Image src={item.logo} alt={item.company} fill className="object-cover" sizes="40px" />
+                        ) : (
+                          <span className="text-lg">→</span>
+                        )}
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
+                        whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <div>
+                            <h4 className="text-lg font-bold text-[var(--foreground)]">{item.role}</h4>
+                            <p className="text-sm text-[var(--primary)] font-semibold">{item.company}</p>
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)] whitespace-nowrap">
+                            {item.startDate} – {item.endDate}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
+                        
+                        <ul className="space-y-2 mb-4">
+                          {item.highlights.map((highlight, hIdx) => (
+                            <motion.li 
+                              key={hIdx}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: idx * 0.1 + hIdx * 0.05 + 0.3 }}
+                              className="text-sm text-[var(--muted-foreground)] flex gap-2">
+                              <span className="text-[var(--primary)] mt-0.5">✓</span>
+                              <span>{highlight}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                        
+                        <motion.div 
+                          className="flex flex-wrap gap-2"
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true }}
+                          variants={containerVariants}
+                        >
+                          {item.tech.map((tech) => (
+                            <motion.span 
+                              key={tech}
+                              variants={itemVariants}
+                              className="inline-block px-2 py-1 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-xs text-[var(--primary)] font-mono"
+                            >
+                              {tech}
+                            </motion.span>
+                          ))}
+                        </motion.div>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+            
+            {/* Education */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl"
+            >
+              <motion.h3 
+                className="text-xl font-bold mb-6 text-[var(--primary)]"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+              >
+              Education
+              </motion.h3>
+              
+              <div className="relative">
+                {/* Timeline line */}
+                <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)]/30 to-[var(--primary)]/10" />
+                
+                <motion.div className="space-y-6">
+                  {EDUCATION.map((item, idx) => (
+                    <motion.div
+                      key={`${item.school}-${idx}`}
+                      initial={{ opacity: 0, x: -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ delay: idx * 0.1, duration: 0.5 }}
+                      className="relative pl-20"
+                    >
+                      {/* Timeline dot with logo */}
+                      <motion.div 
+                        className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)]/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 + 0.2, type: "spring", stiffness: 200 }}
+                      >
+                        {item.logo ? (
+                          <Image src={item.logo} alt={item.school} fill className="object-cover" sizes="40px" />
+                        ) : (
+                          <span className="text-lg">📚</span>
+                        )}
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
+                        whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <div>
+                            <h4 className="text-lg font-bold text-[var(--foreground)]">{item.degree}</h4>
+                            <p className="text-sm text-[var(--primary)] font-semibold">{item.school}</p>
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)] whitespace-nowrap">
+                            {item.startDate && `${item.startDate} – ${item.endDate}`}
+                          </span>
+                        </div>
+                        <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
+                        
+                        {(item.gpa || item.grade) && (
+                          <motion.p 
+                            className="text-sm font-semibold text-[var(--primary)] mb-3"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 + 0.3 }}
+                          >
+                            {item.gpa ? `GPA: ${item.gpa}` : `Grade: ${item.grade}`}
+                          </motion.p>
+                        )}
+                        
+                        <ul className="space-y-2">
+                          {item.highlights.map((highlight, hIdx) => (
+                            <motion.li 
+                              key={hIdx}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: idx * 0.1 + hIdx * 0.05 + 0.3 }}
+                              className="text-sm text-[var(--muted-foreground)] flex gap-2">
+                              <span className="text-[var(--primary)] mt-0.5">•</span>
+                              <span>{highlight}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Hackathons & Competitions Section */}
+        <section className="w-full max-w-6xl mb-16" id="hackathons">
+          <div className="mb-12">
+            <motion.h3
+              className="text-3xl md:text-4xl font-bold text-[var(--foreground)] mb-2"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
+              Hackathons & Competitions
+            </motion.h3>
+            
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)]/30 to-[var(--primary)]/10" />
+              
+              <motion.div className="space-y-6">
+                {HACKATHONS.map((item, idx) => (
+                  <motion.div
+                    key={`${item.name}-${idx}`}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ delay: idx * 0.1, duration: 0.5 }}
+                    className="relative pl-20"
+                  >
+                    {/* Timeline dot with logo */}
+                    <motion.div 
+                      className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)]/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.1 + 0.2, type: "spring", stiffness: 200 }}
+                    >
+                      {item.logo ? (
+                        <Image src={item.logo} alt={item.name} fill className="object-cover" sizes="40px" />
+                      ) : (
+                        <span className="text-lg">🏆</span>
+                      )}
+                    </motion.div>
+                    
+                    <motion.div 
+                      className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
+                      whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div>
+                          <h4 className="text-lg font-bold text-[var(--foreground)]">{item.name}</h4>
+                          <p className="text-sm text-[var(--primary)] font-semibold">{item.status}</p>
+                        </div>
+                        <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)] whitespace-nowrap">
+                          {item.startDate && `${item.startDate} – ${item.endDate}`}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
+                      
+                      <ul className="space-y-2 mb-4">
+                        {item.highlights.map((highlight, hIdx) => (
+                          <motion.li 
+                            key={hIdx}
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 + hIdx * 0.05 + 0.3 }}
+                            className="text-sm text-[var(--muted-foreground)] flex gap-2">
+                            <span className="text-[var(--primary)] mt-0.5">•</span>
+                            <span>{highlight}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+
+                      {/* Tech Stack */}
+                      {item.tech && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {item.tech.map((t, tIdx) => (
+                            <span key={tIdx} className="px-3 py-1 bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-medium rounded-full">
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Link */}
+                      {item.link && (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary)]/80 text-sm font-semibold transition-colors"
+                        >
+                          Learn more <ArrowUpRight className="w-4 h-4" />
+                        </a>
+                      )}
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         <section className="w-full max-w-6xl mb-16" id="projects">
           <motion.div 
             className="flex items-center justify-between mb-4"
@@ -1008,7 +982,6 @@ export default function Home() {
                   </motion.h3>
                   <p className="text-sm text-[var(--muted-foreground)] mt-2">{project.description}</p>
                 </div>
-                <p className="text-sm text-[var(--foreground)]/90">{project.impact}</p>
                 <motion.ul 
                   className="flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]"
                   variants={containerVariants}
@@ -1227,66 +1200,57 @@ export default function Home() {
           </motion.div>
         </section>
         <section className="w-full max-w-2xl mb-8" id="contact">
-          <motion.h2 
-            className="text-xl font-semibold mb-4 text-[var(--primary)]"
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.5 }}
-          >
-            Contact
-          </motion.h2>
-          <motion.ul 
-            className="flex flex-wrap justify-center gap-6 text-base"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.5 }}
-          >
-            <motion.li variants={itemVariants}>
-              <motion.a 
-                href="mailto:hoangnhan20192@gmail.com" 
-                className="flex items-center gap-2 hover:underline" 
-                aria-label="Email"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="text-lg">✉️</span> hoangnhan20192@gmail.com
-              </motion.a>
-            </motion.li>
-            <motion.li variants={itemVariants}>
-              <motion.a 
-                href="https://www.linkedin.com/in/kennyngdev-ca/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex items-center gap-2 hover:underline" 
-                aria-label="LinkedIn"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="text-lg">🔗</span> LinkedIn
-              </motion.a>
-            </motion.li>
-            <motion.li variants={itemVariants}>
+          <ScrollReveal className="flex flex-col items-center justify-center gap-4">
+            <motion.a
+              href="https://github.com/Pintopie"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub activity graph"
+              className="block w-full max-w-xl"
+              variants={itemVariants}
+              whileHover={{ y: -6 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Image
+                src="https://ghchart.rshah.org/Pintopie"
+                alt="GitHub activity graph for Pintopie"
+                width={900}
+                height={200}
+                className="rounded-lg border border-[var(--border)] bg-[var(--card)]"
+                priority
+              />
+            </motion.a>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
               <motion.a 
                 href="https://github.com/Pintopie" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-2 hover:underline" 
-                aria-label="GitHub"
-                whileHover={{ x: 4 }}
-                whileTap={{ scale: 0.95 }}
+                aria-label="GitHub profile"
+                variants={itemVariants}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
               >
-                <span className="text-lg">🐙</span> GitHub
+                <p className="text-lg font-semibold text-[var(--primary)]">GitHub Profile</p>
+                <p className="text-sm text-[var(--muted-foreground)]">@Pintopie</p>
+                <p className="text-xs text-[var(--muted)] mt-2">View repositories & contributions</p>
               </motion.a>
-            </motion.li>
-            <motion.li 
-              className="flex items-center gap-2"
-              variants={itemVariants}
-            >
-              <span className="text-lg">📍</span> Toronto, ON Canada
-            </motion.li>
-          </motion.ul>
+              <motion.a 
+                href="https://github.com/Pintopie?tab=repositories" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="GitHub repositories"
+                variants={itemVariants}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
+              >
+                <p className="text-lg font-semibold text-[var(--primary)]">Repositories</p>
+                <p className="text-sm text-[var(--muted-foreground)]">Projects & Code</p>
+                <p className="text-xs text-[var(--muted)] mt-2">Explore my open source work</p>
+              </motion.a>
+            </div>
+          </ScrollReveal>
         </section>
         <AnimatePresence>
           {showResumePreview && (
@@ -1443,7 +1407,7 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          &copy; {CURRENT_YEAR} Kenny Nguyen. Built with Next.js, Tailwind CSS, and a lot of Tim's coffee.
+          &copy; {CURRENT_YEAR} Kenny Nguyen. Built with React + Next.js, and a lot of Tim's coffee.
         </motion.footer>
       </main>
     </>

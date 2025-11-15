@@ -187,17 +187,17 @@ All sections use `useInView` with:
 ### CSS Variables (globals.css)
 ```css
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #024dbee2;
-  --muted: #64748b;
-  --border: #111111;
-  --card: #fffef8;
+  --background: #F4F7FA;
+  --foreground: #0F1724;
+  --primary: #2563EB;
+  --muted: #6B7280;
+  --border: #E6EEF8;
+  --card: #FFFFFF;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --primary: #dcefff;
+  --background: #0B1220;
+  --primary: #67B7FF;
   /* ... */
 }
 ```
