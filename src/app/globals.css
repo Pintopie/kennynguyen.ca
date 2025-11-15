@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 
 :root {
@@ -33,8 +34,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Space Grotesk", "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   transition: background 1.5s, color 1s;
+  min-height: 100vh;
 }
 
 .btn {
@@ -85,31 +87,8 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-:root {
-  --mx: 50vw;
-  --my: 50vh;
-}
-
-/* Pointer-following soft blob */
-.pointer-blob {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(calc(var(--mx) - 110px), calc(var(--my) - 110px));
-  transition: transform 0.12s linear;
-  background: radial-gradient(circle at 35% 35%, rgba(2,77,190,0.18), transparent 35%), radial-gradient(circle at 70% 70%, rgba(220,239,255,0.12), transparent 40%);
-  mix-blend-mode: screen;
-  z-index: 40;
-  opacity: 0.95;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pointer-blob {
-    display: none;
-  }
+body::selection {
+  background: rgba(2, 77, 190, 0.25);
+  color: var(--foreground);
 }
 

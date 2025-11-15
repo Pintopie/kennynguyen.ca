@@ -19,14 +19,6 @@ type CommandItem = {
   feedback?: string;
 };
 
-type MagneticProps = {
-  href?: string;
-  children: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
-  download?: boolean | string;
-  className?: string;
-} & React.HTMLAttributes<HTMLElement>;
-
 const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
@@ -227,6 +219,20 @@ const TOOLING = [
   },
 ];
 
+const SKILLS = [
+  { label: "React", tooltip: "React – UI library", icon: FaReact, color: "#61DAFB" },
+  { label: "Next.js", tooltip: "Next.js – React Framework", icon: SiNextdotjs, color: "#000000" },
+  { label: "TypeScript", tooltip: "TypeScript – Typed JS", icon: SiTypescript, color: "#3178C6" },
+  { label: "Node.js", tooltip: "Node.js – Backend", icon: FaNodeJs, color: "#68A063" },
+  { label: "Tailwind CSS", tooltip: "Tailwind – Utility-first CSS", icon: SiTailwindcss, color: "#38BDF8" },
+  { label: "Python", tooltip: "Python – Data & ML", icon: SiPython, color: "#3776AB" },
+  { label: "FastAPI", tooltip: "FastAPI – Python Web", icon: SiFastapi, color: "#009688" },
+  { label: "Docker", tooltip: "Docker – Containerization", icon: SiDocker, color: "#2496ED" },
+  { label: "Git", tooltip: "Git – Version control", icon: SiGit, color: "#F05032" },
+  { label: "GitHub", tooltip: "GitHub – Collaboration", icon: SiGithub, color: "#000000" },
+  { label: "Cloud", tooltip: "Cloud – Deployments", icon: FaCloud, color: "#a3e635" },
+];
+
 const METRICS = [
   { label: "Timezone", value: "Toronto • EST" },
   { label: "Focus", value: "Backend Development" },
@@ -234,64 +240,6 @@ const METRICS = [
 
 const CURRENT_YEAR = new Date().getFullYear();
 const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
-
-const Magnetic = (props: MagneticProps) => {
-  const { href, children, onClick, download, className, ...rest } = props;
-  const ref = useRef<HTMLElement | null>(null);
-  const rafRef = useRef<number | null>(null);
-
-  const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const handleMove = (e: React.MouseEvent) => {
-    if (prefersReduced) return;
-    const el = ref.current as HTMLElement | null;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.12;
-    const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.08;
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      if (el) el.style.transform = `translate(${dx}px, ${dy}px) scale(1.03)`;
-    });
-  };
-
-  const handleLeave = () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    const el = ref.current as HTMLElement | null;
-    if (el) el.style.transform = '';
-  };
-
-  if (href) {
-    return (
-      <a
-        ref={ref as any}
-        href={href}
-        download={download as any}
-        className={className}
-        onMouseMove={handleMove}
-        onMouseLeave={handleLeave}
-        onClick={onClick}
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <button
-      ref={ref as any}
-      type="button"
-      className={className}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      onClick={onClick}
-      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-    >
-      {children}
-    </button>
-  );
-};
 
 export default function Home() {
   const [dark, setDark] = useState(false);
@@ -311,6 +259,7 @@ export default function Home() {
   const [focusedCommandIndex, setFocusedCommandIndex] = useState(0);
   const [commandFeedback, setCommandFeedback] = useState("");
   const commandFeedbackTimeout = useRef<NodeJS.Timeout | null>(null);
+  const backgroundRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (dark) {
@@ -352,25 +301,30 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // Pointer-following soft blob (updates CSS vars)
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mq && mq.matches) return; // respect reduced motion
+    if (typeof window === "undefined") return;
+  const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  if (mq?.matches) return;
 
     let raf = 0;
-    const onMove = (e: PointerEvent) => {
-      const x = `${e.clientX}px`;
-      const y = `${e.clientY}px`;
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        document.documentElement.style.setProperty('--mx', x);
-        document.documentElement.style.setProperty('--my', y);
-      });
+    const updateBackground = () => {
+      const y = window.scrollY;
+      const scale = 1 + Math.min(y / 1600, 0.25);
+      const translateY = -y * 0.06;
+      const translateX = Math.sin(y / 180) * 35;
+      if (backgroundRef.current) {
+        backgroundRef.current.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
+      }
     };
 
-    window.addEventListener('pointermove', onMove, { passive: true });
+    const handleScroll = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateBackground);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener("scroll", handleScroll);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -477,7 +431,7 @@ export default function Home() {
   return (
     <>
       <nav className="sticky top-0 z-40 w-full bg-[var(--background)]/80 backdrop-blur border-b border-[var(--border)] shadow-sm">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
           <span className="font-bold text-lg text-[var(--primary)]">Kenny Nguyen</span>
           <ul className="flex gap-2 sm:gap-4">
             {NAV_LINKS.map(link => (
@@ -504,52 +458,92 @@ export default function Home() {
           </button>
         </div>
       </nav>
-      <main className="min-h-screen bg-gradient-to-br from-[var(--background)]/80 to-[var(--primary)]/10 text-[var(--foreground)] flex flex-col items-center px-4 sm:px-8 py-8 sm:py-16 font-[family-name:var(--font-geist-sans)]">
+  <main className="min-h-screen w-full bg-gradient-to-br from-[var(--background)]/85 to-[var(--primary)]/15 text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
         <motion.div
+          ref={backgroundRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="fixed inset-0 -z-10 bg-gradient-to-tr from-[var(--primary)]/10 to-[var(--background)]/60 animate-pulse"
+          className="fixed inset-0 -z-10 blur-3xl opacity-90 will-change-transform"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 20%, rgba(2,77,190,0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 50%), linear-gradient(130deg, rgba(2,8,23,0.9), rgba(2,77,190,0.25))",
+          }}
         />
-        <div className="pointer-blob" aria-hidden />
-        <section className="w-full max-w-5xl flex flex-col lg:flex-row items-center gap-10 mb-16 mt-4" data-aos="fade-up">
-          <motion.div whileHover={{ scale: 1.05 }} className="relative w-44 h-44 rounded-3xl overflow-hidden border-4 border-[var(--border)] shadow-2xl bg-[var(--card)]">
-            <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="176px" />
-            <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-xs text-white">
-              <Sparkles size={14} /> {CURRENT_YEAR - 2024} yrs experience
-            </span>
-          </motion.div>
-          <div className="flex-1 text-center lg:text-left">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-2 tracking-tight">Kenny Nguyen</h1>
-            <h2 className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]">
-              <span className="inline-block border-r-2 border-[var(--primary)] pr-1 animate-pulse">{typingText}</span>
-            </h2>
-            <p className="text-lg text-[var(--muted-foreground)] max-w-xl">Building modern, accessible, and delightful web experiences. Passionate about React, TypeScript, and cloud-native solutions.</p>
-            
-            <p>Currently exploring AI integrations and backend development to create impactful applications.</p>
-            <div className="mt-6 flex flex-wrap gap-4 justify-center sm:justify-start">
-              <Magnetic href="mailto:hoangnhan20192@gmail.com" className="btn btn-primary">Contact Me</Magnetic>
-              <Magnetic onClick={() => setShowResumePreview(true)} className="btn btn-secondary">Preview Resume</Magnetic>
-              <Magnetic href="/resumes/resume.docx" download className="btn btn-secondary">Download Resume</Magnetic>
+        <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.15fr,0.85fr] items-stretch mb-16 mt-6" data-aos="fade-up">
+          <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]">
+            <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
+              <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[var(--primary)]/20 blur-3xl" />
+              <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
             </div>
-            <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">Portfolio · 2025</p>
+            <div className="flex items-center gap-4 mb-4">
+              <motion.div whileHover={{ scale: 1.05 }} className="relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border border-[var(--border)] shadow-lg bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/20">
+                <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="80px" />
+              </motion.div>
+              <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">Kenny Nguyen</h1>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]">
+              <span className="inline-flex items-center gap-2">
+                <span className="inline-block w-1 h-6 rounded-full bg-[var(--primary)]" />
+                <span className="font-mono">{typingText}</span>
+              </span>
+            </h2>
+            <p className="text-base sm:text-lg text-[var(--muted-foreground)] max-w-2xl">
+              Building thoughtful products across web, AI, and backend systems. I obsess over clarity, accessibility, and resilient delivery pipelines.
+            </p>
+            <p className="mt-3 text-base text-[var(--foreground)]/80">
+              Currently experimenting with local-first copilots and hardened cloud-native workflows.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="mailto:hoangnhan20192@gmail.com" className="btn btn-primary">Contact Me</a>
+              <button type="button" onClick={() => setShowResumePreview(true)} className="btn btn-secondary">Preview Resume</button>
+              <a href="/resumes/resume.docx" download className="btn btn-secondary">Download Resume</a>
+            </div>
+            <div className="mt-8 grid grid-cols-2 gap-3">
               {METRICS.map((metric) => (
-                <span key={metric.label} className="badge">
-                  <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">{metric.label}</span>
-                  <span className="text-sm font-semibold text-[var(--foreground)]">{metric.value}</span>
+                <div key={metric.label} className="rounded-2xl border border-[var(--border)] bg-[var(--background)]/70 p-4 shadow-sm">
+                  <p className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">{metric.label}</p>
+                  <p className="text-lg font-semibold text-[var(--foreground)]">{metric.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-5">
+            <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-xs uppercase tracking-[0.35em] text-[var(--muted-foreground)]">Ship log</p>
+                <span className="inline-flex items-center gap-1 text-xs text-[var(--muted-foreground)]">
+                  <CalendarDays size={14} /> Weekly pulse
                 </span>
+              </div>
+              {SHIP_LOG.slice(0, 2).map((log) => (
+                <article key={log.title} className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4">
+                  <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                    <span>{log.week}</span>
+                    <span className="uppercase tracking-wide">{log.status}</span>
+                  </div>
+                  <h3 className="mt-2 text-base font-semibold">{log.title}</h3>
+                  <p className="text-sm text-[var(--muted-foreground)] mt-1">{log.summary}</p>
+                  {log.link && (
+                    <a href={log.link} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm text-[var(--primary)] hover:underline">
+                      View work
+                      <ArrowUpRight size={14} />
+                    </a>
+                  )}
+                </article>
               ))}
             </div>
           </div>
         </section>
-        <section className="w-full max-w-5xl grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-16" data-aos="fade-up">
+        <section className="w-full max-w-6xl grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-16" data-aos="fade-up">
           {QUICK_ACTIONS.map((action) => {
             const Icon = action.icon;
             return (
               <a
                 key={action.label}
                 href={action.href}
-                className="group rounded-xl border border-[var(--border)] bg-[var(--card)]/80 p-4 shadow-sm hover:shadow-xl transition"
+                className="group rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_15px_35px_rgba(15,23,42,0.15)] transition hover:-translate-y-1 hover:border-[var(--primary)]/50"
                 target={action.href.startsWith("http") ? "_blank" : undefined}
                 rel={action.href.startsWith("http") ? "noreferrer" : undefined}
               >
@@ -558,18 +552,22 @@ export default function Home() {
                   {action.label}
                   <ArrowUpRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition" />
                 </div>
-                <p className="text-xs text-[var(--muted-foreground)] mt-2">{action.description}</p>
+                <p className="text-sm text-[var(--muted-foreground)] mt-2">{action.description}</p>
               </a>
             );
           })}
         </section>
-        <section className="w-full max-w-3xl mb-16" id="about">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">About Me</h2>
-          <div className="mb-4 flex gap-2">
+        <section className="w-full max-w-5xl mb-16" id="about">
+          <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-semibold text-[var(--primary)]">About Me</h2>
+              <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Story in code</p>
+            </div>
+            <div className="mt-4 mb-4 flex gap-2 overflow-x-auto">
             {ABOUT_SNIPPETS.map((snippet, idx) => (
               <button
                 key={snippet.lang}
-                className={`px-3 py-1 rounded-t font-mono text-xs border-b-2 transition-colors ${aboutLang === idx ? 'bg-[var(--card)] border-[var(--primary)] text-[var(--primary)]' : 'bg-transparent border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
+                className={`px-4 py-1 rounded-full border text-xs font-mono transition-colors ${aboutLang === idx ? 'border-[var(--primary)] text-[var(--primary)] bg-[var(--background)]/60' : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
                 onClick={() => setAboutLang(idx)}
                 aria-label={`Show About Me in ${snippet.lang}`}
               >
@@ -577,75 +575,43 @@ export default function Home() {
               </button>
             ))}
           </div>
-          <pre className="rounded-b-lg rounded-tr-lg bg-[var(--card)]/80 ] p-4 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
+          <pre className="rounded-2xl bg-black/80 text-white p-5 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
             <code>{ABOUT_SNIPPETS[aboutLang].code}</code>
           </pre>
+          </div>
         </section>
-        <section className="w-full max-w-3xl mb-16" id="skills" data-aos="fade-up">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Skills</h2>
-          <ul className="flex flex-wrap gap-3">
-            <li title="React – UI library" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <FaReact className="text-[#61DAFB]" />
-              <span className="font-medium text-[var(--foreground)]">React</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">React &ndash; UI library</span>
-            </li>
-            <li title="Next.js – React Framework" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiNextdotjs className="text-black dark:text-white" />
-              <span className="font-medium text-[var(--foreground)]">Next.js</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Next.js &ndash; React Framework</span>
-            </li>
-            <li title="TypeScript – Typed JS" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiTypescript className="text-[#3178C6]" />
-              <span className="font-medium text-[var(--foreground)]">TypeScript</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">TypeScript &ndash; Typed JS</span>
-            </li>
-            <li title="Node.js – Backend" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <FaNodeJs className="text-[#68A063]" />
-              <span className="font-medium text-[var(--foreground)]">Node.js</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Node.js &ndash; Backend</span>
-            </li>
-            <li title="Tailwind CSS – Utility-first CSS" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiTailwindcss className="text-[#38BDF8]" />
-              <span className="font-medium text-[var(--foreground)]">Tailwind CSS</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Tailwind CSS &ndash; Utility-first CSS</span>
-            </li>
-            <li title="Python – Data Science & ML" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiPython className="text-[#3776AB]" />
-              <span className="font-medium text-[var(--foreground)]">Python</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Python &ndash; Data Science & ML</span>
-            </li>
-            <li title="FastAPI – Python Web Framework" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiFastapi className="text-[#009688]" />
-              <span className="font-medium text-[var(--foreground)]">FastAPI</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">FastAPI &ndash; Python Web Framework</span>
-            </li>
-            <li title="Docker – Containerization" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiDocker className="text-[#2496ED]" />
-              <span className="font-medium text-[var(--foreground)]">Docker</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Docker &ndash; Containerization</span>
-            </li>
-            <li title="Git – Version Control" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiGit className="text-[#F05032]" />
-              <span className="font-medium text-[var(--foreground)]">Git</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Git &ndash; Version Control</span>
-            </li>
-            <li title="GitHub – Collaboration" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <SiGithub className="text-black dark:text-white" />
-              <span className="font-medium text-[var(--foreground)]">GitHub</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">GitHub &ndash; Collaboration</span>
-            </li>
-            <li title="Cloud – Deployments" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
-              <FaCloud className="text-[#a3e635]" />
-              <span className="font-medium text-[var(--foreground)]">Cloud</span>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Cloud &ndash; Deployments</span>
-            </li>
-          </ul>
+        <section className="w-full max-w-5xl mb-16" id="skills" data-aos="fade-up">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-[var(--primary)]">Skills</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Stack favorites</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SKILLS.map((skill) => {
+              const Icon = skill.icon;
+              return (
+                <div key={skill.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[var(--primary)]/40">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70" style={{ color: skill.color }}>
+                      <Icon size={22} />
+                    </span>
+                    <div>
+                      <p className="font-semibold text-[var(--foreground)]">{skill.label}</p>
+                      <p className="text-xs text-[var(--muted-foreground)]">{skill.tooltip}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
-        <section className="w-full max-w-5xl mb-16" id="projects">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Projects</h2>
+        <section className="w-full max-w-6xl mb-16" id="projects">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-[var(--primary)]">Projects</h2>
+            <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Selected builds</p>
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             {PROJECTS.map((project) => (
-              <article key={project.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 flex flex-col gap-4 shadow-lg card-hover">
+              <article key={project.title} className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 flex flex-col gap-4 shadow-[0_35px_55px_rgba(15,23,42,0.2)]">
                 <div>
                   <h3 className="text-lg font-bold flex items-center gap-2">
                     {project.title}
@@ -687,42 +653,46 @@ export default function Home() {
                 </div>
                 <h3 className="mt-3 text-lg font-semibold">{log.title}</h3>
                 <p className="text-sm text-[var(--muted-foreground)] mt-2">{log.summary}</p>
-                <a href={log.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
-                  Open thread <ArrowUpRight size={14} className="ml-1" />
-                </a>
+                {log.link ? (
+                  <a href={log.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
+                    Open thread <ArrowUpRight size={14} className="ml-1" />
+                  </a>
+                ) : (
+                  <p className="mt-4 text-xs uppercase tracking-[0.2em] text-[var(--muted-foreground)]">Case study coming soon</p>
+                )}
               </article>
             ))}
           </div>
         </section>
-        <section className="w-full max-w-4xl mb-16" id="features">
+        <section className="w-full max-w-6xl mb-16" id="features">
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Workflow Guardrails</h2>
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
               <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>⚡</span> Observability first</h3>
               <p className="text-sm text-[var(--muted-foreground)]">CI, logging, and tracing wired before feature flags ship so iteration never blocks quality.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
               <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🌙</span> Inclusive interfaces</h3>
               <p className="text-sm text-[var(--muted-foreground)]">Keyboard, reduced motion, and semantic HTML baked in from the prototypes you see here.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
               <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🛡️</span> Privacy by default</h3>
               <p className="text-sm text-[var(--muted-foreground)]">Local-first AI experiments keep sensitive docs on device; cloud deployments gate secrets via Doppler.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
               <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🧩</span> Modular code</h3>
               <p className="text-sm text-[var(--muted-foreground)]">Component kits, typed APIs, and storybook coverage keep handoffs predictable.</p>
             </div>
           </div>
         </section>
-        <section className="w-full max-w-5xl mb-16" id="stack">
+        <section className="w-full max-w-6xl mb-16" id="stack">
           <div className="flex items-center gap-2 mb-4 text-[var(--primary)]">
             <Command size={18} />
             <h2 className="text-2xl font-semibold">Tooling I reach for</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {TOOLING.map((tool) => (
-              <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-sm hover:shadow-xl transition">
+              <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition hover:-translate-y-1">
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <tool.icon size={20} />
                   {tool.name}

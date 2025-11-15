@@ -15,13 +15,10 @@ const eslintConfig = [
   ...compat.config({
     extends: ["next/core-web-vitals", "next/typescript"],
     rules: {
-      // ✅ Fix Vercel build failure due to JSX quote usage
       "react/no-unescaped-entities": "off",
 
-      // ✅ Optional – if you're using custom fonts in _document.tsx
       "@next/next/no-page-custom-font": "off",
 
-      // ✅ Optional – ignore missing dependency warnings for intentional useEffect behavior
       "react-hooks/exhaustive-deps": "warn"
     },
   }),
