@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useHotkeys } from "react-hotkeys-hook";
 import { FaReact, FaNodeJs, FaCloud, FaRobot, FaCode } from "react-icons/fa";
 import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter } from "react-icons/si";
-import { ArrowUpRight, CalendarDays, Command, ExternalLink, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Command, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -233,13 +233,96 @@ const SKILLS = [
   { label: "Cloud", tooltip: "Cloud – Deployments", icon: FaCloud, color: "#a3e635" },
 ];
 
+const CURRENT_YEAR = new Date().getFullYear();
+const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
+
+// Framer Motion animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+  hover: {
+    y: -8,
+    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
+};
+
+// ScrollReveal component for scroll-triggered animations
+const ScrollReveal = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// AnimatedCard component for consistent card animations
+const AnimatedCard = ({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) => {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{
+        ...cardVariants,
+        visible: {
+          ...cardVariants.visible,
+          transition: { ...cardVariants.visible.transition, delay },
+        },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const METRICS = [
   { label: "Timezone", value: "Toronto • EST" },
   { label: "Focus", value: "Backend Development" },
 ];
-
-const CURRENT_YEAR = new Date().getFullYear();
-const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
 
 export default function Home() {
   const [dark, setDark] = useState(false);
@@ -470,55 +553,170 @@ export default function Home() {
               "radial-gradient(circle at 20% 20%, rgba(2,77,190,0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 50%), linear-gradient(130deg, rgba(2,8,23,0.9), rgba(2,77,190,0.25))",
           }}
         />
+        {/* Floating Creative Elements */}
+        <motion.div
+          className="fixed top-1/4 right-1/4 w-72 h-72 rounded-full opacity-30 pointer-events-none -z-5"
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            background: "radial-gradient(circle, rgba(2,77,190,0.4), transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
+        <motion.div
+          className="fixed bottom-1/3 left-1/3 w-96 h-96 rounded-full opacity-20 pointer-events-none -z-5"
+          animate={{
+            y: [0, 40, 0],
+            x: [0, -30, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          style={{
+            background: "radial-gradient(circle, rgba(220,239,255,0.3), transparent 70%)",
+            filter: "blur(50px)",
+          }}
+        />
         <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.15fr,0.85fr] items-stretch mb-16 mt-6" data-aos="fade-up">
-          <div className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]">
             <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
               <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[var(--primary)]/20 blur-3xl" />
               <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
             </div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">Portfolio · 2025</p>
-            <div className="flex items-center gap-4 mb-4">
-              <motion.div whileHover={{ scale: 1.05 }} className="relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border border-[var(--border)] shadow-lg bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/20">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">Portfolio · 2025</motion.p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="flex items-center gap-4 mb-4">
+              <motion.div 
+                whileHover={{ scale: 1.08, rotate: 2 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border border-[var(--border)] shadow-lg bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/20">
                 <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="80px" />
               </motion.div>
               <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">Kenny Nguyen</h1>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]">
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35, duration: 0.6 }}
+              className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]">
               <span className="inline-flex items-center gap-2">
                 <span className="inline-block w-1 h-6 rounded-full bg-[var(--primary)]" />
                 <span className="font-mono">{typingText}</span>
               </span>
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--muted-foreground)] max-w-2xl">
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-base sm:text-lg text-[var(--muted-foreground)] max-w-2xl">
               Building thoughtful products across web, AI, and backend systems. I obsess over clarity, accessibility, and resilient delivery pipelines.
-            </p>
-            <p className="mt-3 text-base text-[var(--foreground)]/80">
+            </motion.p>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="mt-3 text-base text-[var(--foreground)]/80">
               Currently experimenting with local-first copilots and hardened cloud-native workflows.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href="mailto:hoangnhan20192@gmail.com" className="btn btn-primary">Contact Me</a>
-              <button type="button" onClick={() => setShowResumePreview(true)} className="btn btn-secondary">Preview Resume</button>
-              <a href="/resumes/resume.docx" download className="btn btn-secondary">Download Resume</a>
-            </div>
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              {METRICS.map((metric) => (
-                <div key={metric.label} className="rounded-2xl border border-[var(--border)] bg-[var(--background)]/70 p-4 shadow-sm">
+            </motion.p>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.55, duration: 0.6 }}
+              className="mt-6 flex flex-wrap gap-3">
+              <motion.a 
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                href="mailto:hoangnhan20192@gmail.com" 
+                className="btn btn-primary">Contact Me</motion.a>
+              <motion.button 
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                type="button" 
+                onClick={() => setShowResumePreview(true)} 
+                className="btn btn-secondary">Preview Resume</motion.button>
+              <motion.a 
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                href="/resumes/resume.docx" 
+                download 
+                className="btn btn-secondary">Download Resume</motion.a>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="mt-8 grid grid-cols-2 gap-3">
+              {METRICS.map((metric, idx) => (
+                <motion.div 
+                  key={metric.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.65 + idx * 0.05, duration: 0.5 }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--background)]/70 p-4 shadow-sm">
                   <p className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">{metric.label}</p>
                   <p className="text-lg font-semibold text-[var(--foreground)]">{metric.value}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
-          <div className="grid gap-5">
-            <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl flex flex-col gap-4">
+            </motion.div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="grid gap-5">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <p className="text-xs uppercase tracking-[0.35em] text-[var(--muted-foreground)]">Ship log</p>
                 <span className="inline-flex items-center gap-1 text-xs text-[var(--muted-foreground)]">
                   <CalendarDays size={14} /> Weekly pulse
                 </span>
               </div>
-              {SHIP_LOG.slice(0, 2).map((log) => (
-                <article key={log.title} className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4">
+              {SHIP_LOG.slice(0, 2).map((log, idx) => (
+                <motion.article 
+                  key={log.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.35 + idx * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -2, boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)" }}
+                  className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4">
                   <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
                     <span>{log.week}</span>
                     <span className="uppercase tracking-wide">{log.status}</span>
@@ -526,263 +724,623 @@ export default function Home() {
                   <h3 className="mt-2 text-base font-semibold">{log.title}</h3>
                   <p className="text-sm text-[var(--muted-foreground)] mt-1">{log.summary}</p>
                   {log.link && (
-                    <a href={log.link} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm text-[var(--primary)] hover:underline">
+                    <motion.a 
+                      whileHover={{ x: 4 }}
+                      href={log.link} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="mt-2 inline-flex items-center gap-1 text-sm text-[var(--primary)] hover:underline">
                       View work
                       <ArrowUpRight size={14} />
-                    </a>
+                    </motion.a>
                   )}
-                </article>
+                </motion.article>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </section>
-        <section className="w-full max-w-6xl grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-16" data-aos="fade-up">
-          {QUICK_ACTIONS.map((action) => {
+        <ScrollReveal className="w-full max-w-6xl grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-16">
+          {QUICK_ACTIONS.map((action, idx) => {
             const Icon = action.icon;
             return (
-              <a
+              <AnimatedCard
                 key={action.label}
-                href={action.href}
-                className="group rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_15px_35px_rgba(15,23,42,0.15)] transition hover:-translate-y-1 hover:border-[var(--primary)]/50"
-                target={action.href.startsWith("http") ? "_blank" : undefined}
-                rel={action.href.startsWith("http") ? "noreferrer" : undefined}
+                delay={idx * 0.08}
+                className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_15px_35px_rgba(15,23,42,0.15)]"
               >
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  <Icon size={16} />
-                  {action.label}
-                  <ArrowUpRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition" />
-                </div>
-                <p className="text-sm text-[var(--muted-foreground)] mt-2">{action.description}</p>
-              </a>
+                <a
+                  href={action.href}
+                  className="group flex flex-col h-full"
+                  target={action.href.startsWith("http") ? "_blank" : undefined}
+                  rel={action.href.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  <motion.div 
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    whileHover={{ x: 2 }}
+                  >
+                    <Icon size={16} />
+                    {action.label}
+                    <motion.span 
+                      initial={{ opacity: 0, x: -5 }}
+                      whileHover={{ opacity: 1, x: 0 }}
+                      className="ml-auto">
+                      <ArrowUpRight size={14} />
+                    </motion.span>
+                  </motion.div>
+                  <p className="text-sm text-[var(--muted-foreground)] mt-2">{action.description}</p>
+                </a>
+              </AnimatedCard>
             );
           })}
-        </section>
+        </ScrollReveal>
         <section className="w-full max-w-5xl mb-16" id="about">
-          <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl">
-            <div className="flex items-center justify-between">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl">
+            <motion.div 
+              className="flex items-center justify-between"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
               <h2 className="text-2xl font-semibold text-[var(--primary)]">About Me</h2>
               <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Story in code</p>
-            </div>
-            <div className="mt-4 mb-4 flex gap-2 overflow-x-auto">
+            </motion.div>
+            <motion.div 
+              className="mt-4 mb-4 flex gap-2 overflow-x-auto"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
             {ABOUT_SNIPPETS.map((snippet, idx) => (
-              <button
+              <motion.button
                 key={snippet.lang}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
                 className={`px-4 py-1 rounded-full border text-xs font-mono transition-colors ${aboutLang === idx ? 'border-[var(--primary)] text-[var(--primary)] bg-[var(--background)]/60' : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
                 onClick={() => setAboutLang(idx)}
                 aria-label={`Show About Me in ${snippet.lang}`}
               >
                 {snippet.lang}
-              </button>
+              </motion.button>
             ))}
-          </div>
-          <pre className="rounded-2xl bg-black/80 text-white p-5 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
+          </motion.div>
+          <motion.pre 
+            key={aboutLang}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-2xl bg-black/80 text-white p-5 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
             <code>{ABOUT_SNIPPETS[aboutLang].code}</code>
-          </pre>
-          </div>
+          </motion.pre>
+          </motion.div>
         </section>
-        <section className="w-full max-w-5xl mb-16" id="skills" data-aos="fade-up">
-          <div className="flex items-center justify-between mb-4">
+        <section className="w-full max-w-5xl mb-16" id="skills">
+          <motion.div 
+            className="flex items-center justify-between mb-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Skills</h2>
             <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Stack favorites</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SKILLS.map((skill) => {
+          </motion.div>
+          <motion.div 
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {SKILLS.map((skill, idx) => {
               const Icon = skill.icon;
               return (
-                <div key={skill.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-4 shadow-sm transition hover:-translate-y-1 hover:border-[var(--primary)]/40">
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70" style={{ color: skill.color }}>
+                <AnimatedCard
+                  key={skill.label}
+                  delay={idx * 0.05}
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-4 shadow-sm"
+                >
+                  <motion.div 
+                    className="flex items-center gap-3"
+                    whileHover={{ x: 4 }}
+                  >
+                    <motion.span 
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70" 
+                      style={{ color: skill.color }}
+                      whileHover={{ scale: 1.15, rotate: 8 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
                       <Icon size={22} />
-                    </span>
+                    </motion.span>
                     <div>
                       <p className="font-semibold text-[var(--foreground)]">{skill.label}</p>
                       <p className="text-xs text-[var(--muted-foreground)]">{skill.tooltip}</p>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </AnimatedCard>
               );
             })}
-          </div>
+          </motion.div>
         </section>
         <section className="w-full max-w-6xl mb-16" id="projects">
-          <div className="flex items-center justify-between mb-4">
+          <motion.div 
+            className="flex items-center justify-between mb-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Projects</h2>
             <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Selected builds</p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            {PROJECTS.map((project) => (
-              <article key={project.title} className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 flex flex-col gap-4 shadow-[0_35px_55px_rgba(15,23,42,0.2)]">
+          </motion.div>
+          <motion.div 
+            className="grid gap-6 md:grid-cols-2"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            {PROJECTS.map((project, idx) => (
+              <AnimatedCard
+                key={project.title}
+                delay={idx * 0.1}
+                className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 flex flex-col gap-4 shadow-[0_35px_55px_rgba(15,23,42,0.2)]"
+              >
                 <div>
-                  <h3 className="text-lg font-bold flex items-center gap-2">
+                  <motion.h3 
+                    className="text-lg font-bold flex items-center gap-2"
+                    whileHover={{ x: 4 }}
+                  >
                     {project.title}
-                    <ArrowUpRight size={18} className="text-[var(--muted-foreground)]" />
-                  </h3>
+                    <motion.span whileHover={{ x: 2, y: -2 }}>
+                      <ArrowUpRight size={18} className="text-[var(--muted-foreground)]" />
+                    </motion.span>
+                  </motion.h3>
                   <p className="text-sm text-[var(--muted-foreground)] mt-2">{project.description}</p>
                 </div>
                 <p className="text-sm text-[var(--foreground)]/90">{project.impact}</p>
-                <ul className="flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]">
+                <motion.ul 
+                  className="flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]"
+                  variants={containerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
                   {project.tech.map((tech) => (
-                    <li key={tech} className="px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)]/40">{tech}</li>
+                    <motion.li 
+                      key={tech} 
+                      variants={itemVariants}
+                      className="px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)]/40"
+                    >
+                      {tech}
+                    </motion.li>
                   ))}
-                </ul>
-                <div className="flex flex-wrap gap-4 text-sm mt-auto">
+                </motion.ul>
+                <motion.div 
+                  className="flex flex-wrap gap-4 text-sm mt-auto"
+                  variants={containerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
                   {project.links.map((link) => (
-                    <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[var(--primary)] hover:underline">
+                    <motion.a 
+                      key={link.href} 
+                      href={link.href} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      variants={itemVariants}
+                      whileHover={{ x: 2, color: "var(--primary)" }}
+                      className="inline-flex items-center gap-1 text-[var(--primary)] hover:underline">
                       {link.label}
-                      <ExternalLink size={14} />
-                    </a>
+                      <ArrowUpRight size={14} />
+                    </motion.a>
                   ))}
-                </div>
-              </article>
+                </motion.div>
+              </AnimatedCard>
             ))}
-          </div>
+          </motion.div>
         </section>
         <section className="w-full max-w-5xl mb-16" id="ship-log">
-          <div className="flex items-center justify-between mb-4">
+          <motion.div 
+            className="flex items-center justify-between mb-4"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Now Shipping</h2>
-            <div className="text-xs uppercase text-[var(--muted-foreground)] flex items-center gap-2">
+            <motion.div 
+              className="text-xs uppercase text-[var(--muted-foreground)] flex items-center gap-2"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
               <CalendarDays size={14} /> Weekly ship log
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {SHIP_LOG.map((log) => (
-              <article key={log.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow card-hover">
-                <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+            </motion.div>
+          </motion.div>
+          <motion.div 
+            className="grid gap-4 md:grid-cols-3"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            {SHIP_LOG.map((log, idx) => (
+              <AnimatedCard
+                key={log.title}
+                delay={idx * 0.08}
+                className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow"
+              >
+                <motion.div 
+                  className="flex items-center justify-between text-xs text-[var(--muted-foreground)]"
+                  whileHover={{ scale: 1.02 }}
+                >
                   <span>{log.week}</span>
-                  <span className="uppercase tracking-wide">{log.status}</span>
-                </div>
+                  <motion.span 
+                    className="uppercase tracking-wide"
+                    whileHover={{ y: -2 }}
+                  >
+                    {log.status}
+                  </motion.span>
+                </motion.div>
                 <h3 className="mt-3 text-lg font-semibold">{log.title}</h3>
                 <p className="text-sm text-[var(--muted-foreground)] mt-2">{log.summary}</p>
                 {log.link ? (
-                  <a href={log.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
-                    Open thread <ArrowUpRight size={14} className="ml-1" />
-                  </a>
+                  <motion.a 
+                    href={log.link} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    whileHover={{ x: 4 }}
+                    className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
+                    Open thread 
+                    <motion.span whileHover={{ rotate: 45 }} className="ml-1">
+                      <ArrowUpRight size={14} />
+                    </motion.span>
+                  </motion.a>
                 ) : (
-                  <p className="mt-4 text-xs uppercase tracking-[0.2em] text-[var(--muted-foreground)]">Case study coming soon</p>
+                  <motion.p 
+                    className="mt-4 text-xs uppercase tracking-[0.2em] text-[var(--muted-foreground)]"
+                    initial={{ opacity: 0.5 }}
+                    whileHover={{ opacity: 1 }}
+                  >
+                    Case study coming soon
+                  </motion.p>
                 )}
-              </article>
+              </AnimatedCard>
             ))}
-          </div>
+          </motion.div>
         </section>
         <section className="w-full max-w-6xl mb-16" id="features">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Workflow Guardrails</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>⚡</span> Observability first</h3>
+          <motion.h2 
+            className="text-2xl font-semibold mb-4 text-[var(--primary)]"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
+            Workflow Guardrails
+          </motion.h2>
+          <motion.div 
+            className="grid gap-6 sm:grid-cols-2"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <AnimatedCard delay={0} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
+              <motion.h3 
+                className="text-lg font-bold mb-2 flex items-center gap-2"
+                whileHover={{ x: 4 }}
+              >
+                <span>⚡</span> Observability first
+              </motion.h3>
               <p className="text-sm text-[var(--muted-foreground)]">CI, logging, and tracing wired before feature flags ship so iteration never blocks quality.</p>
-            </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🌙</span> Inclusive interfaces</h3>
+            </AnimatedCard>
+            <AnimatedCard delay={0.1} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
+              <motion.h3 
+                className="text-lg font-bold mb-2 flex items-center gap-2"
+                whileHover={{ x: 4 }}
+              >
+                <span>🌙</span> Inclusive interfaces
+              </motion.h3>
               <p className="text-sm text-[var(--muted-foreground)]">Keyboard, reduced motion, and semantic HTML baked in from the prototypes you see here.</p>
-            </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🛡️</span> Privacy by default</h3>
+            </AnimatedCard>
+            <AnimatedCard delay={0.2} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
+              <motion.h3 
+                className="text-lg font-bold mb-2 flex items-center gap-2"
+                whileHover={{ x: 4 }}
+              >
+                <span>🛡️</span> Privacy by default
+              </motion.h3>
               <p className="text-sm text-[var(--muted-foreground)]">Local-first AI experiments keep sensitive docs on device; cloud deployments gate secrets via Doppler.</p>
-            </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg transition">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🧩</span> Modular code</h3>
+            </AnimatedCard>
+            <AnimatedCard delay={0.3} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
+              <motion.h3 
+                className="text-lg font-bold mb-2 flex items-center gap-2"
+                whileHover={{ x: 4 }}
+              >
+                <span>🧩</span> Modular code
+              </motion.h3>
               <p className="text-sm text-[var(--muted-foreground)]">Component kits, typed APIs, and storybook coverage keep handoffs predictable.</p>
-            </div>
-          </div>
+            </AnimatedCard>
+          </motion.div>
         </section>
         <section className="w-full max-w-6xl mb-16" id="stack">
-          <div className="flex items-center gap-2 mb-4 text-[var(--primary)]">
+          <motion.div 
+            className="flex items-center gap-2 mb-4 text-[var(--primary)]"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+          >
             <Command size={18} />
             <h2 className="text-2xl font-semibold">Tooling I reach for</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {TOOLING.map((tool) => (
-              <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_20px_40px_rgba(15,23,42,0.15)] transition hover:-translate-y-1">
-                <div className="flex items-center gap-2 text-lg font-semibold">
-                  <tool.icon size={20} />
-                  {tool.name}
-                  <ArrowUpRight size={16} className="text-[var(--muted-foreground)]" />
-                </div>
-                <p className="text-sm text-[var(--muted-foreground)] mt-2">{tool.detail}</p>
-              </a>
-            ))}
-          </div>
+          </motion.div>
+          <motion.div 
+            className="grid gap-4 md:grid-cols-2"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            {TOOLING.map((tool, idx) => {
+              const IconComp = tool.icon;
+              return (
+                <AnimatedCard
+                  key={tool.name}
+                  delay={idx * 0.05}
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_20px_40px_rgba(15,23,42,0.15)]"
+                >
+                  <a href={tool.href} target="_blank" rel="noreferrer" className="flex items-start justify-between">
+                    <motion.div 
+                      className="flex items-center gap-2 text-lg font-semibold"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <motion.span whileHover={{ scale: 1.2, rotate: 8 }} transition={{ type: "spring", stiffness: 400 }}>
+                        <IconComp size={20} />
+                      </motion.span>
+                      {tool.name}
+                    </motion.div>
+                    <motion.span 
+                      className="text-[var(--muted-foreground)]"
+                      whileHover={{ x: 4, y: -2 }}
+                    >
+                      <ArrowUpRight size={16} />
+                    </motion.span>
+                  </a>
+                  <p className="text-sm text-[var(--muted-foreground)] mt-2">{tool.detail}</p>
+                </AnimatedCard>
+              );
+            })}
+          </motion.div>
         </section>
         <section className="w-full max-w-2xl mb-8" id="contact">
-          <h2 className="text-xl font-semibold mb-4 text-[var(--primary)]">Contact</h2>
-          <ul className="flex flex-wrap justify-center gap-6 text-base">
-            <li>
-              <a href="mailto:hoangnhan20192@gmail.com" className="flex items-center gap-2 hover:underline" aria-label="Email">
+          <motion.h2 
+            className="text-xl font-semibold mb-4 text-[var(--primary)]"
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+          >
+            Contact
+          </motion.h2>
+          <motion.ul 
+            className="flex flex-wrap justify-center gap-6 text-base"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            <motion.li variants={itemVariants}>
+              <motion.a 
+                href="mailto:hoangnhan20192@gmail.com" 
+                className="flex items-center gap-2 hover:underline" 
+                aria-label="Email"
+                whileHover={{ x: 4 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="text-lg">✉️</span> hoangnhan20192@gmail.com
-              </a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/kennyngdev-ca/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline" aria-label="LinkedIn">
+              </motion.a>
+            </motion.li>
+            <motion.li variants={itemVariants}>
+              <motion.a 
+                href="https://www.linkedin.com/in/kennyngdev-ca/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 hover:underline" 
+                aria-label="LinkedIn"
+                whileHover={{ x: 4 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="text-lg">🔗</span> LinkedIn
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/Pintopie" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline" aria-label="GitHub">
+              </motion.a>
+            </motion.li>
+            <motion.li variants={itemVariants}>
+              <motion.a 
+                href="https://github.com/Pintopie" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 hover:underline" 
+                aria-label="GitHub"
+                whileHover={{ x: 4 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <span className="text-lg">🐙</span> GitHub
-              </a>
-            </li>
-            <li className="flex items-center gap-2">
+              </motion.a>
+            </motion.li>
+            <motion.li 
+              className="flex items-center gap-2"
+              variants={itemVariants}
+            >
               <span className="text-lg">📍</span> Toronto, ON Canada
-            </li>
-          </ul>
+            </motion.li>
+          </motion.ul>
         </section>
-        {showResumePreview && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-            <div className="bg-[var(--card)]/90 border border-[var(--border)] rounded-2xl shadow-xl p-8 max-w-2xl w-full relative flex flex-col items-center">
-              <button onClick={() => setShowResumePreview(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
-              <h3 className="text-xl font-bold mb-4 text-[var(--primary)]">Resume Preview</h3>
-              <iframe src="/resumes/resume.pdf" className="w-full h-96 rounded shadow" title="Resume Preview"></iframe>
-              <a href="/resumes/resume.pdf" download className="btn btn-primary mt-4">Download Resume</a>
-            </div>
-          </div>
-        )}
-        {commandPaletteOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-            <div className="bg-[var(--card)]/95 border border-[var(--border)] rounded-2xl shadow-xl p-6 max-w-lg w-full relative">
-              <button onClick={() => setCommandPaletteOpen(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
-              <h3 className="text-lg font-bold mb-2 text-[var(--primary)] flex items-center gap-2">
-                <Command size={16} /> Command Palette
-              </h3>
-              <input
-                className="w-full px-3 py-2 rounded bg-[var(--background)] border border-[var(--border)] mb-3"
-                placeholder="Type a command or page..."
-                autoFocus
-                value={commandQuery}
-                onChange={(event) => setCommandQuery(event.target.value)}
-                onKeyDown={handleCommandKeyDown}
-              />
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {filteredCommands.length === 0 && (
-                  <p className="text-sm text-[var(--muted-foreground)]">No commands found.</p>
-                )}
-                {filteredCommands.map((cmd, idx) => (
-                  <button
-                    key={cmd.label}
-                    className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 ${
-                      idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
-                    }`}
-                    onClick={() => handleCommandRun(cmd)}
+        <AnimatePresence>
+          {showResumePreview && (
+            <motion.div 
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div 
+                className="bg-[var(--card)]/90 border border-[var(--border)] rounded-2xl shadow-xl p-8 max-w-2xl w-full relative flex flex-col items-center mx-4"
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              >
+                <motion.button 
+                  onClick={() => setShowResumePreview(false)} 
+                  className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]"
+                  whileHover={{ scale: 1.2, rotate: 90 }}
+                  whileTap={{ scale: 0.85 }}
+                >
+                  &times;
+                </motion.button>
+                <motion.h3 
+                  className="text-xl font-bold mb-4 text-[var(--primary)]"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  Resume Preview
+                </motion.h3>
+                <motion.iframe 
+                  src="/resumes/resume.pdf" 
+                  className="w-full h-96 rounded shadow" 
+                  title="Resume Preview"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.15, duration: 0.4 }}
+                />
+                <motion.a 
+                  href="/resumes/resume.pdf" 
+                  download 
+                  className="btn btn-primary mt-4"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Download Resume
+                </motion.a>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {commandPaletteOpen && (
+            <motion.div 
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setCommandPaletteOpen(false)}
+            >
+              <motion.div 
+                className="bg-[var(--card)]/95 border border-[var(--border)] rounded-2xl shadow-xl p-6 max-w-lg w-full relative mx-4"
+                initial={{ opacity: 0, scale: 0.9, y: -30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -30 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <motion.button 
+                  onClick={() => setCommandPaletteOpen(false)} 
+                  className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]"
+                  whileHover={{ scale: 1.2, rotate: 90 }}
+                  whileTap={{ scale: 0.85 }}
+                >
+                  &times;
+                </motion.button>
+                <motion.h3 
+                  className="text-lg font-bold mb-2 text-[var(--primary)] flex items-center gap-2"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 }}
+                >
+                  <Command size={16} /> Command Palette
+                </motion.h3>
+                <motion.input
+                  className="w-full px-3 py-2 rounded bg-[var(--background)] border border-[var(--border)] mb-3"
+                  placeholder="Type a command or page..."
+                  autoFocus
+                  value={commandQuery}
+                  onChange={(event) => setCommandQuery(event.target.value)}
+                  onKeyDown={handleCommandKeyDown}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                />
+                <motion.div 
+                  className="space-y-2 max-h-64 overflow-y-auto"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {filteredCommands.length === 0 && (
+                    <p className="text-sm text-[var(--muted-foreground)]">No commands found.</p>
+                  )}
+                  {filteredCommands.map((cmd, idx) => (
+                    <motion.button
+                      key={cmd.label}
+                      className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 transition-colors ${
+                        idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
+                      }`}
+                      onClick={() => handleCommandRun(cmd)}
+                      variants={itemVariants}
+                      whileHover={{ backgroundColor: "rgba(2, 77, 190, 0.1)", x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div>
+                        <p className="font-semibold">{cmd.label}</p>
+                        <p className="text-xs text-[var(--muted-foreground)]">{cmd.description}</p>
+                      </div>
+                      {cmd.shortcut && (
+                        <span className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">{cmd.shortcut}</span>
+                      )}
+                    </motion.button>
+                  ))}
+                </motion.div>
+                <motion.div 
+                  className="text-xs text-[var(--muted-foreground)] mt-3 flex justify-between"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <span>Press Esc to close • Enter to run</span>
+                  <motion.span
+                    key={commandFeedback}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
                   >
-                    <div>
-                      <p className="font-semibold">{cmd.label}</p>
-                      <p className="text-xs text-[var(--muted-foreground)]">{cmd.description}</p>
-                    </div>
-                    {cmd.shortcut && (
-                      <span className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">{cmd.shortcut}</span>
-                    )}
-                  </button>
-                ))}
-              </div>
-              <div className="text-xs text-[var(--muted-foreground)] mt-3 flex justify-between">
-                <span>Press Esc to close • Enter to run</span>
-                <span>{commandFeedback}</span>
-              </div>
-            </div>
-          </div>
-        )}
-        <footer className="w-full text-center text-xs text-[var(--muted-foreground)] mt-auto pt-8 border-t border-[var(--border)]">
+                    {commandFeedback}
+                  </motion.span>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.footer 
+          className="w-full text-center text-xs text-[var(--muted-foreground)] mt-auto pt-8 border-t border-[var(--border)]"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           &copy; {CURRENT_YEAR} Kenny Nguyen. Built with Next.js, Tailwind CSS, and a lot of Tim's coffee.
-        </footer>
+        </motion.footer>
       </main>
     </>
   );
