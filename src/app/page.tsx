@@ -127,11 +127,24 @@ export default function Home() {
   const commandFeedbackTimeout = useRef<NodeJS.Timeout | null>(null);
   const backgroundRef = useRef<HTMLDivElement | null>(null);
 
+  // Initialize theme preference on mount
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setDark(true);
+    } else if (storedTheme === "light") {
+      setDark(false);
+    }
+    // If no stored preference, respect system preference but don't override
+  }, []);
+
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }, [dark]);
 
@@ -324,7 +337,7 @@ export default function Home() {
           </button>
         </div>
       </nav>
-  <main className="min-h-screen w-full bg-gradient-to-br from-[var(--background)]/85 to-[var(--primary)]/15 text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
+  <main className="min-h-screen w-full bg-gradient-to-br from-[var(--background)]/85 to-[var(--primary-accent)] text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
         <motion.div
           ref={backgroundRef}
           initial={{ opacity: 0 }}
