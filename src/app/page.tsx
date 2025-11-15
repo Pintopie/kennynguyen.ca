@@ -7,6 +7,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { FaReact, FaNodeJs, FaCloud, FaRobot, FaCode } from "react-icons/fa";
 import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter } from "react-icons/si";
 import { ArrowUpRight, CalendarDays, Command, ExternalLink, Github, Linkedin, Mail } from "lucide-react";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -25,48 +27,138 @@ const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
   { href: "#ship-log", label: "Now Shipping" },
   { href: "#features", label: "Workflow" },
-  { href: "#stack", label: "Tooling" },
-  { href: "#contact", label: "Contact" },
+  { href: "#stack", label: "Tools" },
+  { href: "#contact", label: "Contact Me" },
 ];
 
 const ABOUT_SNIPPETS = [
   {
-    lang: "JavaScript",
-    code: `const aboutMe = {
-  name: "Kenny Nguyen",
-  role: "Software Engineer",
-  location: "Toronto, Canada",
-  interests: ["Web", "AI", "Cloud"],
-  funFact: "Always learning, always building!"
-};`,
+    lang: "Java",
+    code: `// Full-stack software engineer passionate about scalable systems
+public class AboutMe {
+  private String name = "Kenny Nguyen";
+  private String role = "Full-Stack Software Engineer";
+  private String location = "Toronto, Canada";
+  private String[] frontend = {"React", "Next.js", "TypeScript", "Tailwind CSS"};
+  private String[] backend = {"Node.js", "FastAPI", "PostgreSQL", "Docker"};
+  private String[] cloud = {"AWS", "Vercel", "Docker Compose"};
+  private String[] ml = {"LLMs", "RAG Systems", "ML Pipelines", "Computer Vision"};
+  private String[] interests = {"Web Development", "AI Systems", "Cloud Architecture"};
+  
+  public static void main(String[] args) {
+    AboutMe kenny = new AboutMe();
+    System.out.println("Name: " + kenny.name);
+    System.out.println("Role: " + kenny.role);
+    System.out.println("Location: " + kenny.location);
+    System.out.println("Philosophy: Build impactful solutions with clean code");
+  }
+  
+  public String getProfile() {
+    return "Full-Stack Engineer | AI Enthusiast | Cloud Architect";
+  }
+}`,
   },
   {
     lang: "TypeScript",
-    code: `interface AboutMe {
+    code: `// Type-safe representation of my professional profile
+interface Developer {
   name: string;
   role: string;
   location: string;
-  interests: string[];
-  funFact: string;
+  yearsExperience: number;
+  skills: SkillSet;
+  projects: Project[];
+  openToRoles: string[];
 }
 
-const aboutMe: AboutMe = {
+interface SkillSet {
+  frontend: Technology[];
+  backend: Technology[];
+  cloud: Technology[];
+  ml: string[];
+}
+
+interface Technology {
+  name: string;
+  level: "expert" | "intermediate" | "learning";
+  yearsUsed: number;
+}
+
+const aboutMe: Developer = {
   name: "Kenny Nguyen",
-  role: "Software Engineer",
+  role: "Full-Stack Software Engineer",
   location: "Toronto, Canada",
-  interests: ["Web", "AI", "Cloud", "Backend Development"],
-  funFact: "Always learning, always building!"
-};`,
+  yearsExperience: 2,
+  skills: {
+    frontend: [
+      { name: "React", level: "expert", yearsUsed: 2 },
+      { name: "TypeScript", level: "expert", yearsUsed: 2 },
+      { name: "Next.js", level: "intermediate", yearsUsed: 1 }
+    ],
+    backend: [
+      { name: "FastAPI", level: "expert", yearsUsed: 1 },
+      { name: "Node.js", level: "intermediate", yearsUsed: 2 }
+    ],
+    cloud: ["AWS", "Docker", "Vercel", "Docker Compose"],
+    ml: ["LLM Integration", "RAG Systems", "ML Pipelines"]
+  },
+  projects: [
+    { title: "Local RAG System", impact: "Self-hosted LLM with offline embeddings" },
+    { title: "Liver Tumor ML", impact: "Medical imaging analysis with CV" }
+  ],
+  openToRoles: ["Full-Stack Engineer", "ML Engineer", "Backend Engineer"]
+};
+
+export const isHiring = true;`,
   },
   {
     lang: "Python",
-    code: `about_me = {
-    "name": "Kenny Nguyen",
-    "role": "Software Engineer",
-    "location": "Toronto, Canada",
-    "interests": ["Web", "AI", "Cloud"],
-    "fun_fact": "Always learning, always building!"
-}`,
+    code: `"""
+Kenny Nguyen - Full-Stack Software Engineer
+Building scalable systems with clean code and modern tech stack
+"""
+from dataclasses import dataclass
+from typing import List, Dict
+
+@dataclass
+class Expertise:
+    frontend: List[str]
+    backend: List[str]
+    cloud: List[str]
+    ml_systems: List[str]
+
+@dataclass
+class Developer:
+    name: str
+    role: str
+    location: str
+    github: str
+    linkedin: str
+    expertise: Expertise
+    interests: List[str]
+    
+    def describe_skills(self) -> Dict[str, List[str]]:
+        return {
+            "full_stack": self.expertise.frontend + self.expertise.backend,
+            "cloud_devops": self.expertise.cloud,
+            "ml_specialization": self.expertise.ml_systems
+        }
+
+# Initialize my profile
+kenny = Developer(
+    name="Kenny Nguyen",
+    role="Full-Stack Software Engineer",
+    location="Toronto, Canada",
+    github="github.com/Pintopie",
+    linkedin="linkedin.com/in/kennyngdev-ca",
+    expertise=Expertise(
+        frontend=["React", "Next.js", "TypeScript", "Tailwind CSS"],
+        backend=["FastAPI", "Node.js", "PostgreSQL"],
+        cloud=["AWS", "Docker", "Docker Compose", "Vercel"],
+        ml_systems=["LLM Integration", "RAG", "Medical Imaging ML"]
+    ),
+    interests=["Scalable Systems", "AI/ML", "Web Development", "Open Source"]
+`,
   },
 ];
 
@@ -810,14 +902,26 @@ export default function Home() {
               </motion.button>
             ))}
           </motion.div>
-          <motion.pre 
+          <motion.div 
             key={aboutLang}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="rounded-2xl bg-black/80 text-white p-5 font-mono text-sm overflow-x-auto shadow-inner transition-colors duration-300">
-            <code>{ABOUT_SNIPPETS[aboutLang].code}</code>
-          </motion.pre>
+            className="rounded-2xl overflow-hidden shadow-inner"
+          >
+            <SyntaxHighlighter 
+              language={ABOUT_SNIPPETS[aboutLang].lang.toLowerCase()}
+              style={atomOneDark}
+              customStyle={{
+                margin: 0,
+                borderRadius: "0.5rem",
+                fontSize: "0.875rem",
+                lineHeight: "1.5",
+              }}
+            >
+              {ABOUT_SNIPPETS[aboutLang].code}
+            </SyntaxHighlighter>
+          </motion.div>
           </motion.div>
         </section>
         <section className="w-full max-w-5xl mb-16" id="skills">
@@ -1082,7 +1186,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
           >
             <Command size={18} />
-            <h2 className="text-2xl font-semibold">Tooling I reach for</h2>
+            <h2 className="text-2xl font-semibold">I Frequently Use </h2>
           </motion.div>
           <motion.div 
             className="grid gap-4 md:grid-cols-2"

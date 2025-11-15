@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Kenny Nguyen",
   description: "Portfolio of Kenny Nguyen",
+  icons: {
+    icon: "https://avatars.githubusercontent.com/u/134212302?v=4",
+  },
 };
 
 export default function RootLayout({
