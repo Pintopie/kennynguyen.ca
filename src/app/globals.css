@@ -112,6 +112,7 @@ pre { background: rgba(0,0,0,0.03); padding: 1rem; border-radius: 0.5rem; overfl
 
 @keyframes rotate { to { transform: rotate(360deg); } }
 @keyframes bounce { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(6px) } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
 /* Make loading ring more subtle in dark mode */
 @media (prefers-color-scheme: dark) {

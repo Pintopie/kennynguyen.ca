@@ -309,7 +309,7 @@ export default function Home() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full bg-[var(--background)]/80 backdrop-blur border-b border-[var(--border)] shadow-sm">
+      <nav className="sticky top-0 z-40 w-full bg-[var(--background)]/12 backdrop-blur border-b border-[var(--border)]/80 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
           <span className="font-bold text-lg text-[var(--primary)]">Kenny Nguyen</span>
           <ul className="flex gap-2 sm:gap-4">
@@ -337,7 +337,7 @@ export default function Home() {
           </button>
         </div>
       </nav>
-  <main className="min-h-screen w-full bg-gradient-to-br from-[var(--background)]/85 to-[var(--primary-accent)] text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
+  <main className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
         <motion.div
           ref={backgroundRef}
           initial={{ opacity: 0 }}
@@ -345,44 +345,13 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="fixed inset-0 -z-10 blur-3xl opacity-90 will-change-transform"
           style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(2,77,190,0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 50%), linear-gradient(130deg, rgba(2,8,23,0.9), rgba(2,77,190,0.25))",
+            backgroundImage: dark 
+              ? "radial-gradient(circle at 20% 20%, rgba(80, 150, 255, 0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 50%), linear-gradient(130deg, rgba(7, 37, 112, 0.9), rgba(2,77,190,0.25))"
+              : "radial-gradient(circle at 20% 20%, rgba(37,99,235,0.12), transparent 55%), radial-gradient(circle at 80% 0%, rgba(100,200,255,0.08), transparent 50%), linear-gradient(130deg, rgba(244,247,250,0.95), rgba(37,99,235,0.08))",
           }}
         />
-        {/* Floating Creative Elements */}
-        <motion.div
-          className="fixed top-1/4 right-1/4 w-72 h-72 rounded-full opacity-30 pointer-events-none -z-5"
-          animate={{
-            y: [0, -30, 0],
-            x: [0, 20, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={{
-            background: "radial-gradient(circle, rgba(2,77,190,0.4), transparent 70%)",
-            filter: "blur(40px)",
-          }}
-        />
-        <motion.div
-          className="fixed bottom-1/3 left-1/3 w-96 h-96 rounded-full opacity-20 pointer-events-none -z-5"
-          animate={{
-            y: [0, 40, 0],
-            x: [0, -30, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-          style={{
-            background: "radial-gradient(circle, rgba(220,239,255,0.3), transparent 70%)",
-            filter: "blur(50px)",
-          }}
-        />
+
+
         <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.15fr,0.85fr] items-stretch mb-16 mt-6" data-aos="fade-up">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -449,18 +418,18 @@ export default function Home() {
               className="mt-6 flex flex-wrap gap-3">
               <motion.a 
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.50 }}
                 href="mailto:hoangnhan20192@gmail.com" 
                 className="btn btn-primary">Contact Me</motion.a>
               <motion.button 
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.50 }}
                 type="button" 
                 onClick={() => setShowResumePreview(true)} 
                 className="btn btn-secondary">Preview Resume</motion.button>
               <motion.a 
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.50 }}
                 href="/resumes/resume.pdf" 
                 download 
                 className="btn btn-secondary">Download Resume</motion.a>
@@ -551,7 +520,7 @@ export default function Home() {
               transition={{ delay: 0.1, duration: 0.5 }}
             >
               <h2 className="text-2xl font-semibold text-[var(--primary)]">About Me</h2>
-              <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Story in code</p>
+              <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">My Story in code</p>
             </motion.div>
             <motion.div 
               className="mt-4 mb-4 flex gap-2 overflow-x-auto"
@@ -1108,61 +1077,6 @@ export default function Home() {
             ))}
           </motion.div>
         </section>
-        <section className="w-full max-w-6xl mb-16" id="features">
-          <motion.h2 
-            className="text-2xl font-semibold mb-4 text-[var(--primary)]"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
-          >
-            Workflow Guardrails
-          </motion.h2>
-          <motion.div 
-            className="grid gap-6 sm:grid-cols-2"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            <AnimatedCard delay={0} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
-              <motion.h3 
-                className="text-lg font-bold mb-2 flex items-center gap-2"
-                whileHover={{ x: 4 }}
-              >
-                <span>⚡</span> Observability first
-              </motion.h3>
-              <p className="text-sm text-[var(--muted-foreground)]">CI, logging, and tracing wired before feature flags ship so iteration never blocks quality.</p>
-            </AnimatedCard>
-            <AnimatedCard delay={0.1} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
-              <motion.h3 
-                className="text-lg font-bold mb-2 flex items-center gap-2"
-                whileHover={{ x: 4 }}
-              >
-                <span>🌙</span> Inclusive interfaces
-              </motion.h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Keyboard, reduced motion, and semantic HTML baked in from the prototypes you see here.</p>
-            </AnimatedCard>
-            <AnimatedCard delay={0.2} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
-              <motion.h3 
-                className="text-lg font-bold mb-2 flex items-center gap-2"
-                whileHover={{ x: 4 }}
-              >
-                <span>🛡️</span> Privacy by default
-              </motion.h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Local-first AI experiments keep sensitive docs on device; cloud deployments gate secrets via Doppler.</p>
-            </AnimatedCard>
-            <AnimatedCard delay={0.3} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-6 shadow-lg">
-              <motion.h3 
-                className="text-lg font-bold mb-2 flex items-center gap-2"
-                whileHover={{ x: 4 }}
-              >
-                <span>🧩</span> Modular code
-              </motion.h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Component kits, typed APIs, and storybook coverage keep handoffs predictable.</p>
-            </AnimatedCard>
-          </motion.div>
-        </section>
         <section className="w-full max-w-6xl mb-16" id="stack">
           <motion.div 
             className="flex items-center gap-2 mb-4 text-[var(--primary)]"
@@ -1172,7 +1086,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
           >
             <Command size={18} />
-            <h2 className="text-2xl font-semibold">I Frequently Use </h2>
+            <h2 className="text-2xl font-semibold">Tools</h2>
           </motion.div>
           <motion.div 
             className="grid gap-4 md:grid-cols-2"
@@ -1221,8 +1135,6 @@ export default function Home() {
               aria-label="GitHub activity graph"
               className="block w-full max-w-xl"
               variants={itemVariants}
-              whileHover={{ y: -6 }}
-              whileTap={{ scale: 0.98 }}
             >
               <Image
                 src="https://ghchart.rshah.org/Pintopie"
@@ -1240,8 +1152,6 @@ export default function Home() {
                 rel="noopener noreferrer" 
                 aria-label="GitHub profile"
                 variants={itemVariants}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.98 }}
                 className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
               >
                 <p className="text-lg font-semibold text-[var(--primary)]">GitHub Profile</p>
@@ -1254,8 +1164,6 @@ export default function Home() {
                 rel="noopener noreferrer" 
                 aria-label="GitHub repositories"
                 variants={itemVariants}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.98 }}
                 className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
               >
                 <p className="text-lg font-semibold text-[var(--primary)]">Repositories</p>
@@ -1295,7 +1203,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  Resume Preview
+                My Resume
                 </motion.h3>
                 <motion.iframe 
                   src="/resumes/resume.pdf" 
@@ -1303,7 +1211,7 @@ export default function Home() {
                   title="Resume Preview"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.15, duration: 0.4 }}
+                  transition={{ duration: 0.2 }}
                 />
                 <motion.a 
                   href="/resumes/resume.pdf" 
@@ -1312,7 +1220,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Download Resume
+                  Download PDF
                 </motion.a>
               </motion.div>
             </motion.div>

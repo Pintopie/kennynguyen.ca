@@ -8,7 +8,7 @@ export default function Loading() {
       </div>
       <div className="text-center">
         <h1 className="loading-label">Kenny Nguyen</h1>
-        <p className="loading-sub">Loading portfolio — preparing your experience</p>
+        <p className="loading-sub">Loading ...</p>
       </div>
     </div>
   );

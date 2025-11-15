@@ -9,7 +9,6 @@ export const NAV_LINKS = [
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
   { href: "#ship-log", label: "Now Shipping" },
-  { href: "#features", label: "Workflow" },
   { href: "#stack", label: "Tools" },
   { href: "#contact", label: "Contact Me" },
 ];
