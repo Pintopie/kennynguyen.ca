@@ -1,19 +1,39 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useHotkeys } from "react-hotkeys-hook";
-import { FaReact, FaNodeJs, FaCloud } from "react-icons/fa";
-import { SiNextdotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
+import { FaReact, FaNodeJs, FaCloud, FaRobot, FaCode } from "react-icons/fa";
+import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter } from "react-icons/si";
+import { ArrowUpRight, CalendarDays, Command, ExternalLink, Github, Linkedin, Mail, Sparkles } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+type CommandItem = {
+  label: string;
+  description: string;
+  action: () => void;
+  shortcut?: string;
+  chips?: string[];
+  feedback?: string;
+};
+
+type MagneticProps = {
+  href?: string;
+  children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+  download?: boolean | string;
+  className?: string;
+} & React.HTMLAttributes<HTMLElement>;
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
-  { href: "#features", label: "Features" },
-  { href: "#testimonials", label: "Testimonials" },
+  { href: "#ship-log", label: "Now Shipping" },
+  { href: "#features", label: "Workflow" },
+  { href: "#stack", label: "Tooling" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -26,7 +46,8 @@ const ABOUT_SNIPPETS = [
   location: "Toronto, Canada",
   interests: ["Web", "AI", "Cloud"],
   funFact: "Always learning, always building!"
-};` },
+};`,
+  },
   {
     lang: "TypeScript",
     code: `interface AboutMe {
@@ -41,9 +62,10 @@ const aboutMe: AboutMe = {
   name: "Kenny Nguyen",
   role: "Software Engineer",
   location: "Toronto, Canada",
-  interests: ["Web", "AI", "Cloud"],
+  interests: ["Web", "AI", "Cloud", "Backend Development"],
   funFact: "Always learning, always building!"
-};` },
+};`,
+  },
   {
     lang: "Python",
     code: `about_me = {
@@ -52,24 +74,243 @@ const aboutMe: AboutMe = {
     "location": "Toronto, Canada",
     "interests": ["Web", "AI", "Cloud"],
     "fun_fact": "Always learning, always building!"
-}` },
+}`,
+  },
 ];
 
+const PROJECTS = [
+  {
+    title: "Local RAG System",
+    description: "Self-hosted retrieval augmented generation stack that keeps proprietary notes on-device while chatting through a React front-end.",
+    impact: "FastAPI + Ollama + Docker Compose deliver an offline workflow with data-secured local embedding LLM",
+    tech: ["FastAPI", "Ollama", "React", "Docker"],
+    links: [
+      { label: "GitHub", href: "https://github.com/Pintopie/local-rag-system" },
+      { label: "README", href: "https://github.com/Pintopie/local-rag-system/blob/main/README.md" },
+    ],
+  },
+  {
+    title: "Liver Tumor segmentation and analysis",
+    description: "Classical Machine Learning pipeline for analyzing NIfTI/NII scans, featuring feature extraction, segmentation, and CLI visualizations using Kaggle dataset of pregnancy & liver scans.",
+    impact: "Provides reproducible experimentation for medical imaging by wrapping preprocessing, training.",
+    tech: ["Python", "scikit-learn", "Docker", "NII analysis & segmentation"],
+    links: [
+      { label: "GitHub", href: "https://github.com/Pintopie/Liver-Tumor-ML" },
+      { label: "Model notebook", href: "https://github.com/Pintopie/Liver-Tumor-ML/blob/main/Model.ipynb" },
+    ],
+  },
+];
+
+const SHIP_LOG = [
+  {
+    title: "Local-first copilots",
+    week: "Week 46",
+    status: "In progress",
+    summary: "Hardening the local-rag-system docker-compose stack with background embeddings jobs and tighter logging.",
+    link: "https://github.com/Pintopie/local-rag-system",
+  },
+  {
+    title: "Medical imaging research",
+    week: "Week 45",
+    status: "Stabilized",
+    summary: "Packaging Liver-Tumor-ML into a CLI so researchers can queue feature extraction on shared clusters.",
+    link: "https://github.com/Pintopie/Liver-Tumor-ML",
+  },
+  {
+    //TODO: update link when website is ready
+    title: "Bachelor of Information Student Association (BISA) Central Website",
+    week: "Week 44",
+    status: "In progress",
+    summary: "Building BISA Central Website as a platform for students in the Bachelor of Information program to connect, share information, and learn about events and opportunities. The website is built with modern web technologies and is designed to be a central hub for the BISA community.",
+  }
+];
+
+const QUICK_ACTIONS = [
+  {
+    label: "Drop a message",
+    description: "hoangnhan20192@gmail.com",
+    href: "mailto:hoangnhan20192@gmail.com",
+    icon: Mail,
+  },
+  {
+    label: "GitHub",
+    description: "github.com/Pintopie",
+    href: "https://github.com/Pintopie",
+    icon: Github,
+  },
+  {
+    label: "LinkedIn",
+    description: "Connect @ kennyngdev-ca",
+    href: "https://www.linkedin.com/in/kennyngdev-ca/",
+    icon: Linkedin,
+  },
+  {
+    label: "Resume (.docx)",
+    description: "Updated Nov 2025",
+    href: "/resumes/resume.docx",
+    icon: ExternalLink,
+  },
+];
+
+const TOOLING = [
+  {
+    name: "Next.js + Vercel",
+    detail: "Ships this site with edge rendering, image optimization, and one-click previews.",
+    href: "https://nextjs.org/",
+    icon: SiNextdotjs,
+  },
+  {
+    name: "React + TypeScript",
+    detail: "Type-safe component libraries and hooks for scalable front-end development.",
+    href: "https://react.dev/",
+    icon: FaReact,
+  },
+  {
+    name: "FastAPI + Python",
+    detail: "Typed Python APIs for ML services, instrumented with OpenAPI and Pydantic.",
+    href: "https://fastapi.tiangolo.com/",
+    icon: SiFastapi,
+  },
+  {
+    name: "LangChain + Ollama",
+    detail: "Local inference plus retrieval orchestration for custom AI copilots.",
+    href: "https://www.langchain.com/",
+    icon: FaRobot,
+  },
+  {
+    name: "Docker & Compose",
+    detail: "Reproducible dev containers—especially handy for ML notebooks and GPU labs.",
+    href: "https://www.docker.com/",
+    icon: SiDocker,
+  },
+  {
+    name: "Tailwind CSS v4",
+    detail: "Utility-first design tokens that keep experiments consistent in dark/light.",
+    href: "https://tailwindcss.com/",
+    icon: SiTailwindcss,
+  },
+  {
+    name: "Node.js + Express",
+    detail: "Backend services and CLI tools with async/await and npm ecosystem.",
+    href: "https://nodejs.org/",
+    icon: FaNodeJs,
+  },
+  {
+    name: "PostgreSQL + Supabase",
+    detail: "Postgres + auth + storage for prototypes that still need production discipline.",
+    href: "https://supabase.com/",
+    icon: SiPostgresql,
+  },
+  {
+    name: "AWS + Cloud Services",
+    detail: "Scalable deployments with EC2, S3, Lambda, and serverless architectures.",
+    href: "https://aws.amazon.com/",
+    icon: SiAmazonwebservices,
+  },
+  {
+    name: "Git + GitHub",
+    detail: "Version control and collaboration with CI/CD pipelines and issue tracking.",
+    href: "https://github.com/",
+    icon: SiGit,
+  },
+  {
+    name: "VS Code + Extensions",
+    detail: "Customizable IDE with Copilot, ESLint, and Prettier for efficient coding.",
+    href: "https://code.visualstudio.com/",
+    icon: FaCode,
+  },
+  {
+    name: "Jupyter + scikit-learn",
+    detail: "Data science workflows with notebooks, ML models, and visualization.",
+    href: "https://jupyter.org/",
+    icon: SiJupyter,
+  },
+];
+
+const METRICS = [
+  { label: "Timezone", value: "Toronto • EST" },
+  { label: "Focus", value: "Backend Development" },
+];
+
+const CURRENT_YEAR = new Date().getFullYear();
+const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
+
+const Magnetic = (props: MagneticProps) => {
+  const { href, children, onClick, download, className, ...rest } = props;
+  const ref = useRef<HTMLElement | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (prefersReduced) return;
+    const el = ref.current as HTMLElement | null;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const dx = (e.clientX - (rect.left + rect.width / 2)) * 0.12;
+    const dy = (e.clientY - (rect.top + rect.height / 2)) * 0.08;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      if (el) el.style.transform = `translate(${dx}px, ${dy}px) scale(1.03)`;
+    });
+  };
+
+  const handleLeave = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const el = ref.current as HTMLElement | null;
+    if (el) el.style.transform = '';
+  };
+
+  if (href) {
+    return (
+      <a
+        ref={ref as any}
+        href={href}
+        download={download as any}
+        className={className}
+        onMouseMove={handleMove}
+        onMouseLeave={handleLeave}
+        onClick={onClick}
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      ref={ref as any}
+      type="button"
+      className={className}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      onClick={onClick}
+      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
+      {children}
+    </button>
+  );
+};
+
 export default function Home() {
-  const [modalOpen, setModalOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [typingIndex, setTypingIndex] = useState(0);
   const [typingText, setTypingText] = useState("");
   const typingRoles = useMemo(() => [
     "Software Engineer",
     "Developer who is always curious",
-    'AI enthusiast – loves solving real-world problems',
+    "AI enthusiast – loves solving real-world problems",
     ], []);
   const [roleIdx, setRoleIdx] = useState(0);
   const [showResumePreview, setShowResumePreview] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const [aboutLang, setAboutLang] = useState(0);
+  const [commandQuery, setCommandQuery] = useState("");
+  const [focusedCommandIndex, setFocusedCommandIndex] = useState(0);
+  const [commandFeedback, setCommandFeedback] = useState("");
+  const commandFeedbackTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (dark) {
@@ -106,7 +347,132 @@ export default function Home() {
   useHotkeys("cmd+k,ctrl+k", (e) => {
     e.preventDefault();
     setCommandPaletteOpen((v) => !v);
+    setCommandQuery("");
+    setFocusedCommandIndex(0);
   });
+
+  useEffect(() => {
+    // Pointer-following soft blob (updates CSS vars)
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq && mq.matches) return; // respect reduced motion
+
+    let raf = 0;
+    const onMove = (e: PointerEvent) => {
+      const x = `${e.clientX}px`;
+      const y = `${e.clientY}px`;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--mx', x);
+        document.documentElement.style.setProperty('--my', y);
+      });
+    };
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const commandItems = useMemo<CommandItem[]>(() => {
+    const sectionCommands = NAV_LINKS.map((link) => ({
+      label: `Jump to ${link.label}`,
+      description: `Scroll to #${link.href.replace("#", "")}`,
+      shortcut: link.label.charAt(0).toUpperCase(),
+      action: () => {
+        const el = document.querySelector(link.href);
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      },
+    }));
+
+    return [
+      ...sectionCommands,
+      {
+        label: "Open GitHub",
+        description: "github.com/Pintopie",
+        shortcut: "G",
+        action: () => window.open("https://github.com/Pintopie", "_blank"),
+      },
+      {
+        label: "Open LinkedIn",
+        description: "linkedin.com/in/kennyngdev-ca",
+        shortcut: "L",
+        action: () => window.open("https://www.linkedin.com/in/kennyngdev-ca/", "_blank"),
+      },
+      {
+        label: "Toggle theme",
+        description: dark ? "Switch to light" : "Switch to dark",
+        shortcut: "D",
+        action: () => setDark((d) => !d),
+      },
+      {
+        label: "Preview resume",
+        description: "Open inline resume modal",
+        shortcut: "R",
+        action: () => setShowResumePreview(true),
+      },
+      {
+        label: "Copy email",
+        description: "Copy hoangnhan20192@gmail.com",
+        shortcut: "C",
+        feedback: "Email copied",
+        action: () => {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText("hoangnhan20192@gmail.com");
+          }
+        },
+      },
+    ];
+  }, [dark]);
+
+  const filteredCommands = useMemo(() => {
+    if (!commandQuery.trim()) return commandItems;
+    return commandItems.filter((cmd) =>
+      `${cmd.label} ${cmd.description}`.toLowerCase().includes(commandQuery.trim().toLowerCase()),
+    );
+  }, [commandItems, commandQuery]);
+
+  const handleCommandRun = useCallback((cmd: CommandItem) => {
+    cmd.action();
+    if (commandFeedbackTimeout.current) {
+      clearTimeout(commandFeedbackTimeout.current);
+    }
+    if (cmd.feedback) {
+      setCommandFeedback(cmd.feedback);
+      commandFeedbackTimeout.current = setTimeout(() => setCommandFeedback(""), 2000);
+    }
+    setCommandPaletteOpen(false);
+    setCommandQuery("");
+  }, []);
+
+  useEffect(() => {
+    setFocusedCommandIndex(0);
+  }, [commandQuery, commandPaletteOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (commandFeedbackTimeout.current) {
+        clearTimeout(commandFeedbackTimeout.current);
+      }
+    };
+  }, []);
+
+  const handleCommandKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!filteredCommands.length) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setFocusedCommandIndex((idx) => Math.min(idx + 1, filteredCommands.length - 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setFocusedCommandIndex((idx) => Math.max(idx - 1, 0));
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      handleCommandRun(filteredCommands[focusedCommandIndex]);
+    } else if (event.key === "Escape") {
+      setCommandPaletteOpen(false);
+    }
+  };
 
   return (
     <>
@@ -145,22 +511,57 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="fixed inset-0 -z-10 bg-gradient-to-tr from-[var(--primary)]/10 to-[var(--background)]/60 animate-pulse"
         />
-        <section className="w-full max-w-4xl flex flex-col sm:flex-row items-center gap-8 mb-16 mt-4" data-aos="fade-up">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-tr from-[var(--primary)]/30 to-[var(--muted)]/30 flex items-center justify-center shadow-lg border-4 border-[var(--border)] overflow-hidden">
-            <span className="text-5xl text-[var(--muted-foreground)]">🧑‍💻</span>
-          </div>
-          <div className="flex-1 text-center sm:text-left">
+        <div className="pointer-blob" aria-hidden />
+        <section className="w-full max-w-5xl flex flex-col lg:flex-row items-center gap-10 mb-16 mt-4" data-aos="fade-up">
+          <motion.div whileHover={{ scale: 1.05 }} className="relative w-44 h-44 rounded-3xl overflow-hidden border-4 border-[var(--border)] shadow-2xl bg-[var(--card)]">
+            <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="176px" />
+            <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/70 px-3 py-1 text-xs text-white">
+              <Sparkles size={14} /> {CURRENT_YEAR - 2024} yrs experience
+            </span>
+          </motion.div>
+          <div className="flex-1 text-center lg:text-left">
             <h1 className="text-4xl sm:text-5xl font-bold mb-2 tracking-tight">Kenny Nguyen</h1>
             <h2 className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]">
               <span className="inline-block border-r-2 border-[var(--primary)] pr-1 animate-pulse">{typingText}</span>
             </h2>
             <p className="text-lg text-[var(--muted-foreground)] max-w-xl">Building modern, accessible, and delightful web experiences. Passionate about React, TypeScript, and cloud-native solutions.</p>
+            
+            <p>Currently exploring AI integrations and backend development to create impactful applications.</p>
             <div className="mt-6 flex flex-wrap gap-4 justify-center sm:justify-start">
-              <a href="#contact" className="btn btn-primary">Contact Me</a>
-              <button onClick={() => setShowResumePreview(true)} className="btn btn-secondary">Preview Resume</button>
-              <a href="/resumes/resume.docx" download className="btn btn-secondary">Download Resume</a>
+              <Magnetic href="mailto:hoangnhan20192@gmail.com" className="btn btn-primary">Contact Me</Magnetic>
+              <Magnetic onClick={() => setShowResumePreview(true)} className="btn btn-secondary">Preview Resume</Magnetic>
+              <Magnetic href="/resumes/resume.docx" download className="btn btn-secondary">Download Resume</Magnetic>
+            </div>
+            <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-3">
+              {METRICS.map((metric) => (
+                <span key={metric.label} className="badge">
+                  <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">{metric.label}</span>
+                  <span className="text-sm font-semibold text-[var(--foreground)]">{metric.value}</span>
+                </span>
+              ))}
             </div>
           </div>
+        </section>
+        <section className="w-full max-w-5xl grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-16" data-aos="fade-up">
+          {QUICK_ACTIONS.map((action) => {
+            const Icon = action.icon;
+            return (
+              <a
+                key={action.label}
+                href={action.href}
+                className="group rounded-xl border border-[var(--border)] bg-[var(--card)]/80 p-4 shadow-sm hover:shadow-xl transition"
+                target={action.href.startsWith("http") ? "_blank" : undefined}
+                rel={action.href.startsWith("http") ? "noreferrer" : undefined}
+              >
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <Icon size={16} />
+                  {action.label}
+                  <ArrowUpRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition" />
+                </div>
+                <p className="text-xs text-[var(--muted-foreground)] mt-2">{action.description}</p>
+              </a>
+            );
+          })}
         </section>
         <section className="w-full max-w-3xl mb-16" id="about">
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">About Me</h2>
@@ -208,6 +609,31 @@ export default function Home() {
               <span className="font-medium text-[var(--foreground)]">Tailwind CSS</span>
               <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Tailwind CSS &ndash; Utility-first CSS</span>
             </li>
+            <li title="Python – Data Science & ML" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
+              <SiPython className="text-[#3776AB]" />
+              <span className="font-medium text-[var(--foreground)]">Python</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Python &ndash; Data Science & ML</span>
+            </li>
+            <li title="FastAPI – Python Web Framework" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
+              <SiFastapi className="text-[#009688]" />
+              <span className="font-medium text-[var(--foreground)]">FastAPI</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">FastAPI &ndash; Python Web Framework</span>
+            </li>
+            <li title="Docker – Containerization" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
+              <SiDocker className="text-[#2496ED]" />
+              <span className="font-medium text-[var(--foreground)]">Docker</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Docker &ndash; Containerization</span>
+            </li>
+            <li title="Git – Version Control" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
+              <SiGit className="text-[#F05032]" />
+              <span className="font-medium text-[var(--foreground)]">Git</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">Git &ndash; Version Control</span>
+            </li>
+            <li title="GitHub – Collaboration" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
+              <SiGithub className="text-black dark:text-white" />
+              <span className="font-medium text-[var(--foreground)]">GitHub</span>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-2 py-1 rounded bg-black/80 text-white text-xs opacity-0 group-hover:opacity-100 transition pointer-events-none">GitHub &ndash; Collaboration</span>
+            </li>
             <li title="Cloud – Deployments" className="group relative flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--card)] border border-[var(--border)] text-sm shadow hover:shadow-xl transition-transform duration-200 hover:-translate-y-1">
               <FaCloud className="text-[#a3e635]" />
               <span className="font-medium text-[var(--foreground)]">Cloud</span>
@@ -215,65 +641,96 @@ export default function Home() {
             </li>
           </ul>
         </section>
-        <section className="w-full max-w-4xl mb-16" id="projects">
+        <section className="w-full max-w-5xl mb-16" id="projects">
           <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Projects</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 flex flex-col gap-3 shadow-lg card-hover">
-              <div className="h-32 w-full bg-gradient-to-tr from-[var(--primary)]/20 to-[var(--muted)]/20 rounded-xl mb-2 flex items-center justify-center">
-                <span className="text-4xl">🌐</span>
-              </div>
-              <h3 className="text-lg font-bold">Modern Portfolio</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">A beautiful, responsive portfolio template with Next.js and Tailwind CSS, featuring dark mode and glassmorphism.</p>
-              <div className="flex gap-3 mt-auto">
-                <a href="#" className="underline hover:text-[var(--primary)]">GitHub</a>
-                <a href="#" className="underline hover:text-[var(--primary)]">Demo</a>
-              </div>
-            </article>
-            <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 flex flex-col gap-3 shadow-lg card-hover">
-              <div className="h-32 w-full bg-gradient-to-tr from-[var(--primary)]/20 to-[var(--muted)]/20 rounded-xl mb-2 flex items-center justify-center">
-                <span className="text-4xl">📋</span>
-              </div>
-              <h3 className="text-lg font-bold">Task Manager</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">A full-stack productivity app with real-time sync, authentication, and a modern UI.</p>
-              <div className="flex gap-3 mt-auto">
-                <a href="#" className="underline hover:text-[var(--primary)]">GitHub</a>
-                <a href="#" className="underline hover:text-[var(--primary)]">Demo</a>
-              </div>
-            </article>
+          <div className="grid gap-6 md:grid-cols-2">
+            {PROJECTS.map((project) => (
+              <article key={project.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 flex flex-col gap-4 shadow-lg card-hover">
+                <div>
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    {project.title}
+                    <ArrowUpRight size={18} className="text-[var(--muted-foreground)]" />
+                  </h3>
+                  <p className="text-sm text-[var(--muted-foreground)] mt-2">{project.description}</p>
+                </div>
+                <p className="text-sm text-[var(--foreground)]/90">{project.impact}</p>
+                <ul className="flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]">
+                  {project.tech.map((tech) => (
+                    <li key={tech} className="px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)]/40">{tech}</li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-4 text-sm mt-auto">
+                  {project.links.map((link) => (
+                    <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[var(--primary)] hover:underline">
+                      {link.label}
+                      <ExternalLink size={14} />
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="w-full max-w-5xl mb-16" id="ship-log">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-[var(--primary)]">Now Shipping</h2>
+            <div className="text-xs uppercase text-[var(--muted-foreground)] flex items-center gap-2">
+              <CalendarDays size={14} /> Weekly ship log
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {SHIP_LOG.map((log) => (
+              <article key={log.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow card-hover">
+                <div className="flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+                  <span>{log.week}</span>
+                  <span className="uppercase tracking-wide">{log.status}</span>
+                </div>
+                <h3 className="mt-3 text-lg font-semibold">{log.title}</h3>
+                <p className="text-sm text-[var(--muted-foreground)] mt-2">{log.summary}</p>
+                <a href={log.link} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
+                  Open thread <ArrowUpRight size={14} className="ml-1" />
+                </a>
+              </article>
+            ))}
           </div>
         </section>
         <section className="w-full max-w-4xl mb-16" id="features">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Features</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Workflow Guardrails</h2>
           <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>⚡</span> Fast & Responsive</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Optimized for all devices, with smooth transitions and adaptive layouts.</p>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>⚡</span> Observability first</h3>
+              <p className="text-sm text-[var(--muted-foreground)]">CI, logging, and tracing wired before feature flags ship so iteration never blocks quality.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🌙</span> Dark Mode</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Seamless dark/light theme support for comfortable viewing anytime.</p>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🌙</span> Inclusive interfaces</h3>
+              <p className="text-sm text-[var(--muted-foreground)]">Keyboard, reduced motion, and semantic HTML baked in from the prototypes you see here.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🛡️</span> Accessible</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Built with accessibility in mind: keyboard navigation, color contrast, and ARIA labels.</p>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🛡️</span> Privacy by default</h3>
+              <p className="text-sm text-[var(--muted-foreground)]">Local-first AI experiments keep sensitive docs on device; cloud deployments gate secrets via Doppler.</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 backdrop-blur-md p-6 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
-              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🧩</span> Modular & Extensible</h3>
-              <p className="text-sm text-[var(--muted-foreground)]">Easily add new sections, features, or integrations as your portfolio grows.</p>
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/80 p-6 shadow-lg transition">
+              <h3 className="text-lg font-bold mb-2 flex items-center gap-2"><span>🧩</span> Modular code</h3>
+              <p className="text-sm text-[var(--muted-foreground)]">Component kits, typed APIs, and storybook coverage keep handoffs predictable.</p>
             </div>
           </div>
         </section>
-        <section className="w-full max-w-3xl mb-16" id="testimonials">
-          <h2 className="text-2xl font-semibold mb-4 text-[var(--primary)]">Testimonials</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <blockquote className="rounded-xl bg-[var(--card)]/70 border border-[var(--border)] p-5 shadow">
-              <p className="text-base italic mb-2">“Kenny is a fantastic engineer who delivers high-quality work and is a joy to collaborate with.”</p>
-              <footer className="text-sm text-[var(--muted-foreground)]">– Jane Doe, Product Manager</footer>
-            </blockquote>
-            <blockquote className="rounded-xl bg-[var(--card)]/70 border border-[var(--border)] p-5 shadow">
-              <p className="text-base italic mb-2">“Creative, reliable, and always up-to-date with the latest tech. Highly recommended!”</p>
-              <footer className="text-sm text-[var(--muted-foreground)]">– John Smith, Tech Lead</footer>
-            </blockquote>
+        <section className="w-full max-w-5xl mb-16" id="stack">
+          <div className="flex items-center gap-2 mb-4 text-[var(--primary)]">
+            <Command size={18} />
+            <h2 className="text-2xl font-semibold">Tooling I reach for</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {TOOLING.map((tool) => (
+              <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer" className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-sm hover:shadow-xl transition">
+                <div className="flex items-center gap-2 text-lg font-semibold">
+                  <tool.icon size={20} />
+                  {tool.name}
+                  <ArrowUpRight size={16} className="text-[var(--muted-foreground)]" />
+                </div>
+                <p className="text-sm text-[var(--muted-foreground)] mt-2">{tool.detail}</p>
+              </a>
+            ))}
           </div>
         </section>
         <section className="w-full max-w-2xl mb-8" id="contact">
@@ -290,7 +747,7 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <a href="https://github.com/kennynguyen" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline" aria-label="GitHub">
+              <a href="https://github.com/Pintopie" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline" aria-label="GitHub">
                 <span className="text-lg">🐙</span> GitHub
               </a>
             </li>
@@ -304,17 +761,8 @@ export default function Home() {
             <div className="bg-[var(--card)]/90 border border-[var(--border)] rounded-2xl shadow-xl p-8 max-w-2xl w-full relative flex flex-col items-center">
               <button onClick={() => setShowResumePreview(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
               <h3 className="text-xl font-bold mb-4 text-[var(--primary)]">Resume Preview</h3>
-              <iframe src="/resumes/resume.docx" className="w-full h-96 rounded shadow" title="Resume Preview"></iframe>
-              <a href="/resumes/resume.docx" download className="btn btn-primary mt-4">Download Resume</a>
-            </div>
-          </div>
-        )}
-        {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-            <div className="bg-[var(--card)]/80 border border-[var(--border)] rounded-2xl shadow-xl p-8 max-w-md w-full relative">
-              <button onClick={() => setModalOpen(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
-              <h3 className="text-xl font-bold mb-4 text-[var(--primary)]">Transparent Modal</h3>
-              <p className="text-base text-[var(--muted-foreground)]">This is a modern, glassy modal. You can use it for project details, contact forms, or any other interactive content.</p>
+              <iframe src="/resumes/resume.pdf" className="w-full h-96 rounded shadow" title="Resume Preview"></iframe>
+              <a href="/resumes/resume.pdf" download className="btn btn-primary mt-4">Download Resume</a>
             </div>
           </div>
         )}
@@ -322,14 +770,48 @@ export default function Home() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
             <div className="bg-[var(--card)]/95 border border-[var(--border)] rounded-2xl shadow-xl p-6 max-w-lg w-full relative">
               <button onClick={() => setCommandPaletteOpen(false)} className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]">&times;</button>
-              <h3 className="text-lg font-bold mb-2 text-[var(--primary)]">Command Palette</h3>
-              <input className="w-full px-3 py-2 rounded bg-[var(--background)] border border-[var(--border)] mb-2" placeholder="Type a command or page..." autoFocus />
-              <div className="text-xs text-[var(--muted-foreground)]">Try: &quot;about&quot;, &quot;projects&quot;, &quot;contact&quot;</div>
+              <h3 className="text-lg font-bold mb-2 text-[var(--primary)] flex items-center gap-2">
+                <Command size={16} /> Command Palette
+              </h3>
+              <input
+                className="w-full px-3 py-2 rounded bg-[var(--background)] border border-[var(--border)] mb-3"
+                placeholder="Type a command or page..."
+                autoFocus
+                value={commandQuery}
+                onChange={(event) => setCommandQuery(event.target.value)}
+                onKeyDown={handleCommandKeyDown}
+              />
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {filteredCommands.length === 0 && (
+                  <p className="text-sm text-[var(--muted-foreground)]">No commands found.</p>
+                )}
+                {filteredCommands.map((cmd, idx) => (
+                  <button
+                    key={cmd.label}
+                    className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 ${
+                      idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
+                    }`}
+                    onClick={() => handleCommandRun(cmd)}
+                  >
+                    <div>
+                      <p className="font-semibold">{cmd.label}</p>
+                      <p className="text-xs text-[var(--muted-foreground)]">{cmd.description}</p>
+                    </div>
+                    {cmd.shortcut && (
+                      <span className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]">{cmd.shortcut}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-[var(--muted-foreground)] mt-3 flex justify-between">
+                <span>Press Esc to close • Enter to run</span>
+                <span>{commandFeedback}</span>
+              </div>
             </div>
           </div>
         )}
         <footer className="w-full text-center text-xs text-[var(--muted-foreground)] mt-auto pt-8 border-t border-[var(--border)]">
-          &copy; {new Date().getFullYear()} Kenny Nguyen. All rights reserved.
+          &copy; {CURRENT_YEAR} Kenny Nguyen. Built with Next.js, Tailwind CSS, and a lot of Tim's coffee.
         </footer>
       </main>
     </>
