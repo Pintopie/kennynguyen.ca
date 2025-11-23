@@ -41,7 +41,7 @@ export default function InitialLoading() {
         </div>
         <div className="text-center mt-6">
           <h1 className="loading-label">Kenny Nguyen</h1>
-          <p className="loading-sub">Loading portfolio — preparing your experience</p>
+          <p className="loading-sub">Loading portfolio. . .</p>
         </div>
       </div>
     </div>

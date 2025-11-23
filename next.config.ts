@@ -22,16 +22,7 @@ const nextConfig: NextConfig = {
     maxInactiveAge: 60 * 1000,
     pagesBufferLength: 5,
   },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.optimization.splitChunks.cacheGroups = {
-        ...config.optimization.splitChunks.cacheGroups,
-        default: false,
-        vendors: false,
-      };
-    }
-    return config;
-  },
+
 };
 
 export default nextConfig;

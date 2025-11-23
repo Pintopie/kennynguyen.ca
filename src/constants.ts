@@ -10,7 +10,6 @@ export const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
   { href: "#ship-log", label: "Now Shipping" },
   { href: "#stack", label: "Tools" },
-  { href: "#contact", label: "Contact Me" },
 ];
 
 // About Page Code Snippets

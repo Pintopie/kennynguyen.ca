@@ -25,6 +25,7 @@ import {
   itemVariants,
   cardVariants,
 } from "@/constants";
+import ParallaxBackground from "@/components/ParallaxBackground";
 
 type CommandItem = {
   label: string;
@@ -115,7 +116,7 @@ export default function Home() {
     "Software Engineer",
     "Developer who is always curious",
     "AI enthusiast – loves solving real-world problems",
-    ], []);
+  ], []);
   const [roleIdx, setRoleIdx] = useState(0);
   const [showResumePreview, setShowResumePreview] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -125,7 +126,7 @@ export default function Home() {
   const [focusedCommandIndex, setFocusedCommandIndex] = useState(0);
   const [commandFeedback, setCommandFeedback] = useState("");
   const commandFeedbackTimeout = useRef<NodeJS.Timeout | null>(null);
-  const backgroundRef = useRef<HTMLDivElement | null>(null);
+
 
   // Initialize theme preference on mount
   useEffect(() => {
@@ -179,34 +180,7 @@ export default function Home() {
     setFocusedCommandIndex(0);
   });
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-  const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-  if (mq?.matches) return;
 
-    let raf = 0;
-    const updateBackground = () => {
-      const y = window.scrollY;
-      const scale = 1 + Math.min(y / 1600, 0.25);
-      const translateY = -y * 0.06;
-      const translateX = Math.sin(y / 180) * 35;
-      if (backgroundRef.current) {
-        backgroundRef.current.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
-      }
-    };
-
-    const handleScroll = () => {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(updateBackground);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
 
   const commandItems = useMemo<CommandItem[]>(() => {
     const sectionCommands = NAV_LINKS.map((link) => ({
@@ -330,52 +304,41 @@ export default function Home() {
             onClick={() => setDark((d) => !d)}
           >
             {dark ? (
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="currentColor"/></svg>
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="currentColor" /></svg>
             ) : (
-              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41" stroke="currentColor" strokeWidth="2"/></svg>
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" /><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41" stroke="currentColor" strokeWidth="2" /></svg>
             )}
           </button>
         </div>
       </nav>
-  <main className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] flex flex-col items-center gap-12 px-4 sm:px-8 py-12 sm:py-20 font-[family-name:var(--font-geist-sans)]">
-        <motion.div
-          ref={backgroundRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="fixed inset-0 -z-10 blur-3xl opacity-90 will-change-transform"
-          style={{
-            backgroundImage: dark 
-              ? "radial-gradient(circle at 20% 20%, rgba(80, 150, 255, 0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 50%), linear-gradient(130deg, rgba(7, 37, 112, 0.9), rgba(2,77,190,0.25))"
-              : "radial-gradient(circle at 20% 20%, rgba(37,99,235,0.12), transparent 55%), radial-gradient(circle at 80% 0%, rgba(100,200,255,0.08), transparent 50%), linear-gradient(130deg, rgba(244,247,250,0.95), rgba(37,99,235,0.08))",
-          }}
-        />
+      <ParallaxBackground dark={dark} />
+      <main className="relative z-10 min-h-screen w-full text-[var(--foreground)] flex flex-col items-center gap-16 px-4 sm:px-8 py-12 sm:py-24 font-[family-name:var(--font-geist-sans)]">
 
 
         <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.15fr,0.85fr] items-stretch mb-16 mt-6" data-aos="fade-up">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]">
+            className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]">
             <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
               <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[var(--primary)]/20 blur-3xl" />
               <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
             </div>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1, duration: 0.5 }}
               className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">Portfolio · 2025</motion.p>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
               className="flex items-center gap-4 mb-4">
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.08, rotate: 2 }}
                 whileTap={{ scale: 0.95 }}
                 className="relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border border-[var(--border)] shadow-lg bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/20">
@@ -383,7 +346,7 @@ export default function Home() {
               </motion.div>
               <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">Kenny Nguyen</h1>
             </motion.div>
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -394,7 +357,7 @@ export default function Home() {
                 <span className="font-mono">{typingText}</span>
               </span>
             </motion.h2>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -402,7 +365,7 @@ export default function Home() {
               className="text-base sm:text-lg text-[var(--muted-foreground)] max-w-2xl">
               Building thoughtful products across web, AI, and backend systems. I obsess over clarity, accessibility, and resilient delivery pipelines.
             </motion.p>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -410,38 +373,38 @@ export default function Home() {
               className="mt-3 text-base text-[var(--foreground)]/80">
               Currently experimenting with local-first copilots and hardened cloud-native workflows.
             </motion.p>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.55, duration: 0.6 }}
               className="mt-6 flex flex-wrap gap-3">
-              <motion.a 
+              <motion.a
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.50 }}
-                href="mailto:hoangnhan20192@gmail.com" 
+                href="mailto:hoangnhan20192@gmail.com"
                 className="btn btn-primary">Contact Me</motion.a>
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.50 }}
-                type="button" 
-                onClick={() => setShowResumePreview(true)} 
+                type="button"
+                onClick={() => setShowResumePreview(true)}
                 className="btn btn-secondary">Preview Resume</motion.button>
-              <motion.a 
+              <motion.a
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.50 }}
-                href="/resumes/resume.pdf" 
-                download 
+                href="/resumes/resume.pdf"
+                download
                 className="btn btn-secondary">Download Resume</motion.a>
             </motion.div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6, duration: 0.5 }}
               className="mt-8 grid grid-cols-2 gap-3">
               {METRICS.map((metric, idx) => (
-                <motion.div 
+                <motion.div
                   key={metric.label}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -455,18 +418,18 @@ export default function Home() {
               ))}
             </motion.div>
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="grid gap-5">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl flex flex-col gap-4">
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-6 shadow-xl flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <p className="text-xs uppercase tracking-[0.35em] text-[var(--muted-foreground)]">Ship log</p>
                 <span className="inline-flex items-center gap-1 text-xs text-[var(--muted-foreground)]">
@@ -474,7 +437,7 @@ export default function Home() {
                 </span>
               </div>
               {SHIP_LOG.slice(0, 2).map((log, idx) => (
-                <motion.article 
+                <motion.article
                   key={log.title}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -489,11 +452,11 @@ export default function Home() {
                   <h3 className="mt-2 text-base font-semibold">{log.title}</h3>
                   <p className="text-sm text-[var(--muted-foreground)] mt-1">{log.summary}</p>
                   {log.link && (
-                    <motion.a 
+                    <motion.a
                       whileHover={{ x: 4 }}
-                      href={log.link} 
-                      target="_blank" 
-                      rel="noreferrer" 
+                      href={log.link}
+                      target="_blank"
+                      rel="noreferrer"
                       className="mt-2 inline-flex items-center gap-1 text-sm text-[var(--primary)] hover:underline">
                       View work
                       <ArrowUpRight size={14} />
@@ -504,15 +467,15 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </section>
-        
+
         <section className="w-full max-w-5xl mb-16" id="about">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl">
-            <motion.div 
+            className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-6 shadow-xl">
+            <motion.div
               className="flex items-center justify-between"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -522,50 +485,50 @@ export default function Home() {
               <h2 className="text-2xl font-semibold text-[var(--primary)]">About Me</h2>
               <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">My Story in code</p>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="mt-4 mb-4 flex gap-2 overflow-x-auto"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-            {ABOUT_SNIPPETS.map((snippet, idx) => (
-              <motion.button
-                key={snippet.lang}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className={`px-4 py-1 rounded-full border text-xs font-mono transition-colors ${aboutLang === idx ? 'border-[var(--primary)] text-[var(--primary)] bg-[var(--background)]/60' : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
-                onClick={() => setAboutLang(idx)}
-                aria-label={`Show About Me in ${snippet.lang}`}
-              >
-                {snippet.lang}
-              </motion.button>
-            ))}
-          </motion.div>
-          <motion.div 
-            key={aboutLang}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="rounded-2xl overflow-hidden shadow-inner"
-          >
-            <SyntaxHighlighter 
-              language={ABOUT_SNIPPETS[aboutLang].lang.toLowerCase()}
-              style={atomOneDark}
-              customStyle={{
-                margin: 0,
-                borderRadius: "0.5rem",
-                fontSize: "0.875rem",
-                lineHeight: "1.5",
-              }}
+              {ABOUT_SNIPPETS.map((snippet, idx) => (
+                <motion.button
+                  key={snippet.lang}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`px-4 py-1 rounded-full border text-xs font-mono transition-colors ${aboutLang === idx ? 'border-[var(--primary)] text-[var(--primary)] bg-[var(--background)]/60' : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--primary)]'}`}
+                  onClick={() => setAboutLang(idx)}
+                  aria-label={`Show About Me in ${snippet.lang}`}
+                >
+                  {snippet.lang}
+                </motion.button>
+              ))}
+            </motion.div>
+            <motion.div
+              key={aboutLang}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="rounded-2xl overflow-hidden shadow-inner"
             >
-              {ABOUT_SNIPPETS[aboutLang].code}
-            </SyntaxHighlighter>
-          </motion.div>
+              <SyntaxHighlighter
+                language={ABOUT_SNIPPETS[aboutLang].lang.toLowerCase()}
+                style={atomOneDark}
+                customStyle={{
+                  margin: 0,
+                  borderRadius: "0.5rem",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.5",
+                }}
+              >
+                {ABOUT_SNIPPETS[aboutLang].code}
+              </SyntaxHighlighter>
+            </motion.div>
           </motion.div>
         </section>
         <section className="w-full max-w-5xl mb-16" id="skills">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-4"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -575,7 +538,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Skills</h2>
             <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Stack favorites</p>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
             variants={containerVariants}
             initial="hidden"
@@ -590,12 +553,12 @@ export default function Home() {
                   delay={idx * 0.05}
                   className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-4 shadow-sm"
                 >
-                  <motion.div 
+                  <motion.div
                     className="flex items-center gap-3"
                     whileHover={{ x: 4 }}
                   >
-                    <motion.span 
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70" 
+                    <motion.span
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70"
                       style={{ color: skill.color }}
                       whileHover={{ scale: 1.15, rotate: 8 }}
                       transition={{ type: "spring", stiffness: 400 }}
@@ -613,7 +576,7 @@ export default function Home() {
           </motion.div>
         </section>
         <section className="w-full max-w-5xl mb-16" id="experience">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-4"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -623,7 +586,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Experience & Education</h2>
             <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Timeline</p>
           </motion.div>
-          
+
           <div className="space-y-8">
             {/* Work Experience */}
             <motion.div
@@ -631,22 +594,22 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5 }}
-              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl"
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-6 shadow-xl"
             >
-              <motion.h3 
+              <motion.h3
                 className="text-xl font-bold mb-6 text-[var(--primary)]"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
-              Work Experience
+                Work Experience
               </motion.h3>
-              
+
               <div className="relative">
                 {/* Timeline line */}
                 <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)] to-[var(--primary)]/30" />
-                
+
                 <motion.div className="space-y-6">
                   {EXPERIENCE.map((item, idx) => (
                     <motion.div
@@ -658,7 +621,7 @@ export default function Home() {
                       className="relative pl-20"
                     >
                       {/* Timeline dot with logo */}
-                      <motion.div 
+                      <motion.div
                         className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)] shadow-lg flex items-center justify-center text-white overflow-hidden"
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -671,8 +634,8 @@ export default function Home() {
                           <span className="text-lg">→</span>
                         )}
                       </motion.div>
-                      
-                      <motion.div 
+
+                      <motion.div
                         className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
                         whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
                         transition={{ duration: 0.3 }}
@@ -687,10 +650,10 @@ export default function Home() {
                           </span>
                         </div>
                         <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
-                        
+
                         <ul className="space-y-2 mb-4">
                           {item.highlights.map((highlight, hIdx) => (
-                            <motion.li 
+                            <motion.li
                               key={hIdx}
                               initial={{ opacity: 0, x: -10 }}
                               whileInView={{ opacity: 1, x: 0 }}
@@ -702,8 +665,8 @@ export default function Home() {
                             </motion.li>
                           ))}
                         </ul>
-                        
-                        <motion.div 
+
+                        <motion.div
                           className="flex flex-wrap gap-2"
                           initial="hidden"
                           whileInView="visible"
@@ -711,7 +674,7 @@ export default function Home() {
                           variants={containerVariants}
                         >
                           {item.tech.map((tech) => (
-                            <motion.span 
+                            <motion.span
                               key={tech}
                               variants={itemVariants}
                               className="inline-block px-2 py-1 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-xs text-[var(--primary)] font-mono"
@@ -726,29 +689,29 @@ export default function Home() {
                 </motion.div>
               </div>
             </motion.div>
-            
+
             {/* Education */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 shadow-xl"
+              className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-6 shadow-xl"
             >
-              <motion.h3 
+              <motion.h3
                 className="text-xl font-bold mb-6 text-[var(--primary)]"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
-              Education
+                Education
               </motion.h3>
-              
+
               <div className="relative">
                 {/* Timeline line */}
                 <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)]/30 to-[var(--primary)]/10" />
-                
+
                 <motion.div className="space-y-6">
                   {EDUCATION.map((item, idx) => (
                     <motion.div
@@ -760,7 +723,7 @@ export default function Home() {
                       className="relative pl-20"
                     >
                       {/* Timeline dot with logo */}
-                      <motion.div 
+                      <motion.div
                         className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)]/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -773,8 +736,8 @@ export default function Home() {
                           <span className="text-lg">📚</span>
                         )}
                       </motion.div>
-                      
-                      <motion.div 
+
+                      <motion.div
                         className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
                         whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
                         transition={{ duration: 0.3 }}
@@ -789,9 +752,9 @@ export default function Home() {
                           </span>
                         </div>
                         <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
-                        
+
                         {(item.gpa || item.grade) && (
-                          <motion.p 
+                          <motion.p
                             className="text-sm font-semibold text-[var(--primary)] mb-3"
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -801,10 +764,10 @@ export default function Home() {
                             {item.gpa ? `GPA: ${item.gpa}` : `Grade: ${item.grade}`}
                           </motion.p>
                         )}
-                        
+
                         <ul className="space-y-2">
                           {item.highlights.map((highlight, hIdx) => (
-                            <motion.li 
+                            <motion.li
                               key={hIdx}
                               initial={{ opacity: 0, x: -10 }}
                               whileInView={{ opacity: 1, x: 0 }}
@@ -837,11 +800,11 @@ export default function Home() {
             >
               Hackathons & Competitions
             </motion.h3>
-            
+
             <div className="relative">
               {/* Timeline line */}
               <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary)]/30 to-[var(--primary)]/10" />
-              
+
               <motion.div className="space-y-6">
                 {HACKATHONS.map((item, idx) => (
                   <motion.div
@@ -853,7 +816,7 @@ export default function Home() {
                     className="relative pl-20"
                   >
                     {/* Timeline dot with logo */}
-                    <motion.div 
+                    <motion.div
                       className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)]/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
@@ -866,8 +829,8 @@ export default function Home() {
                         <span className="text-lg">🏆</span>
                       )}
                     </motion.div>
-                    
-                    <motion.div 
+
+                    <motion.div
                       className="rounded-2xl border border-[var(--border)]/60 bg-[var(--background)]/70 p-4"
                       whileHover={{ y: -4, boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)" }}
                       transition={{ duration: 0.3 }}
@@ -882,10 +845,10 @@ export default function Home() {
                         </span>
                       </div>
                       <p className="text-xs text-[var(--muted-foreground)] mb-3">{item.location}</p>
-                      
+
                       <ul className="space-y-2 mb-4">
                         {item.highlights.map((highlight, hIdx) => (
-                          <motion.li 
+                          <motion.li
                             key={hIdx}
                             initial={{ opacity: 0, x: -10 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -929,7 +892,7 @@ export default function Home() {
         </section>
 
         <section className="w-full max-w-6xl mb-16" id="projects">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-4"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -939,7 +902,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Projects</h2>
             <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)]">Selected builds</p>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="grid gap-6 md:grid-cols-2"
             variants={containerVariants}
             initial="hidden"
@@ -953,7 +916,7 @@ export default function Home() {
                 className="rounded-3xl border border-[var(--border)] bg-[var(--card)]/90 p-6 flex flex-col gap-4 shadow-[0_35px_55px_rgba(15,23,42,0.2)]"
               >
                 <div>
-                  <motion.h3 
+                  <motion.h3
                     className="text-lg font-bold flex items-center gap-2"
                     whileHover={{ x: 4 }}
                   >
@@ -964,7 +927,7 @@ export default function Home() {
                   </motion.h3>
                   <p className="text-sm text-[var(--muted-foreground)] mt-2">{project.description}</p>
                 </div>
-                <motion.ul 
+                <motion.ul
                   className="flex flex-wrap gap-2 text-xs text-[var(--muted-foreground)]"
                   variants={containerVariants}
                   initial="hidden"
@@ -972,8 +935,8 @@ export default function Home() {
                   viewport={{ once: true }}
                 >
                   {project.tech.map((tech) => (
-                    <motion.li 
-                      key={tech} 
+                    <motion.li
+                      key={tech}
                       variants={itemVariants}
                       className="px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)]/40"
                     >
@@ -981,7 +944,7 @@ export default function Home() {
                     </motion.li>
                   ))}
                 </motion.ul>
-                <motion.div 
+                <motion.div
                   className="flex flex-wrap gap-4 text-sm mt-auto"
                   variants={containerVariants}
                   initial="hidden"
@@ -989,11 +952,11 @@ export default function Home() {
                   viewport={{ once: true }}
                 >
                   {project.links.map((link) => (
-                    <motion.a 
-                      key={link.href} 
-                      href={link.href} 
-                      target="_blank" 
-                      rel="noreferrer" 
+                    <motion.a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
                       variants={itemVariants}
                       whileHover={{ x: 2, color: "var(--primary)" }}
                       className="inline-flex items-center gap-1 text-[var(--primary)] hover:underline">
@@ -1007,7 +970,7 @@ export default function Home() {
           </motion.div>
         </section>
         <section className="w-full max-w-5xl mb-16" id="ship-log">
-          <motion.div 
+          <motion.div
             className="flex items-center justify-between mb-4"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -1015,7 +978,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-2xl font-semibold text-[var(--primary)]">Now Shipping</h2>
-            <motion.div 
+            <motion.div
               className="text-xs uppercase text-[var(--muted-foreground)] flex items-center gap-2"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -1025,7 +988,7 @@ export default function Home() {
               <CalendarDays size={14} /> Weekly ship log
             </motion.div>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="grid gap-4 md:grid-cols-3"
             variants={containerVariants}
             initial="hidden"
@@ -1038,12 +1001,12 @@ export default function Home() {
                 delay={idx * 0.08}
                 className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow"
               >
-                <motion.div 
+                <motion.div
                   className="flex items-center justify-between text-xs text-[var(--muted-foreground)]"
                   whileHover={{ scale: 1.02 }}
                 >
                   <span>{log.week}</span>
-                  <motion.span 
+                  <motion.span
                     className="uppercase tracking-wide"
                     whileHover={{ y: -2 }}
                   >
@@ -1053,19 +1016,19 @@ export default function Home() {
                 <h3 className="mt-3 text-lg font-semibold">{log.title}</h3>
                 <p className="text-sm text-[var(--muted-foreground)] mt-2">{log.summary}</p>
                 {log.link ? (
-                  <motion.a 
-                    href={log.link} 
-                    target="_blank" 
-                    rel="noreferrer" 
+                  <motion.a
+                    href={log.link}
+                    target="_blank"
+                    rel="noreferrer"
                     whileHover={{ x: 4 }}
                     className="mt-4 inline-flex items-center text-sm text-[var(--primary)] hover:underline">
-                    Open thread 
+                    Open thread
                     <motion.span whileHover={{ rotate: 45 }} className="ml-1">
                       <ArrowUpRight size={14} />
                     </motion.span>
                   </motion.a>
                 ) : (
-                  <motion.p 
+                  <motion.p
                     className="mt-4 text-xs uppercase tracking-[0.2em] text-[var(--muted-foreground)]"
                     initial={{ opacity: 0.5 }}
                     whileHover={{ opacity: 1 }}
@@ -1078,7 +1041,7 @@ export default function Home() {
           </motion.div>
         </section>
         <section className="w-full max-w-6xl mb-16" id="stack">
-          <motion.div 
+          <motion.div
             className="flex items-center gap-2 mb-4 text-[var(--primary)]"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -1088,7 +1051,7 @@ export default function Home() {
             <Command size={18} />
             <h2 className="text-2xl font-semibold">Tools</h2>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="grid gap-4 md:grid-cols-2"
             variants={containerVariants}
             initial="hidden"
@@ -1104,7 +1067,7 @@ export default function Home() {
                   className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/90 p-5 shadow-[0_20px_40px_rgba(15,23,42,0.15)]"
                 >
                   <a href={tool.href} target="_blank" rel="noreferrer" className="flex items-start justify-between">
-                    <motion.div 
+                    <motion.div
                       className="flex items-center gap-2 text-lg font-semibold"
                       whileHover={{ scale: 1.05 }}
                     >
@@ -1113,7 +1076,7 @@ export default function Home() {
                       </motion.span>
                       {tool.name}
                     </motion.div>
-                    <motion.span 
+                    <motion.span
                       className="text-[var(--muted-foreground)]"
                       whileHover={{ x: 4, y: -2 }}
                     >
@@ -1146,10 +1109,10 @@ export default function Home() {
               />
             </motion.a>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
-              <motion.a 
-                href="https://github.com/Pintopie" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://github.com/Pintopie"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="GitHub profile"
                 variants={itemVariants}
                 className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
@@ -1158,10 +1121,10 @@ export default function Home() {
                 <p className="text-sm text-[var(--muted-foreground)]">@Pintopie</p>
                 <p className="text-xs text-[var(--muted)] mt-2">View repositories & contributions</p>
               </motion.a>
-              <motion.a 
-                href="https://github.com/Pintopie?tab=repositories" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <motion.a
+                href="https://github.com/Pintopie?tab=repositories"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="GitHub repositories"
                 variants={itemVariants}
                 className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
@@ -1175,47 +1138,47 @@ export default function Home() {
         </section>
         <AnimatePresence>
           {showResumePreview && (
-            <motion.div 
+            <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <motion.div 
+              <motion.div
                 className="bg-[var(--card)]/90 border border-[var(--border)] rounded-2xl shadow-xl p-8 max-w-2xl w-full relative flex flex-col items-center mx-4"
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
               >
-                <motion.button 
-                  onClick={() => setShowResumePreview(false)} 
+                <motion.button
+                  onClick={() => setShowResumePreview(false)}
                   className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]"
                   whileHover={{ scale: 1.2, rotate: 90 }}
                   whileTap={{ scale: 0.85 }}
                 >
                   &times;
                 </motion.button>
-                <motion.h3 
+                <motion.h3
                   className="text-xl font-bold mb-4 text-[var(--primary)]"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                My Resume
+                  My Resume
                 </motion.h3>
-                <motion.iframe 
-                  src="/resumes/resume.pdf" 
-                  className="w-full h-96 rounded shadow" 
+                <motion.iframe
+                  src="/resumes/resume.pdf"
+                  className="w-full h-96 rounded shadow"
                   title="Resume Preview"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
                 />
-                <motion.a 
-                  href="/resumes/resume.pdf" 
-                  download 
+                <motion.a
+                  href="/resumes/resume.pdf"
+                  download
                   className="btn btn-primary mt-4"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -1228,7 +1191,7 @@ export default function Home() {
         </AnimatePresence>
         <AnimatePresence>
           {commandPaletteOpen && (
-            <motion.div 
+            <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1236,7 +1199,7 @@ export default function Home() {
               transition={{ duration: 0.2 }}
               onClick={() => setCommandPaletteOpen(false)}
             >
-              <motion.div 
+              <motion.div
                 className="bg-[var(--card)]/95 border border-[var(--border)] rounded-2xl shadow-xl p-6 max-w-lg w-full relative mx-4"
                 initial={{ opacity: 0, scale: 0.9, y: -30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1244,15 +1207,15 @@ export default function Home() {
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <motion.button 
-                  onClick={() => setCommandPaletteOpen(false)} 
+                <motion.button
+                  onClick={() => setCommandPaletteOpen(false)}
                   className="absolute top-3 right-3 text-xl text-[var(--muted-foreground)] hover:text-[var(--primary)]"
                   whileHover={{ scale: 1.2, rotate: 90 }}
                   whileTap={{ scale: 0.85 }}
                 >
                   &times;
                 </motion.button>
-                <motion.h3 
+                <motion.h3
                   className="text-lg font-bold mb-2 text-[var(--primary)] flex items-center gap-2"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1271,7 +1234,7 @@ export default function Home() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.1 }}
                 />
-                <motion.div 
+                <motion.div
                   className="space-y-2 max-h-64 overflow-y-auto"
                   variants={containerVariants}
                   initial="hidden"
@@ -1283,9 +1246,8 @@ export default function Home() {
                   {filteredCommands.map((cmd, idx) => (
                     <motion.button
                       key={cmd.label}
-                      className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 transition-colors ${
-                        idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
-                      }`}
+                      className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 transition-colors ${idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
+                        }`}
                       onClick={() => handleCommandRun(cmd)}
                       variants={itemVariants}
                       whileHover={{ backgroundColor: "rgba(2, 77, 190, 0.1)", x: 4 }}
@@ -1301,7 +1263,7 @@ export default function Home() {
                     </motion.button>
                   ))}
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="text-xs text-[var(--muted-foreground)] mt-3 flex justify-between"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -1321,7 +1283,7 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
-        <motion.footer 
+        <motion.footer
           className="w-full text-center text-xs text-[var(--muted-foreground)] mt-auto pt-8 border-t border-[var(--border)]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
