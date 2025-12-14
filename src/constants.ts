@@ -50,7 +50,7 @@ export const PROJECTS = [
     featured: true,
   },
   {
-    title: "Study Mascot App",
+    title: "StudyBear",
     description:
       "A UX case study on designing a mascot-based accountability app for students. Features mixed-methods research, affinity mapping, and iterative prototyping.",
     highlights: [
@@ -59,9 +59,9 @@ export const PROJECTS = [
       "Created low-fi & mid-fi prototypes with Figma",
       "Validated concept through usability testing"
     ],
-    link: "/projects/study-mascot-case-study",
+    link: "/projects/studybear-case-study",
     links: [
-      { label: "View Case Study", href: "/projects/study-mascot-case-study" },
+      { label: "View Case Study", href: "/projects/studybear-case-study" },
       { label: "Course Context", href: "https://ischool.utoronto.ca/" },
     ],
     tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],

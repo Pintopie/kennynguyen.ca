@@ -27,7 +27,7 @@ const staggerContainer = {
     }
 };
 
-export default function StudyMascotCaseStudy() {
+export default function StudyBearCaseStudy() {
     const { dark, setDark } = useThemePreference();
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -396,7 +396,7 @@ export default function StudyMascotCaseStudy() {
                     >
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
-                                src="/images/case-study/study-mascot/persona.png"
+                                src="/images/case-study/studybear/persona.png"
                                 alt="Persona: Sofia the Student (Full Details)"
                                 width={2400}
                                 height={1350}
@@ -454,7 +454,7 @@ export default function StudyMascotCaseStudy() {
                         >
                             <div className="relative w-full rounded-2xl overflow-hidden bg-[var(--card)]/30">
                                 <Image
-                                    src="/images/case-study/study-mascot/empathy_map.png"
+                                    src="/images/case-study/studybear/empathy_map.png"
                                     alt="Empathy Map showing user thoughts, feelings, and experiences"
                                     width={2400}
                                     height={1350}
@@ -554,7 +554,7 @@ export default function StudyMascotCaseStudy() {
                         <h3 className="text-3xl font-bold mb-8">Prioritization Grid</h3>
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
-                                src="/images/case-study/study-mascot/prioritization_grid.png"
+                                src="/images/case-study/studybear/prioritization_grid.png"
                                 alt="Prioritization Grid: Impact vs Feasibility"
                                 width={2400}
                                 height={1350}
@@ -647,7 +647,7 @@ export default function StudyMascotCaseStudy() {
                     >
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
-                                src="/images/case-study/study-mascot/low_fi.jpeg"
+                                src="/images/case-study/studybear/low_fi.jpeg"
                                 alt="Low-Fidelity Paper Prototypes"
                                 width={2400}
                                 height={1350}
