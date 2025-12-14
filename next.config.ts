@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
     pagesBufferLength: 5,
   },
 
+  output: "standalone",
+  // This allows Next.js to correctly determine the project root when multiple lockfiles exist
+  outputFileTracingRoot: require("path").join(__dirname, "./"),
 };
 
 export default nextConfig;
