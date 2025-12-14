@@ -32,7 +32,7 @@ export default function ContactChart() {
                         href="https://github.com/Pintopie"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="GitHub profile"
+                        aria-label="GitHub Profile — Pintopie"
                         variants={itemVariants}
                         className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
                     >
@@ -44,7 +44,7 @@ export default function ContactChart() {
                         href="https://github.com/Pintopie?tab=repositories"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="GitHub repositories"
+                        aria-label="Repositories — GitHub"
                         variants={itemVariants}
                         className="rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-center hover:shadow-lg transition-shadow"
                     >

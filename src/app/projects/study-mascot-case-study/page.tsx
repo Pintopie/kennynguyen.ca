@@ -10,6 +10,7 @@ import AuroraBackground from "@/shared/layout/AuroraBackground";
 import { Section } from "@/features/case-study/components/Section";
 import { StatCard } from "@/features/case-study/components/StatCard";
 import { Callout } from "@/features/case-study/components/Callout";
+import Footer from "@/shared/layout/Footer";
 
 // Animation Variants
 const fadeInUp = {
@@ -57,11 +58,12 @@ export default function StudyMascotCaseStudy() {
                         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Return to Projects
                     </Link>
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[var(--muted-foreground)]">
-                        <a href="#overview" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Overview</a>
-                        <a href="#research" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Research</a>
+                        <a href="#" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Overview</a>
+                        <a href="#primary-research" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Primary Research</a>
+                        <a href="#research" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Persona</a>
                         <a href="#ideation" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Ideation</a>
-                        <a href="#design" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Design</a>
-                        <a href="#prototypes" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Prototypes</a>
+                        <a href="#design" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Low-Fi Prototype</a>
+                        <a href="#prototypes" className="hover:text-[var(--primary)] hover:scale-105 transition-all">Med-Fi Prototypes</a>
                     </div>
                     {/* Theme Toggle */}
                     <button
@@ -89,11 +91,24 @@ export default function StudyMascotCaseStudy() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
                     >
-                        <div className="mb-6 text-2xl font-bold text-[var(--foreground)]"> INF352 Case Study</div>
-                        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-[1] bg-clip-text text-transparent bg-gradient-to-br from-[var(--foreground)] to-[var(--foreground)]">
-                            StudyBear <br /> <span className="text-[var(--muted-foreground)]/80 font-medium">Accountability App</span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-[var(--muted-foreground)] max-w-2xl mb-12 leading-relaxed font-light">
+                        <div className="mb-10 inline-flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--card)]/70 px-3 py-2 shadow-sm">
+                            <Image
+                                src="/logos/university_of_toronto_logo.jpg"
+                                alt="University of Toronto logo"
+                                width={120}
+                                height={32}
+                                className="h-8 w-auto"
+                                priority
+                            />
+                            <span className="text-xs font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">University of Toronto</span>
+                        </div>
+                        <div className="mb-6 text-2xl font-bold text-[var(--foreground)]"> INF352H1 Design Studio II  Case Study</div>
+
+                        <div className="mb-6 max-w-2xl border-l-2 border-[var(--primary)]/60 pl-4 text-[var(--muted-foreground)] italic">
+                            Instructed by Dr. Olivier St-Cyr, PhD, LEL
+                        </div>
+
+                        <p className="text-xl md:text-2xl text-[var(--muted-foreground)] max-w-2xl mb-6 leading-relaxed font-light">
                             Students don't need another timer. They need a <span className="text-[var(--foreground)] font-medium underline">companion</span>. We designed a mascot-based system to turn isolation into passive connection.
                         </p>
                     </motion.div>
@@ -116,6 +131,23 @@ export default function StudyMascotCaseStudy() {
                             </motion.div>
                         ))}
                     </motion.div>
+
+                    <div className="mt-10 grid md:grid-cols-4 gap-4">
+                        {[
+                            { label: "Context", value: "INF352 (UofT)" },
+                            { label: "Platform", value: "Mobile prototype" },
+                            { label: "Constraints", value: "Short timeline + student schedules" },
+                            { label: "Deliverables", value: "Research, flows, prototypes, testing" }
+                        ].map((item) => (
+                            <div
+                                key={item.label}
+                                className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/40 backdrop-blur-sm p-5"
+                            >
+                                <div className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]/60 mb-2">{item.label}</div>
+                                <div className="text-sm font-semibold text-[var(--foreground)]/90">{item.value}</div>
+                            </div>
+                        ))}
+                    </div>
                 </motion.header>
 
                 {/* Design Thinking Process */}
@@ -127,7 +159,6 @@ export default function StudyMascotCaseStudy() {
                     className="mb-32"
                 >
                     <div className="text-center mb-16">
-                        <div className="text-xs uppercase tracking-widest text-[var(--primary)] font-semibold mb-4">Methodology</div>
                         <h2 className="text-4xl md:text-5xl font-bold text-[var(--foreground)]">Design Thinking Process</h2>
                     </div>
 
@@ -151,8 +182,9 @@ export default function StudyMascotCaseStudy() {
                                     <div className="hidden lg:block absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--primary)]/70 ring-4 ring-[var(--primary)]/15" />
                                     <div className="h-full rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 backdrop-blur-sm p-5 shadow-sm hover:border-[var(--primary)]/40 hover:-translate-y-1 transition duration-300">
                                         <div className="flex items-center justify-between mb-3">
+
+                                            <span className="px-2 py-1 text-[10px] uppercase tracking-widest bg-[var(--primary)]/10 text-[var(--primary)] rounded-full">STAGE</span>
                                             <span className="text-sm font-mono text-[var(--primary)]">{step.num}</span>
-                                            <span className="px-2 py-1 text-[10px] uppercase tracking-widest bg-[var(--primary)]/10 text-[var(--primary)] rounded-full">Stage</span>
                                         </div>
                                         <h3 className="text-sm font-semibold text-[var(--foreground)] mb-2 tracking-wide">{step.title}</h3>
                                         <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">{step.desc}</p>
@@ -216,7 +248,7 @@ export default function StudyMascotCaseStudy() {
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="text-sm font-bold text-[var(--primary)] uppercase tracking-wide">{item.insight}</div>
                                 </div>
-                                <h4 className="font-bold text-[var(--foreground)] mb-2">{item.source}</h4>
+                                <p className="font-bold text-[var(--foreground)] mb-2">{item.source}</p>
                                 <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{item.desc}</p>
                             </motion.div>
                         ))}
@@ -228,10 +260,10 @@ export default function StudyMascotCaseStudy() {
                         viewport={{ once: true }}
                         className="p-8 rounded-3xl bg-[var(--primary)]/5 border border-[var(--primary)]/10"
                     >
-                        <h4 className="flex items-center gap-2 font-bold text-[var(--foreground)] text-lg mb-4">
+                        <h3 className="flex items-center gap-2 font-bold text-[var(--foreground)] text-lg mb-4">
                             <Zap className="text-[var(--primary)]" size={20} />
                             The Core Behavioral Challenge
-                        </h4>
+                        </h3>
                         <p className="text-[var(--muted-foreground)] leading-relaxed italic">
                             "Procrastination is a self-defeating behavior that provides short-term relief but leads to long-term anxiety. It reflects a <strong className="text-[var(--foreground)]">lack of structure, not motivation</strong>." - A Guide to Understanding Procrastination
                         </p>
@@ -239,7 +271,7 @@ export default function StudyMascotCaseStudy() {
                 </Section>
 
                 {/* Primary Research */}
-                <Section title="Primary Research" eyebrow="Methodology">
+                <Section id="primary-research" title="Primary Research" eyebrow="Methodology">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -299,7 +331,7 @@ export default function StudyMascotCaseStudy() {
                         </motion.div>
                     </div>
 
-                    <h3 className="text-2xl font-bold mb-8">Quantitative Findings</h3>
+                    <h3 className="text-3xl font-bold mb-8">Quantitative Findings</h3>
                     <motion.div
                         variants={staggerContainer}
                         initial="hidden"
@@ -331,7 +363,7 @@ export default function StudyMascotCaseStudy() {
                                     title: "EMOTIONAL PATTERNS",
                                     points: [
                                         "Cycle: Stress/Guilt -> Start -> Flow -> Relief.",
-                                        "Hardest part is starting ('Activation Energy').",
+                                        "Hardest part is starting 'Activation Energy'.",
                                         "Studying feels like a chore, not a meaningful activity."
                                     ]
                                 },
@@ -372,6 +404,21 @@ export default function StudyMascotCaseStudy() {
                                 </motion.div>
                             ))}
                         </div>
+
+                        <div className="mt-12 max-w-3xl">
+                            <Callout type="highlight">
+                                <div className="space-y-3 text-[var(--muted-foreground)]">
+                                    <p>
+                                        <strong className="text-[var(--foreground)]">Insight:</strong> Students prefer studying alone for focus, but still want
+                                        a sense of presence to reduce isolation.
+                                    </p>
+                                    <p>
+                                        <strong className="text-[var(--foreground)]">Design decision:</strong> Build “passive social” accountability: friends
+                                        can see that you’re studying without needing chat or live co-working.
+                                    </p>
+                                </div>
+                            </Callout>
+                        </div>
                     </motion.div>
                 </Section>
 
@@ -408,7 +455,7 @@ export default function StudyMascotCaseStudy() {
 
                         {/* Need Statements */}
                         <div className="space-y-6">
-                            <h3 className="text-2xl font-bold mb-6">User Needs</h3>
+                            <h3 className="text-3xl font-bold mb-6">User Needs</h3>
                             {[
                                 {
                                     title: "Study Tracking",
@@ -445,7 +492,10 @@ export default function StudyMascotCaseStudy() {
                     
                     {/* Empathy Map Image */}
                     <div className="mb-24">
-                        <h4 className="text-xl font-bold mb-8 text-center text-[var(--muted-foreground)]">Visualizing Sofia's Experience</h4>
+                        <h3 className="text-3xl font-bold mt-28 mb-8 text-center text-[var(--muted-foreground)]"> Empathy Map</h3>
+                        <p className="text-[var(--muted-foreground)] mb-12 max-w-3xl mx-auto text-center">
+                            To better understand Sofia's mindset, we created an empathy map outlining her thoughts, feelings, and experiences during a typical study session.
+                        </p>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -458,7 +508,7 @@ export default function StudyMascotCaseStudy() {
                                     alt="Empathy Map showing user thoughts, feelings, and experiences"
                                     width={2400}
                                     height={1350}
-                                    className="w-full h-auto hover:scale-105 transition-transform duration-700"
+                                    className="w-full h-auto"
                                 />
                             </div>
                         </motion.div>
@@ -471,7 +521,10 @@ export default function StudyMascotCaseStudy() {
                         viewport={{ once: true }}
                         className="mb-24"
                     >
-                        <h3 className="text-2xl font-bold mb-8">As-Is Scenario (Current Journey)</h3>
+                        <h3 className="text-3xl font-bold mb-8">As-Is Scenario (Current Journey)</h3>
+                        <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
+                            Sofia's current study routine is marked by procrastination and distraction. Below is a breakdown of her emotional journey through a typical study session.
+                        </p>
                         <div className="space-y-6">
                             {[
                                 {
@@ -525,33 +578,65 @@ export default function StudyMascotCaseStudy() {
                     </motion.div>
                 </Section>
 
-                {/* User Future Journey (To-Be Scenario) */}
 
 
                 {/* Ideation */}
                 <Section id="ideation" title="Ideation" eyebrow="Generating Solutions">
                     <motion.div
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="mb-12"
+                    >
+                        <h3 className="text-3xl font-bold mb-6">Ideas</h3>
+                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
+                            <Image
+                                src="/images/case-study/study-mascot/Sticky%20Notes.png"
+                                alt="Sticky notes grouped into themes with dot votes highlighting priorities"
+                                width={2200}
+                                height={1400}
+                                className="w-full h-auto rounded-2xl"
+                                priority
+                            />
+                            <p className="text-sm text-[var(--muted-foreground)] mt-4 px-2 md:px-4 pb-2">
+                                Dot voting on the clusters steered us toward accountability and quick-guidance features while parking heavier distraction blockers for later.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-4xl mb-16 text-[var(--muted-foreground)]"
+                        className="prose prose-lg dark:prose-invert max-w-4xl mb-12 text-[var(--muted-foreground)] leading-relaxed prose-headings:tracking-tight prose-headings:text-[var(--foreground)] prose-p:leading-relaxed prose-ul:pl-6 prose-li:leading-relaxed prose-strong:text-[var(--foreground)]"
                     >
+                        <h3 className="text-3xl font-semibold text-[var(--foreground)] mb-6">Ideation Summary</h3>
+                        <ul>
+                            <li>
+                                <strong>Two-round storm</strong>: everyone pitched two intentionally absurd ideas first to loosen thinking, then a second round of playful-but-workable concepts.
+                            </li>
+                            <li>
+                                <strong>Clustered themes</strong>: motivation and rewards; accountability and anti-distraction; mascot-based emotional support; social collaboration.
+                            </li>
+                            <li>
+                                <strong>Kept what was buildable</strong>: filtered for feasibility and clarity, keeping high-energy ideas that we could realistically ship—mostly motivation-forward concepts.
+                            </li>
+                        </ul>
                         <p>
-                            We brainstormed intentional, unrestricted concepts before refining them into functional features. We organized ideas into four clusters: <strong className="text-[var(--foreground)]">Motivation</strong>, <strong className="text-[var(--foreground)]">Accountability</strong>, <strong className="text-[var(--foreground)]">Emotional Support</strong>, and <strong className="text-[var(--foreground)]">Collaboration</strong>.
-                        </p>
-                        <p>
-                             We then filtered these using a <strong className="text-[var(--primary)]">Prioritization Grid</strong>. The voting process showed a clear preference for ideas that support accountability and simple progress guidance ("Quick Wins"), while complex distraction-based ideas like "bubble blockers" were deemed "Big Bets" for later.
+                            <strong>Outcome:</strong> a practical direction that still carries the imaginative spark from the earliest round.
                         </p>
                     </motion.div>
 
-                    {/* Prioritization Grid placeholder */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         className="mb-24"
                     >
-                        <h3 className="text-3xl font-bold mb-8">Prioritization Grid</h3>
+                        <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+                            <h3 className="text-3xl font-bold mb-6">Prioritization Grid</h3>
+                            <span className="text-m font-semibold text-[var(--muted-foreground)]">Impact vs Feasibility</span>
+                        </div>
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
                                 src="/images/case-study/study-mascot/prioritization_grid.png"
@@ -560,6 +645,15 @@ export default function StudyMascotCaseStudy() {
                                 height={1350}
                                 className="w-full h-auto rounded-2xl"
                             />
+                        </div>
+                        <div className="text-[var(--muted-foreground)] mt-6 max-w-4xl space-y-3 leading-relaxed">
+                            <p className="text-3xl mb-6 mt-12 text-[var(--foreground)] font-semibold">Prioritization Grid Summary</p>
+                            <ul className="list-disc pl-6 space-y-2">
+                                <li><strong>No brainers</strong>: Accountability Creature and The Noise Storm</li>
+                                <li><strong>Quick wins</strong>: Stress-free scheduling and Study Seeds</li>
+                                <li><strong>Big bets</strong>: distraction-blocking "Focus" Bubbles</li>
+                                <li><strong>Further exploration</strong>: unclear or low-value items parked so the roadmap stays focused on high-impact, buildable tools.</li>
+                            </ul>
                         </div>
                     </motion.div>
                 </Section>
@@ -572,11 +666,14 @@ export default function StudyMascotCaseStudy() {
                         viewport={{ once: true }}
                         className="mb-24"
                     >
+                        <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
+                            With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session.
+                        </p>
                         <div className="space-y-6">
                             {[
                                 {
                                     phase: "DECIDING TO STUDY",
-                                    action: "Opens App instead of social media. Sees Mascot waiting. Adds tasks.",
+                                    action: "Opens StudyMascot instead of social media. Sees Mascot waiting. Adds tasks.",
                                     thoughts: "Starting feels easier when my mascot is cheering me on. Everything is organized.",
                                     feelings: "Motivated, Supported, Ready",
                                     color: "border-green-500/30 bg-green-500/5"
@@ -585,14 +682,14 @@ export default function StudyMascotCaseStudy() {
                                     phase: "ATTEMPTING TO FOCUS",
                                     action: "Enters 'Focus Mode'. Uses timer. Gains XP for completed tasks.",
                                     thoughts: "I want to improve my progress. If I stay focused, I can unlock items.",
-                                    feelings: "Engaged, Focused, Less Overwhelmed",
+                                    feelings: "Engaged, Focused, Less Overwhelmed, Determined",
                                     color: "border-blue-500/30 bg-blue-500/5"
                                 },
                                 {
                                     phase: "GETTING DISTRACTED... OR NOT",
                                     action: "Mascot appears as gentle reminder. Sees friends studying. Checks friends' mascots.",
-                                    thoughts: "My mascot is sad because I got distracted... seeing others study keeps me motivated.",
-                                    feelings: "Accountable, Encouraged, Supported",
+                                    thoughts: "My mascot is sad because I got distracted... seeing others study keeps me motivated and competitive.",
+                                    feelings: "Accountable, Encouraged, Supported, Competitive",
                                     color: "border-purple-500/30 bg-purple-500/5"
                                 },
                                 {
@@ -637,8 +734,6 @@ export default function StudyMascotCaseStudy() {
                             We started with hand-drawn paper sketches to quickly test our core concepts without getting distracted by visual design. We used a "Human Computer" method where one team member manually swapped screens based on user interactions.
                         </p>
                     </motion.div>
-
-                    {/* Placeholder for paper prototype images */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -666,7 +761,7 @@ export default function StudyMascotCaseStudy() {
                         className="mb-16"
                     >
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-12">
-                            <h4 className="text-xl font-bold mb-6">Methodology & Setup</h4>
+                            <h3 className="text-xl font-bold mb-6">Methodology & Setup</h3>
                             <div className="grid md:grid-cols-2 gap-8 text-sm text-[var(--muted-foreground)]">
                                 <div>
                                     <strong className="block text-[var(--foreground)] mb-2">Representative Users (3 Students)</strong>
@@ -689,9 +784,9 @@ export default function StudyMascotCaseStudy() {
 
                         <div className="grid md:grid-cols-2 gap-8 mb-12">
                             <div>
-                                <h4 className="flex items-center gap-2 font-bold mb-6 text-green-500">
+                                <h3 className="flex items-center gap-2 font-bold mb-6 text-green-600 dark:text-green-400">
                                     <Check size={20} /> What Worked Well
-                                </h4>
+                                </h3>
                                 <ul className="space-y-4">
                                     {[
                                         "Concept was motivating and easy to understand.",
@@ -707,9 +802,9 @@ export default function StudyMascotCaseStudy() {
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="flex items-center gap-2 font-bold mb-6 text-red-500">
+                                <h3 className="flex items-center gap-2 font-bold mb-6 text-red-600 dark:text-red-400">
                                     <span className="text-lg">!</span> Usability Issues (Critical)
-                                </h4>
+                                </h3>
                                 <ul className="space-y-4">
                                     {[
                                         { issue: "No Pause Button", fix: "Users felt trapped without a pause option." },
@@ -727,7 +822,7 @@ export default function StudyMascotCaseStudy() {
                         </div>
 
                         <div className="bg-blue-500/5 border border-blue-500/10 p-6 rounded-2xl">
-                            <h4 className="font-bold text-blue-500 mb-2">Design Implications</h4>
+                            <h3 className="font-bold text-blue-600 dark:text-blue-400 mb-2">Design Implications</h3>
                             <p className="text-sm text-[var(--muted-foreground)]">
                                 Added a <strong>Pause Button</strong>, a clear <strong>Skip Photo</strong> option for privacy, and a <strong>Confirmation Screen</strong> (Ready, Set, Go) to smooth the transition into focus mode.
                             </p>
@@ -736,35 +831,89 @@ export default function StudyMascotCaseStudy() {
                 </Section>
 
                 {/* Medium-Fidelity Prototype */}
-                <Section title="Medium-Fidelity Prototype" eyebrow="Phase 4: Clickable Mocks">
+                <Section id="prototypes" title="Medium-Fidelity Prototype" eyebrow="Phase 4: Clickable Mocks">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-4xl mb-16 text-[var(--muted-foreground)]"
+                        className="prose prose-lg dark:prose-invert mb-16 text-[var(--muted-foreground)]"
                     >
-                        <a href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2?content-scaling=fixed&kind=proto&node-id=152-165&page-id=148%3A2&scaling=contain&show-proto-sidebar=1&starting-point-node-id=152%3A165&t=P4EokUY5v8MfUh34-1" target="_blank" rel="noopener noreferrer" className="underline text-[var(--primary)] font-semibold">View Full Figma File</a>
-                                    
                         <p>
                             We incorporated the feedback to build a clickable Figma prototype. We focused on the three core flows: <strong className="text-[var(--foreground)]">Adding a Task</strong>, <strong className="text-[var(--foreground)]">Social Feed</strong>, and <strong className="text-[var(--foreground)]">Shop Customization</strong>.
                         </p>
                     </motion.div>
 
+                    <div className="mb-16 space-y-12">
+                        {[ 
+                            {
+                                title: "Flow 1: Add tasks + Focus Mode",
+                                screens: [
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Add tasks.png", label: "Step 1 — Add tasks" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Focus mode_running.png", label: "Step 2 — Focus mode" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Session ended.png", label: "Step 3 — Session ended" }
+                                ]
+                            },
+                            {
+                                title: "Flow 2: Social Photo Feed",
+                                screens: [
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Upload photo.png", label: "Step 1 — Upload Study Photo" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Upload photo_private group.png", label: "Step 2 — Choose Private or Public" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Activity_Main.png", label: "Step 3 — View Friends Feed" }
+                                ]
+                            },
+                            {
+                                title: "Flow 3: Mascot Customization + Shop",
+                                screens: [
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/My Mascot_main.png", label: "Step 1 — View Mascot" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Customization_add hat.png", label: "Step 2 — Customize Mascot" },
+                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Shop_list of items.png", label: "Step 3 — Shop for Mascot Items" }
+                                ]
+                            }
+                        ].map((flow) => (
+                            <div key={flow.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 backdrop-blur-sm p-5 space-y-4">
+                                <div className="text-2xl font-bold text-[var(--foreground)]">{flow.title}</div>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    {flow.screens.map((screen, idx) => (
+                                        <div key={screen.src} className="flex flex-col gap-2">
+                                            <div className="flex items-center gap-2 text-xs font-medium text-[var(--muted-foreground)]">
+                                                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] text-[11px] font-semibold">
+                                                    {idx + 1}
+                                                </span>
+                                                <span>{screen.label}</span>
+                                            </div>
+                                            <div className="w-full rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-sm">
+                                                <Image
+                                                    src={screen.src}
+                                                    alt={`Mid-fi screen: ${screen.label}`}
+                                                    width={640}
+                                                    height={1280}
+                                                    className="w-full h-auto"
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <h3 className="text-3xl font-bold mb-8 text-center text-[var(--muted-foreground)]">Embedded Figma Prototype</h3>
                     {/* Figma Embed */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="mb-24 flex justify-center"
+                        className="mb-24"
                     >
-                        <iframe 
-                            style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }} 
-                            width="800" 
-                            height="450" 
-                            src="https://embed.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2?node-id=152-165&p=f&scaling=contain&content-scaling=fixed&page-id=148%3A2&starting-point-node-id=152%3A165&show-proto-sidebar=1&embed-host=share" 
-                            allowFullScreen
-                            className="rounded-xl shadow-2xl bg-[var(--card)]"
-                        ></iframe>
+                        <div className="mx-auto w-full max-w-[420px] sm:max-w-[520px] md:max-w-[620px]">
+                            <div className="relative w-full aspect-[9/16] overflow-hidden rounded-4xl border border-[var(--border)] bg-[var(--card)] shadow-2xl">
+                                <iframe
+                                    title="Study Mascot medium-fidelity Figma prototype"
+                                    src="https://embed.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2?node-id=152-165&p=f&scaling=contain&content-scaling=fixed&page-id=148%3A2&starting-point-node-id=152%3A165&embed-host=share"
+                                    allowFullScreen
+                                    className="absolute inset-0 h-full w-full"
+                                />
+                            </div>
+                        </div>
                     </motion.div>
                 </Section>
 
@@ -776,42 +925,59 @@ export default function StudyMascotCaseStudy() {
                         viewport={{ once: true }}
                         className="mb-24"
                     >
-                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-12">
-                            <h4 className="text-xl font-bold mb-6">Methodology & Setup</h4>
-                            <p className="text-[var(--muted-foreground)] mb-6">
-                                Usability testing with <strong>5 students</strong> using clickable Figma prototypes via Zoom (think-aloud protocol).
-                            </p>
-                            <div className="grid md:grid-cols-2 gap-8">
-                                <div>
-                                    <h5 className="font-bold text-green-500 mb-4">Key Successes</h5>
-                                    <ul className="space-y-2 text-sm text-[var(--muted-foreground)]">
-                                        <li className="flex gap-2"><Check size={16} className="text-green-500" /> "Add Task" flow was described as "simple" and "straight to the point".</li>
-                                        <li className="flex gap-2"><Check size={16} className="text-green-500" /> Verification photo feature was intuitive.</li>
-                                        <li className="flex gap-2"><Check size={16} className="text-green-500" /> Shop/Inventory felt rewarding and engaging.</li>
-                                    </ul>
+                        <div className="bg-[var(--card)]/60 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-10 space-y-6">
+                            <div className="flex flex-wrap gap-3 text-xs font-semibold tracking-wide uppercase text-[var(--muted-foreground)]">
+                                <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">5 students</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Think-aloud</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Zoom remote</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Clickable Figma</span>
+                            </div>
+                            <div className="grid md:grid-cols-3 gap-4 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="text-[var(--foreground)] font-semibold mb-1">Tasks</p>
+                                    <p>Create task, start/pause session, verify with photo, redeem in shop.</p>
                                 </div>
-                                <div>
-                                    <h5 className="font-bold text-orange-500 mb-4">Friction Points</h5>
-                                    <ul className="space-y-2 text-sm text-[var(--muted-foreground)]">
-                                        <li className="flex gap-2"><ArrowUpRight size={16} className="text-orange-500" /> <strong>Timer Status:</strong> Confusing when app closes or session ends.</li>
-                                        <li className="flex gap-2"><ArrowUpRight size={16} className="text-orange-500" /> <strong>Photo Privacy:</strong> Ambiguity on Public vs Private visibility.</li>
-                                        <li className="flex gap-2"><ArrowUpRight size={16} className="text-orange-500" /> <strong>Shop Labels:</strong> Users wanted clearer pricing/quantity UI.</li>
-                                    </ul>
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="text-[var(--foreground)] font-semibold mb-1">Focus</p>
+                                    <p>System status clarity, privacy transparency, reward comprehension.</p>
+                                </div>
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="text-[var(--foreground)] font-semibold mb-1">Signal</p>
+                                    <p>Validate motivation loop without adding new features.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-6 rounded-2xl border border-[var(--primary)]/20 bg-[var(--primary)]/5 text-center">
-                            <h4 className="font-bold text-[var(--foreground)] mb-2">Overall Outcome</h4>
-                            <p className="text-[var(--muted-foreground)] max-w-3xl mx-auto">
-                                The evaluation confirmed the core concept is motivating and engaging. The next steps are to strengthen session controls (clearer pause/end states), clarify privacy settings for photos, and improve shop labeling.
-                            </p>
+                        <div className="grid md:grid-cols-2 gap-8 mb-10">
+                            <div className="p-6 rounded-3xl border border-emerald-500/25 bg-emerald-500/5">
+                                <h4 className="font-bold text-emerald-600 dark:text-emerald-400 mb-3 tracking-tight">What Worked</h4>
+                                <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> “Add Task” flow felt simple and direct.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> Verification photo capture was intuitive.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> Shop/Inventory rewarded progress and kept users engaged.</li>
+                                </ul>
+                            </div>
+                            <div className="p-6 rounded-3xl border border-amber-500/25 bg-amber-500/5">
+                                <h4 className="font-bold text-amber-600 dark:text-amber-400 mb-3 tracking-tight">Where It Broke</h4>
+                                <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Timer status unclear after closing the app or ending a session.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Public vs private photo visibility needed explicit labels.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Shop pricing/quantities were ambiguous at a glance.</li>
+                                </ul>
+                            </div>
                         </div>
+
+                        <div className="p-6 rounded-3xl border border-[var(--primary)]/25 bg-[var(--primary)]/5 mb-10 text-center space-y-2">
+                            <p className="text-2xl font-bold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">Outcome</p>
+                            <h3 className=" text-xl text-[var(--foreground)]">Core concept validated but clarity needs tightening</h3>
+
+                        </div>
+
                     </motion.div>
                 </Section>
 
                 {/* 7. Reflection */}
-                <Section id="reflection" className="mt-32">
+                <Section id="reflection" className="mt-0" title="Reflection" eyebrow="What I Learned">
                     <div className="max-w-4xl mx-auto text-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -828,7 +994,7 @@ export default function StudyMascotCaseStudy() {
                                 whileHover={{ y: -5 }}
                                 className="p-8 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-3xl border border-[var(--primary)]/20"
                             >
-                                <h4 className="font-bold text-xl mb-4 text-[var(--primary)]">Key Takeaway</h4>
+                                <h3 className="font-bold text-xl mb-4 text-[var(--primary)]"> Wrap it up...</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
                                     I learned that "passive social" is a powerful middle ground between isolation and the pressure of live collaboration. Students want to feel seen, not watched.
                                 </p>
@@ -837,7 +1003,7 @@ export default function StudyMascotCaseStudy() {
                                 whileHover={{ y: -5 }}
                                 className="p-8 bg-[var(--card)]/50 backdrop-blur rounded-3xl border border-[var(--border)]"
                             >
-                                <h4 className="font-bold text-xl mb-4">What's Next?</h4>
+                                <h3 className="font-bold text-xl mb-4">What's Next?</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
                                     I would refine the specific interaction patterns for the "Friends List" to separate close friends from general classmates, and build out the specific accessibility states (high contrast) for the mascot.
                                 </p>
@@ -845,7 +1011,11 @@ export default function StudyMascotCaseStudy() {
                         </div>
                     </div>
                 </Section>
+
+                <Footer />
             </main>
         </div>
     );
 }
+
+<footer />

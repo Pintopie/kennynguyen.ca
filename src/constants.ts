@@ -50,7 +50,7 @@ export const PROJECTS = [
     featured: true,
   },
   {
-    title: "StudyBear",
+    title: "Study Mascot",
     description:
       "A UX case study on designing a mascot-based accountability app for students. Features mixed-methods research, affinity mapping, and iterative prototyping.",
     highlights: [
@@ -59,10 +59,10 @@ export const PROJECTS = [
       "Created low-fi & mid-fi prototypes with Figma",
       "Validated concept through usability testing"
     ],
-    link: "/projects/studybear-case-study",
+    link: "/projects/study-mascot-case-study",
     links: [
-      { label: "View Case Study", href: "/projects/studybear-case-study" },
-      { label: "Course Context", href: "https://ischool.utoronto.ca/" },
+      { label: "View Case Study", href: "/projects/study-mascot-case-study" },
+      { label: "Course Context", href: "https://ischool.utoronto.ca/course/information-design-studio-ii-how-to-design/" },
     ],
     tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],
     featured: true,
@@ -116,23 +116,7 @@ export const EXPERIENCE = [
     ],
     tech: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Docker"]
   },
-  {
-    company: "ERA GROUP",
-    role: "Junior Developer",
-    startDate: "06/2023",
-    endDate: "10/2023",
-    location: "Ho Chi Minh City, Vietnam",
-    logo: "/logos/eragroup.png",
-    highlights: [
-      "Developed web applications using React & Java Spring Boot",
-      "Fixed 50+ production bugs & performance issues",
-      "Collaborated with UX team to refine user interfaces",
-      "Participated in code reviews & agile ceremonies"
-    ],
-    tech: ["React", "Java", "Spring Boot", "MySQL", "Git", "Jira"]
-  }
 ];
-
 // Education Data
 export const EDUCATION = [
   {
@@ -233,21 +217,13 @@ export const TOOLING = [
     icon: SiDocker,
   },
   {
-    name: "Tailwind CSS v4",
-    detail: "Utility-first design tokens that keep experiments consistent in dark/light.",
-    href: "https://tailwindcss.com/",
-    icon: SiTailwindcss,
-  },
-  {
-    name: "Node.js + Express",
+    name: "Node.js + npm",
     detail: "Backend services and CLI tools with async/await and npm ecosystem.",
-    href: "https://nodejs.org/",
     icon: FaNodeJs,
   },
   {
-    name: "PostgreSQL + Supabase",
-    detail: "Postgres + auth + storage for prototypes that still need production discipline.",
-    href: "https://supabase.com/",
+    name: "PostgreSQL + MongoDB",
+    detail: "SQL and NoSQL databases for diverse data storage needs.",
     icon: SiPostgresql,
   },
   {

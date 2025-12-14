@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { METRICS, AVATAR_URL } from "@/constants";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Mail, Eye } from "lucide-react";
+import { ArrowUpRight, Mail, Eye } from "lucide-react";
 
 
 interface HeroProps {
@@ -119,8 +119,8 @@ export default function Hero({ onOpenResume }: HeroProps) {
                         transition={{ delay: 0.4, duration: 0.6 }}
                         className="text-base sm:text-lg text-[var(--muted-foreground)] mt-4 "
                     >
-                        Hi! I'm Kenny, a third year student at University of Toronto and a passionate software engineer dedicated to crafting efficient and user-friendly web applications.
-                        With a strong foundation in both front-end and back-end development, I thrive on transforming complex problems into elegant solutions that enhance user experiences.
+                        Hi! I'm Kenny, a third-year University of Toronto student who builds full-stack products and cares deeply about UX.
+                        I enjoy turning research + data into clear flows, strong information hierarchy, and interfaces people can trust.
                     </motion.p>
                     
                 </motion.div>
@@ -131,6 +131,23 @@ export default function Hero({ onOpenResume }: HeroProps) {
                     transition={{ delay: 0.55, duration: 0.6 }}
                     className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-fit"
                 >
+                    <motion.a
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        href="/projects/study-mascot-case-study"
+                        className="group relative flex flex-row items-center justify-center gap-2 rounded-xl border border-[var(--primary)]/40 bg-[var(--primary)]/10 px-3 py-2 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/15 hover:shadow-md"
+                    >
+                        <span
+                            aria-hidden
+                            className="pointer-events-none absolute -inset-6 opacity-70 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
+                        >
+                            <span className="absolute inset-0 rounded-[999px] bg-[var(--primary)]/25" />
+                        </span>
+                        <span className="relative z-10 flex items-center gap-2">
+                            <span className="text-sm font-semibold text-[var(--foreground)]">INF352 Case Study</span>
+                            <ArrowUpRight className="w-4 h-4 text-[var(--primary)]" />
+                        </span>
+                    </motion.a>
                     <motion.a
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -150,7 +167,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                         className="group flex flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)]/50 px-3 py-2 transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)]"
                     >
                         <Eye className="w-4 h-4 text-[var(--primary)]" />
-                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Preview Resume</span>
+                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Download Resume</span>
                     </motion.button>
                 </motion.div>
             </motion.div>
