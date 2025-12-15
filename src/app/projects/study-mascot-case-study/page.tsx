@@ -712,7 +712,7 @@ export default function StudyMascotCaseStudy() {
                         className="mb-24"
                     >
                         <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
-                            With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session. <strong className="text-[var(--foreground)]">Highlighted parts show where we fixed pain points from the As-Is Scenario</strong>: (1) social media/phone distraction, (2) lacking motivation, (3) study routine.
+                            With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session.
                         </p>
                         <div className="space-y-6">
                             {[
