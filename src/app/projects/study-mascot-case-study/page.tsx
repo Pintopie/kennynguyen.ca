@@ -379,7 +379,7 @@ export default function StudyMascotCaseStudy() {
                                     title: "SOCIAL PREFERENCE",
                                     points: [
                                         "Independent study is preferred for focus.",
-                                        "BUT peer groups provide motivation.",
+                                        "Peer groups provide motivation.",
                                         "Desire for 'Passive Social' (presence without pressure)."
                                     ]
                                 }
@@ -405,7 +405,7 @@ export default function StudyMascotCaseStudy() {
                             ))}
                         </div>
 
-                        <div className="mt-12 max-w-3xl">
+                        <div className="mt-12 max-w-full">
                             <Callout type="highlight">
                                 <div className="space-y-3 text-[var(--muted-foreground)]">
                                     <p>
@@ -428,7 +428,7 @@ export default function StudyMascotCaseStudy() {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-3xl mb-12 text-[var(--muted-foreground)]"
+                        className="prose prose-lg dark:prose-invert max-w-full mb-12 text-[var(--muted-foreground)]"
                     >
                         <p>
                             Based on our research, we created <strong>Sofia the Student</strong>, a user persona representing the typical UofT student struggle.
@@ -760,71 +760,88 @@ export default function StudyMascotCaseStudy() {
                         viewport={{ once: true }}
                         className="mb-16"
                     >
-                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-12">
-                            <h3 className="text-xl font-bold mb-6">Methodology & Setup</h3>
-                            <div className="grid md:grid-cols-2 gap-8 text-sm text-[var(--muted-foreground)]">
-                                <div>
-                                    <strong className="block text-[var(--foreground)] mb-2">Representative Users (3 Students)</strong>
-                                    <ul className="space-y-2 list-disc list-inside">
-                                        <li>Student utilizing productivity apps</li>
-                                        <li>Student with ADHD needing structure</li>
-                                        <li>Student motivated by gamification</li>
-                                    </ul>
+                        <div className="bg-[var(--card)]/60 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-10 space-y-6">
+                            <div className="flex flex-wrap gap-3 text-xs font-semibold tracking-wide uppercase text-[var(--muted-foreground)]">
+                                <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">Paper prototype</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Human computer</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Think-aloud</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">3 students</span>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Method & Setup</h3>
+                                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mb-4">
+                                    Hand-drawn paper sketches with a "Human Computer" approach: one team member swapped screens in response to participant gestures. Participants received only a brief overview, no task instructions. Think-aloud protocol captured hesitations, actions, and verbal feedback as another team member observed.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mb-10">
+                            <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Representative Users</h3>
+                            <div className="grid md:grid-cols-3 gap-4 text-sm">
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">Productivity App User</p>
+                                    <p className="text-[var(--muted-foreground)] text-xs leading-relaxed">Regularly uses focus and timer tools to manage study time.</p>
                                 </div>
-                                <div>
-                                    <strong className="block text-[var(--foreground)] mb-2">Tasks Tested</strong>
-                                    <ul className="space-y-2 list-disc list-inside">
-                                        <li>Add Task & Start Focus Mode</li>
-                                        <li>View Friends Activity</li>
-                                        <li>Access Shop & Rewards</li>
-                                    </ul>
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">ADHD Student</p>
+                                    <p className="text-[var(--muted-foreground)] text-xs leading-relaxed">Benefits from structure and guided study sessions; values distraction reduction.</p>
+                                </div>
+                                <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">Gamification Enthusiast</p>
+                                    <p className="text-[var(--muted-foreground)] text-xs leading-relaxed">Driven by reward systems, progress tracking, and unlockable customization.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8 mb-12">
-                            <div>
-                                <h3 className="flex items-center gap-2 font-bold mb-6 text-green-600 dark:text-green-400">
-                                    <Check size={20} /> What Worked Well
-                                </h3>
-                                <ul className="space-y-4">
-                                    {[
-                                        "Concept was motivating and easy to understand.",
-                                        "All users quickly located 'Add Task' button.",
-                                        "Mascot/Shop was described as welcoming and fun.",
-                                        "Focus mode intrigued users with ADHD."
-                                    ].map((item, i) => (
-                                        <li key={i} className="flex gap-3 text-sm text-[var(--muted-foreground)]">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 flex-shrink-0" />
-                                            {item}
-                                        </li>
-                                    ))}
+                        <div className="mb-10">
+                            <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Tasks Tested</h3>
+                            <ul className="space-y-2 text-sm text-[var(--muted-foreground)] list-disc pl-5 leading-relaxed">
+                                <li>Add a task and start a focus session</li>
+                                <li>Understand and use focus mode (timer, session control)</li>
+                                <li>Complete a task with verification (photo upload)</li>
+                                <li>Access the shop to view rewards and customization options</li>
+                            </ul>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8 mb-10">
+                            <div className="p-6 rounded-3xl border border-emerald-500/25 bg-emerald-500/5">
+                                <h4 className="font-bold text-emerald-600 dark:text-emerald-400 mb-4 tracking-tight">What Worked Well</h4>
+                                <ul className="space-y-3 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Core concept was motivating and easy to understand across all participants.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> "Add Task" button location and task form flow felt natural and intuitive.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Mascot design, coins, and customization features described as welcoming and engaging.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> ADHD participant excited about focus mode as a distraction-reduction tool.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Social accountability (seeing others study) resonated as motivating for all users.</li>
                                 </ul>
                             </div>
-                            <div>
-                                <h3 className="flex items-center gap-2 font-bold mb-6 text-red-600 dark:text-red-400">
-                                    <span className="text-lg">!</span> Usability Issues (Critical)
-                                </h3>
-                                <ul className="space-y-4">
-                                    {[
-                                        { issue: "No Pause Button", fix: "Users felt trapped without a pause option." },
-                                        { issue: "Privacy Concerns", fix: "Unclear where 'proof' photos went." },
-                                        { issue: "Abrupt Transitions", fix: "Unsure if timer had actually started." },
-                                        { issue: "System Status", fix: "Timer didn't look 'active' enough." }
-                                    ].map((item, i) => (
-                                        <li key={i} className="p-3 bg-red-500/5 rounded-lg border border-red-500/10 text-sm">
-                                            <strong className="block text-red-600 dark:text-red-400 mb-1">{item.issue}</strong>
-                                            <span className="text-[var(--muted-foreground)]">{item.fix}</span>
-                                        </li>
-                                    ))}
+                            <div className="p-6 rounded-3xl border border-amber-500/25 bg-amber-500/5">
+                                <h4 className="font-bold text-amber-600 dark:text-amber-400 mb-4 tracking-tight">Usability Issues</h4>
+                                <ul className="space-y-3 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> No pause button; users felt trapped in focus mode without an exit path.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Privacy concerns around photo uploads; unclear where proof images would be stored/shared.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Abrupt transition into focus mode; users unsure if session had actually started.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Photo upload timing confusing; some thought it occurred during the session, not after.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Timer was not visually active; session state (running, paused, completed) was not clearly displayed.</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div className="bg-blue-500/5 border border-blue-500/10 p-6 rounded-2xl">
-                            <h3 className="font-bold text-blue-600 dark:text-blue-400 mb-2">Design Implications</h3>
-                            <p className="text-sm text-[var(--muted-foreground)]">
-                                Added a <strong>Pause Button</strong>, a clear <strong>Skip Photo</strong> option for privacy, and a <strong>Confirmation Screen</strong> (Ready, Set, Go) to smooth the transition into focus mode.
+                        <div className="p-6 rounded-3xl border border-sky-500/25 bg-sky-500/5 mb-10">
+                            <h4 className="font-bold text-sky-600 dark:text-sky-400 mb-4 tracking-tight">Design Implications</h4>
+                            <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed list-disc pl-5">
+                                <li>Add a <strong>Pause button</strong> next to "End Session" for user control during focus mode.</li>
+                                <li>Provide <strong>clear "Skip" option</strong> for photo upload to respect privacy preferences.</li>
+                                <li>Clarify <strong>timing of photo upload</strong> with on-screen text that it occurs at session end and is optional.</li>
+                                <li>Add a <strong>confirmation screen</strong> before entering focus mode so the start is unambiguous.</li>
+                                <li>Make <strong>session state (running, paused, completed) explicitly visible</strong> and keep timer visually active.</li>
+                            </ul>
+                        </div>
+
+                        <div className="p-6 rounded-3xl border border-[var(--primary)]/25 bg-[var(--primary)]/5 text-center space-y-2">
+                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">Outcome</p>
+                            <h3 className="font-bold text-lg text-[var(--foreground)]">Core concept validated; UX refinements needed for clarity and trust</h3>
+                            <p className="text-[var(--muted-foreground)] max-w-full mx-auto leading-relaxed text-sm">
+                                The evaluation confirmed the concept resonates with our target audience: focus sessions, social accountability, and gamified rewards are engaging and motivating. Key findings surface usability gaps, mainly around system status visibility, privacy clarity, and user control that will guide the mid-fidelity prototype iteration.
                             </p>
                         </div>
                     </motion.div>
@@ -927,57 +944,84 @@ export default function StudyMascotCaseStudy() {
                     >
                         <div className="bg-[var(--card)]/60 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-10 space-y-6">
                             <div className="flex flex-wrap gap-3 text-xs font-semibold tracking-wide uppercase text-[var(--muted-foreground)]">
-                                <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">5 students</span>
+                                <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">3 students</span>
                                 <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Think-aloud</span>
                                 <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Zoom remote</span>
                                 <span className="px-3 py-1 rounded-full bg-[var(--foreground)]/5 text-[var(--foreground)]">Clickable Figma</span>
                             </div>
-                            <div className="grid md:grid-cols-3 gap-4 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                            <div>
+                                <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Method & Setup</h3>
+                                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mb-4">
+                                    We built a clickable medium-fidelity prototype in Figma, incorporating insights from low-fidelity testing. Participants interacted directly with the prototype via shared screens on Zoom using a think-aloud protocol. This approach let us observe natural navigation patterns without guidance, unless participants got completely stuck. The evaluation focused on core flow, clarity, usability friction, and reactions to motivation and accountability features.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mb-10">
+                            <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Representative Users</h3>
+                            <div className="space-y-3">
                                 <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
-                                    <p className="text-[var(--foreground)] font-semibold mb-1">Tasks</p>
-                                    <p>Create task, start/pause session, verify with photo, redeem in shop.</p>
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">Participant 1: 4th Year, Tech-Savvy</p>
+                                    <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">Experienced with productivity apps and Pomodoro timers. Provided precise feedback on motivation flow, logic gaps, and system feedback quality.</p>
                                 </div>
                                 <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
-                                    <p className="text-[var(--foreground)] font-semibold mb-1">Focus</p>
-                                    <p>System status clarity, privacy transparency, reward comprehension.</p>
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">Participant 2: 3rd Year, Moderate Tech Fluency</p>
+                                    <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">Regular mobile app user. Focused feedback on visual clarity, icon affordances, and whether elements "felt" interactive.</p>
                                 </div>
                                 <div className="p-4 rounded-2xl bg-[var(--background)]/70 border border-[var(--border)]">
-                                    <p className="text-[var(--foreground)] font-semibold mb-1">Signal</p>
-                                    <p>Validate motivation loop without adding new features.</p>
+                                    <p className="font-semibold text-[var(--foreground)] mb-2">Participant 3: 2nd Year, Socially Motivated</p>
+                                    <p className="text-[var(--muted-foreground)] text-sm leading-relaxed">Frequent productivity-app user. Centered insights on motivation, shop, progress comparison, and friends' activity engagement.</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-8 mb-10">
                             <div className="p-6 rounded-3xl border border-emerald-500/25 bg-emerald-500/5">
-                                <h4 className="font-bold text-emerald-600 dark:text-emerald-400 mb-3 tracking-tight">What Worked</h4>
-                                <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                <h4 className="font-bold text-emerald-600 dark:text-emerald-400 mb-4 tracking-tight">What Worked Well</h4>
+                                <ul className="space-y-3 text-sm text-[var(--muted-foreground)] leading-relaxed">
                                     <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> “Add Task” flow felt simple and direct.</li>
-                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> Verification photo capture was intuitive.</li>
-                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400" /> Shop/Inventory rewarded progress and kept users engaged.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> "Add Task" flow described as "simple" and "straight to the point"; timer interface clean and easy to read.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Verification photo feature intuitive; camera icon made the path immediately obvious.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Shop and inventory screens clear; mascot customization enjoyed by all.</li>
+                                    <li className="flex gap-2"><Check size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" /> Social component added new engagement interest; visual simplicity and rewards felt welcoming.</li>
                                 </ul>
                             </div>
                             <div className="p-6 rounded-3xl border border-amber-500/25 bg-amber-500/5">
-                                <h4 className="font-bold text-amber-600 dark:text-amber-400 mb-3 tracking-tight">Where It Broke</h4>
-                                <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed">
-                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Timer status unclear after closing the app or ending a session.</li>
-                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Public vs private photo visibility needed explicit labels.</li>
-                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400" /> Shop pricing/quantities were ambiguous at a glance.</li>
+                                <h4 className="font-bold text-amber-600 dark:text-amber-400 mb-4 tracking-tight">Usability Issues</h4>
+                                <ul className="space-y-3 text-sm text-[var(--muted-foreground)] leading-relaxed">
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Timer behavior unclear on app close; greyed-out pause button confusing; need clearer end-of-session states.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Public vs private photos ambiguous; point system and photo-task linking unclear.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Friends page structure confusing; users expected a list, not posts; wanted leaderboard.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Shop "Buy" interpreted as instant purchase; subtle quantity indicators; limited inventory.</li>
+                                    <li className="flex gap-2"><ArrowUpRight size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" /> Missing progress tracking (completed-task history, weekly summaries, top-task stats).</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div className="p-6 rounded-3xl border border-[var(--primary)]/25 bg-[var(--primary)]/5 mb-10 text-center space-y-2">
-                            <p className="text-2xl font-bold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">Outcome</p>
-                            <h3 className=" text-xl text-[var(--foreground)]">Core concept validated but clarity needs tightening</h3>
+                        <div className="p-6 rounded-3xl border border-sky-500/25 bg-sky-500/5 mb-10">
+                            <h4 className="font-bold text-sky-600 dark:text-sky-400 mb-4 tracking-tight">Design Implications</h4>
+                            <ul className="space-y-2 text-sm text-[var(--muted-foreground)] leading-relaxed list-disc pl-5">
+                                <li>Strengthen session controls with clearer pause/end/extend states; improve timer visibility when app is backgrounded.</li>
+                                <li>Add explicit privacy labels and clarify photo-to-task linking; simplify points system explanation.</li>
+                                <li>Restructure Friends page: separate social feed from friend list; add leaderboard for social motivation.</li>
+                                <li>Clarify shop interactions: explicit "Confirm Purchase" step; surface pricing and quantities clearly; expand inventory over time.</li>
+                                <li>Add progress-tracking features: completed-task history, weekly summaries, and top-task streaks.</li>
+                            </ul>
+                        </div>
 
+                        <div className="p-6 rounded-3xl border border-[var(--primary)]/25 bg-[var(--primary)]/5 text-center space-y-2">
+                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">Outcome</p>
+                            <h3 className="font-bold text-lg text-[var(--foreground)]">Core concept on the right track; UX clarity and feature depth need refinement</h3>
+                            <p className="text-[var(--muted-foreground)] max-w-3xl mx-auto leading-relaxed text-sm">
+                                Participants reported smooth, intriguing flows with meaningful social engagement. However, several usability gaps emerged around session controls, visibility rules, shop labeling, and friends page structure. Addressing these will reduce confusion, strengthen user confidence, and enhance long-term motivation and retention.
+                            </p>
                         </div>
 
                     </motion.div>
                 </Section>
 
                 {/* 7. Reflection */}
-                <Section id="reflection" className="mt-0" title="Reflection" eyebrow="What I Learned">
+                <Section id="reflection" className="mt-0" title="Personal Reflection" eyebrow="What I Learned">
                     <div className="max-w-4xl mx-auto text-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -985,7 +1029,14 @@ export default function StudyMascotCaseStudy() {
                             className="mb-16"
                         >
                             <Callout type="quote">
-                                "Designing for motivation is delicate. It's not just about adding points; it's about creating a system that acknowledges effort without becoming a distraction itself."
+                                <div className="space-y-3">
+                                    <p>
+                                        "Design is a powerful tool for solving problems and changing human behavior. When done well, it becomes invisible - not because it goes unnoticed, but because it works so seamlessly that users aren't aware of the design at all. They're only aware of what they've accomplished."
+                                    </p>
+                                    <p className="text-xs font-semibold text-[var(--muted-foreground)] pt-2">
+                                        Don Norman, <em>The Design of Everyday Things</em>
+                                    </p>
+                                </div>
                             </Callout>
                         </motion.div>
 
@@ -994,9 +1045,9 @@ export default function StudyMascotCaseStudy() {
                                 whileHover={{ y: -5 }}
                                 className="p-8 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-3xl border border-[var(--primary)]/20"
                             >
-                                <h3 className="font-bold text-xl mb-4 text-[var(--primary)]"> Wrap it up...</h3>
+                                <h3 className="font-bold text-xl mb-4 text-[var(--primary)]">Wrap it up...</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
-                                    I learned that "passive social" is a powerful middle ground between isolation and the pressure of live collaboration. Students want to feel seen, not watched.
+                                    This project reinforced INF352's core principles: <strong className="text-[var(--foreground)]">iterative testing and user empathy</strong>. "Passive social" emerged as a powerful insight as students crave presence without judgment, not surveillance.
                                 </p>
                             </motion.div>
                             <motion.div
@@ -1005,8 +1056,7 @@ export default function StudyMascotCaseStudy() {
                             >
                                 <h3 className="font-bold text-xl mb-4">What's Next?</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
-                                    I would refine the specific interaction patterns for the "Friends List" to separate close friends from general classmates, and build out the specific accessibility states (high contrast) for the mascot.
-                                </p>
+                                    Refine the Friends List structure, harden session controls, and add accessibility modes. The goal: a design so seamless it becomes invisible.</p>
                             </motion.div>
                         </div>
                     </div>
@@ -1019,3 +1069,11 @@ export default function StudyMascotCaseStudy() {
 }
 
 <footer />
+
+
+
+
+
+
+
+
