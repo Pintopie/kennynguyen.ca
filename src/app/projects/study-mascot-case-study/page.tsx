@@ -523,36 +523,75 @@ export default function StudyMascotCaseStudy() {
                     >
                         <h3 className="text-3xl font-bold mb-8">As-Is Scenario (Current Journey)</h3>
                         <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
-                            Sofia's current study routine is marked by procrastination and distraction. Below is a breakdown of her emotional journey through a typical study session.
+                            Sofia's current study routine is marked by procrastination and distraction. Below is a breakdown of her emotional journey through a typical study session, highlighting key pain points: distractions, lack of structure, inconsistent study schedule, and lack of motivation.
                         </p>
                         <div className="space-y-6">
                             {[
                                 {
                                     phase: "1. DECIDING TO STUDY",
-                                    action: "Opens laptop, finds a library/cafe, puts on music.",
-                                    thoughts: "Okay let's study... I wonder which library is open... My biggest challenge is activation energy.",
-                                    feelings: "Anxious, Stressed, Overwhelmed",
+                                    action: "Opens laptop and spreads notes on desk. Putting on Music. Opens Notion and Quercus. Finding a library or cafe.",
+                                    thoughts: "Okay let's studying for this mid-term. My Biggest challenge is I need a high activation energy *needed to start. I wonder which library or cafe is open right now. Studying is such a chore it's not an important task.",
+                                    feelings: [
+                                        { text: "Anxious", color: "text-red-600 dark:text-red-400" },
+                                        { text: "Stressed", color: "text-red-600 dark:text-red-400" },
+                                        { text: "Not Motivated", color: "text-orange-600 dark:text-orange-400" },
+                                        { text: "Annoyed", color: "text-amber-600 dark:text-amber-400" },
+                                        { text: "Lacking Urgency", color: "text-slate-600 dark:text-slate-400" }
+                                    ],
                                     color: "border-red-500/30 bg-red-500/5"
                                 },
                                 {
-                                    phase: "2. ATTEMPTING TO FOCUS",
-                                    action: "Organizes notes but doesn't study. Highlights random sections. Attempts Pomodoro.",
-                                    thoughts: "Let me check social media real quick... Studying is such a chore.",
-                                    feelings: "Not Motivated, Annoyed, Procrastinating",
-                                    color: "border-orange-500/30 bg-orange-500/5"
-                                },
-                                {
-                                    phase: "3. GETTING DISTRACTED",
-                                    action: "Scrolls Instagram/TikTok. Replies to messages. Watches short videos.",
-                                    thoughts: "Five more minutes... I'll start after replying... Why am I not processing this?",
-                                    feelings: "Relaxed -> Distracted -> Avoidant -> Guilty",
+                                    phase: "2. GETTING DISTRACTED",
+                                    action: "Scrolls through Instagram and TikTok. Replies to Messages and group chats. Watches Short Videos. Plays on with friends on phone.",
+                                    thoughts: "Let me check Instagram for 5 minutes. I'll start after replying to a few texts. Five more minutes. Where do I even begin? I'll feel more confident after a short break.",
+                                    feelings: [
+                                        { text: "Relaxed", color: "text-blue-600 dark:text-blue-400" },
+                                        { text: "Distracted", color: "text-yellow-600 dark:text-yellow-400" },
+                                        { text: "Procrastinating", color: "text-orange-600 dark:text-orange-400" },
+                                        { text: "Avoidant", color: "text-amber-600 dark:text-amber-400" },
+                                        { text: "Avoiding", color: "text-amber-600 dark:text-amber-400" },
+                                        { text: "Dopamine rush", color: "text-purple-600 dark:text-purple-400" }
+                                    ],
                                     color: "border-yellow-500/30 bg-yellow-500/5"
                                 },
                                 {
-                                    phase: "4. FINISHING STUDIES",
-                                    action: "Closes laptop. Packs up. Scrolls phone again. Makes vague plan for tomorrow.",
-                                    thoughts: "At least I studied... I'll continue tomorrow... I should go home and sleep.",
-                                    feelings: "Mentally Drained, Frustrated, Disappointed",
+                                    phase: "3. ATTEMPTING TO FOCUS",
+                                    action: "Organizes notes but doesn't actually study. Turns to Do Not Disturb on their phone (social Media). Highlights random sections to seem 'productive'. Checks the assignments tab on Quercus. Inconsistent Study schedule.",
+                                    thoughts: "Why am I not processing any of this material? Out of sight out of mind(Phone). Using my phone disrupted my time. Where do I even begin? When will I have time for this?",
+                                    feelings: [
+                                        { text: "Stressed", color: "text-red-600 dark:text-red-400" },
+                                        { text: "Pressured", color: "text-orange-600 dark:text-orange-400" },
+                                        { text: "Guilty", color: "text-amber-600 dark:text-amber-400" },
+                                        { text: "Confused", color: "text-yellow-600 dark:text-yellow-400" },
+                                        { text: "Motivated", color: "text-green-600 dark:text-green-400" },
+                                        { text: "Overwhelmed", color: "text-red-600 dark:text-red-400" }
+                                    ],
+                                    color: "border-orange-500/30 bg-orange-500/5"
+                                },
+                                {
+                                    phase: "4. STUDYING LATE AT NIGHT",
+                                    action: "Attempts to cram 10 chapters, searches summaries online. Does a Pomodoro Method. Drinks Coffee to stay awake. Checks Phone again when tired.",
+                                    thoughts: "There's so much things to do I'm so unmotivated. I am finally having some progress! I should have started earlier. Study is a private discipline not a public performance.",
+                                    feelings: [
+                                        { text: "Mentally Drained", color: "text-slate-600 dark:text-slate-400" },
+                                        { text: "Frustrated", color: "text-red-600 dark:text-red-400" },
+                                        { text: "Fatigued", color: "text-amber-600 dark:text-amber-400" },
+                                        { text: "Burnt out", color: "text-orange-600 dark:text-orange-400" },
+                                        { text: "Disappointed", color: "text-slate-600 dark:text-slate-400" }
+                                    ],
+                                    color: "border-amber-500/30 bg-amber-500/5"
+                                },
+                                {
+                                    phase: "5. FINISHING STUDIES",
+                                    action: "Closes laptop. Packs up to head home. Scrolls phone again. Makes a Vague plan for 'Tomorrow'. Distractions. Inconsistent Study schedule.",
+                                    thoughts: "At least I studied 4 chapters for the mid-term. I wonder what I missed on Instagram. I'll continue studying tomorrow. Omg I should go home and sleep. I have work in the morning.",
+                                    feelings: [
+                                        { text: "Confident", color: "text-green-600 dark:text-green-400" },
+                                        { text: "Accomplished", color: "text-emerald-600 dark:text-emerald-400" },
+                                        { text: "Satisfied", color: "text-blue-600 dark:text-blue-400" },
+                                        { text: "Relieved", color: "text-cyan-600 dark:text-cyan-400" },
+                                        { text: "Calm", color: "text-teal-600 dark:text-teal-400" }
+                                    ],
                                     color: "border-slate-500/30 bg-slate-500/5"
                                 }
                             ].map((step, i) => (
@@ -561,15 +600,21 @@ export default function StudyMascotCaseStudy() {
                                     <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Doing</div>
-                                            <div className="text-[var(--foreground)]">{step.action}</div>
+                                            <div className="text-[var(--foreground)] leading-relaxed">{step.action}</div>
                                         </div>
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Thinking</div>
-                                            <div className="italic text-[var(--muted-foreground)]">"{step.thoughts}"</div>
+                                            <div className="italic text-[var(--muted-foreground)] leading-relaxed">"{step.thoughts}"</div>
                                         </div>
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Feeling</div>
-                                            <div className="font-medium">{step.feelings}</div>
+                                            <div className="font-medium leading-relaxed flex flex-wrap gap-2">
+                                                {Array.isArray(step.feelings) ? step.feelings.map((feeling, idx) => (
+                                                    <span key={idx} className={`${feeling.color} font-semibold`}>
+                                                        {feeling.text}{idx < step.feelings.length - 1 ? ',' : ''}
+                                                    </span>
+                                                )) : step.feelings}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -667,36 +712,68 @@ export default function StudyMascotCaseStudy() {
                         className="mb-24"
                     >
                         <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
-                            With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session.
+                            With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session. <strong className="text-[var(--foreground)]">Highlighted parts show where we fixed pain points from the As-Is Scenario</strong>: (1) social media/phone distraction, (2) lacking motivation, (3) study routine.
                         </p>
                         <div className="space-y-6">
                             {[
                                 {
                                     phase: "DECIDING TO STUDY",
-                                    action: "Opens StudyMascot instead of social media. Sees Mascot waiting. Adds tasks.",
-                                    thoughts: "Starting feels easier when my mascot is cheering me on. Everything is organized.",
-                                    feelings: "Motivated, Supported, Ready",
+                                    action: "Opens the Accountability mascot App first instead of social media. Sees their mascot waiting with the daily task list. Adds planned study tasks for the day. Checks if the mascot is happy, rewarding each added task.",
+                                    thoughts: "Let's open the app to enter my tasks. Starting feels easier when my mascot is cheering me on. Let me finish the first task and earn some XP. Everything is already organized here. This lowers the pressure of figuring out where to start.",
+                                    feelings: [
+                                        { text: "Motivated", color: "text-emerald-600 dark:text-emerald-400" },
+                                        { text: "Supported by the mascot", color: "text-green-600 dark:text-green-400" },
+                                        { text: "Ready to begin", color: "text-teal-600 dark:text-teal-400" },
+                                        { text: "Clear Head", color: "text-cyan-600 dark:text-cyan-400" }
+                                    ],
                                     color: "border-green-500/30 bg-green-500/5"
                                 },
                                 {
+                                    phase: "GETTING DISTRACTED",
+                                    action: "Enters 'focus mode' which hides distracting apps. Enables a feature where the Mascot stays on screen as a gentle reminder not to open social media apps. Uses a timer to guide study sessions. Gains XP for every completed activity.",
+                                    thoughts: "Oh my study mascot is sad because I got distracted by social media apps. I want to improve my progress. If I stay focused, I can unlock more items.",
+                                    feelings: [
+                                        { text: "Less tempted to scroll", color: "text-blue-600 dark:text-blue-400" },
+                                        { text: "More disciplined", color: "text-indigo-600 dark:text-indigo-400" },
+                                        { text: "Engaged and focused", color: "text-purple-600 dark:text-purple-400" },
+                                        { text: "Proud of resisting distractions", color: "text-emerald-600 dark:text-emerald-400" }
+                                    ],
+                                    color: "border-amber-500/30 bg-amber-500/5"
+                                },
+                                {
                                     phase: "ATTEMPTING TO FOCUS",
-                                    action: "Enters 'Focus Mode'. Uses timer. Gains XP for completed tasks.",
-                                    thoughts: "I want to improve my progress. If I stay focused, I can unlock items.",
-                                    feelings: "Engaged, Focused, Less Overwhelmed, Determined",
+                                    action: "Completes task one by one. Tracks progress through progress bar feature in the app. Earns rewards for each task done.",
+                                    thoughts: "This feels like a challenge I actually want to win. I'm actually understanding the material now. Breaking this into smaller chunks helps a lot. Seeing progress makes studying feel doable.",
+                                    feelings: [
+                                        { text: "Calmer and less overwhelmed", color: "text-blue-600 dark:text-blue-400" },
+                                        { text: "Confidence in progress", color: "text-emerald-600 dark:text-emerald-400" },
+                                        { text: "Steady and in control", color: "text-teal-600 dark:text-teal-400" },
+                                        { text: "Encouraged by real improvement", color: "text-green-600 dark:text-green-400" }
+                                    ],
                                     color: "border-blue-500/30 bg-blue-500/5"
                                 },
                                 {
-                                    phase: "GETTING DISTRACTED... OR NOT",
-                                    action: "Mascot appears as gentle reminder. Sees friends studying. Checks friends' mascots.",
-                                    thoughts: "My mascot is sad because I got distracted... seeing others study keeps me motivated and competitive.",
-                                    feelings: "Accountable, Encouraged, Supported, Competitive",
+                                    phase: "STUDYING LATE AT NIGHT",
+                                    action: "Gets reminders from the app earlier in the day. Interacts with mascot to avoid burnouts or mental fatigue. Checks friends mascots and progress through the app for accountability.",
+                                    thoughts: "I have so many tasks listed but I see my friends are still studying, I am getting motivated! I don't have to cram anymore. My mascot keeps me on a good study schedule. Seeing others study keeps me motivated too.",
+                                    feelings: [
+                                        { text: "Energized rather than exhausted", color: "text-purple-600 dark:text-purple-400" },
+                                        { text: "Supported by the community and mascot", color: "text-indigo-600 dark:text-indigo-400" },
+                                        { text: "More relaxed during exam season", color: "text-cyan-600 dark:text-cyan-400" },
+                                        { text: "Proud of building good habits", color: "text-emerald-600 dark:text-emerald-400" }
+                                    ],
                                     color: "border-purple-500/30 bg-purple-500/5"
                                 },
                                 {
                                     phase: "FINISHING STUDIES",
-                                    action: "Completes tasks. Earns rewards. Upgrades mascot. Reviews streaks.",
-                                    thoughts: "I actually did everything. My mascot is improving. I'm ready for tomorrow.",
-                                    feelings: "Accomplished, Satisfied, Confident",
+                                    action: "Marks final task as complete. Upgrades or customizes the mascot through coins earned. Reviews progress bars, streaks and study hours. Makes new tasks and a clear plan for the upcoming days.",
+                                    thoughts: "I will finish these tasks, and enter new tasks for upcoming days so that I have a clear plan!! I actually did everything I planned today. My progress streak looks great. My mascot is improving because I stayed consistent. I'm ready for tomorrow.",
+                                    feelings: [
+                                        { text: "Accomplished and satisfied", color: "text-emerald-600 dark:text-emerald-400" },
+                                        { text: "Calm and organized", color: "text-blue-600 dark:text-blue-400" },
+                                        { text: "Confidence for future tasks", color: "text-green-600 dark:text-green-400" },
+                                        { text: "Motivated to return tomorrow", color: "text-teal-600 dark:text-teal-400" }
+                                    ],
                                     color: "border-indigo-500/30 bg-indigo-500/5"
                                 }
                             ].map((step, i) => (
@@ -705,15 +782,21 @@ export default function StudyMascotCaseStudy() {
                                     <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Doing</div>
-                                            <div className="text-[var(--foreground)]">{step.action}</div>
+                                            <div className="text-[var(--foreground)] leading-relaxed">{step.action}</div>
                                         </div>
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Thinking</div>
-                                            <div className="italic text-[var(--muted-foreground)]">"{step.thoughts}"</div>
+                                            <div className="italic text-[var(--muted-foreground)] leading-relaxed">"{step.thoughts}"</div>
                                         </div>
                                         <div>
                                             <div className="text-[var(--muted-foreground)] text-xs uppercase mb-1 font-semibold">Feeling</div>
-                                            <div className="font-medium">{step.feelings}</div>
+                                            <div className="font-medium leading-relaxed flex flex-wrap gap-2">
+                                                {Array.isArray(step.feelings) ? step.feelings.map((feeling, idx) => (
+                                                    <span key={idx} className={`${feeling.color} font-semibold`}>
+                                                        {feeling.text}{idx < step.feelings.length - 1 ? ',' : ''}
+                                                    </span>
+                                                )) : step.feelings}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
