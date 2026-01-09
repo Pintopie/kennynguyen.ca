@@ -37,11 +37,7 @@ export default function About() {
                             Today, I operate at the intersection of these two worlds. I'm a full-stack engineer who builds with the
                             empathy of a designer, and a problem-solver who ensures that every pixel serves a purpose.
                         </p>
-                        <p>
-                            Recently, I've been leaning deeper into <strong className="text-[var(--foreground)]">UX design</strong> and
-                            <strong className="text-[var(--foreground)]"> BI/product analytics</strong>—using interviews, synthesis, and clear success criteria to
-                            guide what we build, not just how it looks.
-                        </p>
+
                     </div>
 
                     <div className="flex gap-4 pt-4">

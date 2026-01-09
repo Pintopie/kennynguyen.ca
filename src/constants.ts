@@ -72,6 +72,24 @@ export const PROJECTS = [
 // Work Experience Data
 export const EXPERIENCE = [
   {
+    company: "S. Sutton & Associates Inc.",
+    role: "Junior Web Developer & System Administrator",
+    startDate: "01/2026",
+    endDate: "Present",
+    location: "Toronto, Ontario",
+    logo: "/logos/s_sutton_logo.jpg",
+    highlights: [
+      "Provide strategic direction around website architecture and functionality to support firm objectives, ensuring scalability and performance.",
+      "Execute responsive website re-designs, build content, and optimize mobile-friendly versions for superior user experience.",
+      "Manage end-to-end hosting infrastructure including GoDaddy, DNS flow, SSL certificates, and domain administration.",
+      "Implement comprehensive SEO audits and manage Google Analytics/Webmaster Tools to drive measurable site traffic growth.",
+      "Refine business requirements into technical specifications, advising on infrastructure solutions that adhere to security standards and industry best practices.",
+      "Collaborate with cross-functional teams to bring new digital initiatives to life and provide technical advice on web properties.",
+      "Maintain strict security protocols and monitor website performance to ensure 99.9% uptime and reliability."
+    ],
+    tech: ["Web Architecture", "SEO & Analytics", "System Administration", "DNS/Hosting", "Security Compliance"]
+  },
+  {
     company: "HealthBridgeAI",
     role: "Fulltime AI Backend Engineer",
     startDate: "01/2025",
@@ -79,10 +97,10 @@ export const EXPERIENCE = [
     location: "Remote",
     logo: "/logos/healthbridgeai.jpg",
     highlights: [
-      "Engineered FastAPI microservices for healthcare AI platform",
-      "Implemented vector databases & semantic search for medical documents",
-      "Optimized inference pipelines for 40% faster response times",
-      "Automated CI/CD pipeline with GitHub Actions & Docker"
+      "Architected and engineered high-performance FastAPI microservices as the backbone of a healthcare AI platform.",
+      "Designed and implemented RAG pipelines using vector databases for semantic search across millions of medical documents.",
+      "Optimized ML inference pipelines, achieving a 40% reduction in latency and significantly improving real-time user experience.",
+      "Automated CI/CD pipelines with GitHub Actions & Docker, reducing deployment time by 60% and ensuring reproducible builds."
     ],
     tech: ["FastAPI", "Python", "Docker", "PostgreSQL", "OpenAI API", "LangChain"]
   },
@@ -94,10 +112,10 @@ export const EXPERIENCE = [
     location: "Remote",
     logo: "/logos/netpalm.jpg",
     highlights: [
-      "Built distributed task orchestration system for network device management",
-      "Designed async task queues with Redis & Celery",
-      "Created REST API for device provisioning & monitoring",
-      "Improved system throughput by 3x through caching & optimization"
+      "Built a distributed task orchestration system handling critical network device management at scale.",
+      "Designed resilient async task queues using Redis & Celery to manage high-volume provisioning workflows.",
+      "Created comprehensive REST APIs for device monitoring, enabling real-time status visibility for operations teams.",
+      "Refactored legacy bottlenecks to achieve a 3x increase in system throughput via Redis caching and query optimization."
     ],
     tech: ["Python", "FastAPI", "Redis", "PostgreSQL", "Docker", "Kubernetes"]
   },
@@ -109,10 +127,10 @@ export const EXPERIENCE = [
     location: "Ho Chi Minh City, Vietnam",
     logo: "/logos/algorithmics_vietnam_logo.jpg",
     highlights: [
-      "Built student portal with React & TypeScript for 500+ users",
-      "Implemented real-time progress tracking with WebSockets",
-      "Designed database schema & REST APIs with Express.js",
-      "Deployed on AWS with automated backups & monitoring"
+      "Lead end-to-end development of a student portal serving 500+ active users, utilizing React & TypeScript for a responsive UI.",
+      "Engineered real-time engagement features using WebSockets, increasing student session retention and interaction.",
+      "Designed robust database schemas & REST APIs with Express.js to support complex curriculum management.",
+      "Deployed scalable infrastructure on AWS with automated backups & monitoring to ensure data integrity."
     ],
     tech: ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Docker"]
   },

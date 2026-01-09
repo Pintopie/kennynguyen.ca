@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { METRICS, AVATAR_URL } from "@/constants";
+import { METRICS, AVATAR_URL, CURRENT_YEAR } from "@/constants";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { ArrowUpRight, Mail, Eye } from "lucide-react";
@@ -71,7 +71,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                     transition={{ delay: 0.1, duration: 0.5 }}
                     className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]"
                 >
-                    Portfolio · 2025
+                    Portfolio · {CURRENT_YEAR}
                 </motion.p>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
