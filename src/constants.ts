@@ -142,8 +142,8 @@ export const EDUCATION = [
     degree: "Bachelor of Information",
     location: "Toronto, Ontario, Canada",
     startDate: "09/2025",
-    endDate: "07/2027",
-    gpa: "3.52/4.0",
+    endDate: "05/2027",
+    gpa: "3.86/4.0",
     logo: "/logos/university_of_toronto_logo.jpg",
     highlights: [
       "Focused coursework in UX design, data structures & algorithms",
