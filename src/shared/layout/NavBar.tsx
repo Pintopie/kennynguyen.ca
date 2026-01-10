@@ -28,25 +28,20 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className={`fixed top-0 inset-x-0 z-50 h-16 transition-all duration-300 ${
-                scrolled 
-                ? "bg-[var(--background)]/80 backdrop-blur-md border-b border-[var(--border)] shadow-sm" 
-                : "bg-transparent border-transparent"
-            }`}
+            className={`fixed top-0 inset-x-0 z-50 h-16 transition-all duration-300 ${scrolled
+                    ? "bg-[var(--background)]/80 backdrop-blur-xs border-b border-[var(--border)]/80 shadow-sm"
+                    : "bg-transparent border-transparent"
+                }`}
         >
             <div className="max-w-6xl mx-auto h-full flex items-center justify-between px-4 sm:px-6">
                 {/* Logo Area */}
-                <Link 
-                    href="/" 
+                <Link
+                    href="/"
                     className="relative group shrink-0 flex items-center gap-2"
                 >
-                   {/* Logo: High contrast foreground box with background text */}
-                   <div className="h-9 w-9 rounded-xl bg-[var(--foreground)] flex items-center justify-center shadow-lg shadow-black/5 group-hover:scale-105 transition-transform duration-300">
-                        <span className="text-[var(--background)] font-bold text-xl leading-none font-mono">K</span>
-                   </div>
-                   <span className="font-bold text-lg tracking-tight text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors hidden sm:block">
-                       Kenny Nguyen
-                   </span>
+                    <span className="font-bold text-lg tracking-tight text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors hidden sm:block">
+                        Kenny Nguyen
+                    </span>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -55,9 +50,8 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
                         <li key={link.href} className="relative">
                             <Link
                                 href={link.href}
-                                className={`relative z-10 block px-4 py-1.5 text-sm font-medium transition-colors ${
-                                    hoveredPath === link.href ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]"
-                                }`}
+                                className={`relative z-10 block px-4 py-1.5 text-sm font-medium transition-colors ${hoveredPath === link.href ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]"
+                                    }`}
                                 onMouseEnter={() => setHoveredPath(link.href)}
                                 onMouseLeave={() => setHoveredPath(null)}
                             >
@@ -79,9 +73,9 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
 
                 {/* Right Side Actions */}
                 <div className="flex items-center gap-4">
-                     {/* Theme Toggle */}
+                    {/* Theme Toggle */}
                     <motion.button
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.15 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setDark(!dark)}
                         className="relative p-2.5 rounded-full border border-[var(--border)] bg-[var(--background)]/50 hover:bg-[var(--accent)] text-[var(--foreground)] transition-colors shadow-sm"

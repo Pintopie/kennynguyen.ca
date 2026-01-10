@@ -13,7 +13,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
         >
-            &copy; {CURRENT_YEAR} Kenny Nguyen. Built with React + Next.js, and a lot of Tim's coffee.
+            &copy; {CURRENT_YEAR} Kenny Nguyen. Built with React + Next.js, and a lot of Timmies. 
         </motion.footer>
     );
 }
