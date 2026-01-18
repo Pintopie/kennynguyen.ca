@@ -1,15 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/projects/studybear-case-study",
-        destination: "/projects/study-mascot-case-study",
-        permanent: true,
-      },
-    ];
-  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
@@ -38,3 +29,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+initOpenNextCloudflareForDev();

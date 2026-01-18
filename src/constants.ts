@@ -49,24 +49,6 @@ export const PROJECTS = [
     tech: ["PyTorch", "Python", "Medical Imaging", "Deep Learning", "Jupyter"],
     featured: true,
   },
-  {
-    title: "Study Mascot",
-    description:
-      "A UX case study on designing a mascot-based accountability app for students. Features mixed-methods research, affinity mapping, and iterative prototyping.",
-    highlights: [
-      "Conducted surveys & interviews with 26+ students",
-      "Designed 'passive accountability' features to reduce social pressure",
-      "Created low-fi & mid-fi prototypes with Figma",
-      "Validated concept through usability testing"
-    ],
-    link: "/projects/study-mascot-case-study",
-    links: [
-      { label: "View Case Study", href: "/projects/study-mascot-case-study" },
-      { label: "Course Context", href: "https://ischool.utoronto.ca/course/information-design-studio-ii-how-to-design/" },
-    ],
-    tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],
-    featured: true,
-  },
 ];
 
 // Work Experience Data

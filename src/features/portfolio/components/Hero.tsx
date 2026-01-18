@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { METRICS, AVATAR_URL, CURRENT_YEAR } from "@/constants";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { ArrowUpRight, Mail, Eye } from "lucide-react";
+import { Mail, Eye } from "lucide-react";
 
 
 interface HeroProps {
@@ -129,25 +129,8 @@ export default function Hero({ onOpenResume }: HeroProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.55, duration: 0.6 }}
-                    className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-fit"
+                    className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full sm:w-fit"
                 >
-                    <motion.a
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                        href="/projects/study-mascot-case-study"
-                        className="group relative flex flex-row items-center justify-center gap-2 rounded-xl border border-[var(--primary)]/40 bg-[var(--primary)]/10 px-3 py-2 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/15 hover:shadow-md"
-                    >
-                        <span
-                            aria-hidden
-                            className="pointer-events-none absolute -inset-6 opacity-70 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-                        >
-                            <span className="absolute inset-0 rounded-[999px] bg-[var(--primary)]/25" />
-                        </span>
-                        <span className="relative z-10 flex items-center gap-2">
-                            <span className="text-sm font-semibold text-[var(--foreground)]">INF352 Case Study</span>
-                            <ArrowUpRight className="w-4 h-4 text-[var(--primary)]" />
-                        </span>
-                    </motion.a>
                     <motion.a
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
