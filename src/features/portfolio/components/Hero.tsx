@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { METRICS, AVATAR_URL, CURRENT_YEAR } from "@/constants";
+import { METRICS, AVATAR_URL, CURRENT_DATE, CURRENT_YEAR, CURRENT_MONTH} from "@/constants";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Mail, Eye } from "lucide-react";
@@ -61,7 +61,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]"
             >
                 <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
-                    <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-[var(--primary)]/20 blur-3xl" />
+                    <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
                     <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
                 </div>
                 <motion.p
@@ -69,35 +69,33 @@ export default function Hero({ onOpenResume }: HeroProps) {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1, duration: 0.5 }}
-                    className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]"
+                    className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)] mb-4"
                 >
-                    Portfolio · {CURRENT_YEAR}
+                    Portfolio - as of {CURRENT_MONTH} {CURRENT_DATE}, {CURRENT_YEAR}
                 </motion.p>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2, duration: 0.6 }}
-                    className="flex items-center gap-4 mb-4"
+                    className="flex items-center gap-5 mb-4"
                 >
                     <motion.div
-                        whileHover={{ scale: 1.08, rotate: 2 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border border-[var(--border)] shadow-lg bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/20"
+                        className="relative flex-shrink-1 w-full h-full sm:w-30 sm:h-30 rounded-2xl overflow-hidden border border-[var(--border)] shadow-xl bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/25"
                     >
-                        <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="80px" />
+                        <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="160px" />
                     </motion.div>
-                    <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight">Kenny Nguyen</h1>
+                    <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight">Kenny Nguyen</h1>
                 </motion.div>
                 <motion.h2
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.35, duration: 0.6 }}
-                    className="text-xl sm:text-2xl font-medium text-[var(--primary)] mb-4 min-h-[2.5rem]"
+                    className="text-xl sm:text-2xl font-medium text-primary mb-4 min-h-[2.5rem]"
                 >
                     <span className="inline-flex items-center gap-2">
-                        <span className="inline-block w-1 h-6 rounded-full bg-[var(--primary)]" />
+                        <span className="inline-block w-1 h-6 rounded-full bg-primary" />
                         <span className="font-mono">{typingText}</span>
                     </span>
                 </motion.h2>

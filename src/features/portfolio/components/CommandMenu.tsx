@@ -192,11 +192,11 @@ export default function CommandMenu({ dark, setDark, onOpenResume }: CommandMenu
                             {filteredCommands.map((cmd, idx) => (
                                 <motion.button
                                     key={cmd.label}
-                                    className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 transition-colors ${idx === focusedCommandIndex ? "bg-[var(--primary)]/10" : "bg-[var(--card)]/80"
+                                    className={`w-full text-left rounded-xl border border-[var(--border)] px-4 py-3 text-sm flex items-start justify-between gap-3 transition-colors ${idx === focusedCommandIndex ? "bg-primary/10" : "bg-[var(--card)]/80"
                                         }`}
                                     onClick={() => handleCommandRun(cmd)}
                                     variants={itemVariants}
-                                    whileHover={{ backgroundColor: "rgba(2, 77, 190, 0.1)", x: 4 }}
+                                    whileHover={{ backgroundColor: "var(--primary)", opacity: 0.1, x: 4 }}
                                     whileTap={{ scale: 0.98 }}
                                 >
                                     <div>

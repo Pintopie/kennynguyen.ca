@@ -36,7 +36,7 @@ export default function Hackathons() {
                             >
                                 {/* Timeline dot with logo */}
                                 <motion.div
-                                    className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-[var(--primary)]/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
+                                    className="absolute left-0 w-10 h-10 rounded-full border-4 border-[var(--card)] bg-primary/60 shadow-lg flex items-center justify-center text-white overflow-hidden"
                                     initial={{ scale: 0 }}
                                     whileInView={{ scale: 1 }}
                                     viewport={{ once: true }}
@@ -81,13 +81,12 @@ export default function Hackathons() {
                                         ))}
                                     </ul>
 
-                                    {/* Tech Stack */}
                                     {item.tech && (
                                         <div className="flex flex-wrap gap-2 mb-4">
                                             {item.tech.map((t, tIdx) => (
                                                 <span
                                                     key={tIdx}
-                                                    className="px-3 py-1 bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-medium rounded-full"
+                                                    className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
                                                 >
                                                     {t}
                                                 </span>

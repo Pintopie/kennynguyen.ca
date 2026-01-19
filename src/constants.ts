@@ -135,20 +135,6 @@ export const EDUCATION = [
     ]
   },
   {
-    school: "Athabasca University",
-    degree: "Computing Science Coursework",
-    location: "Alberta, Canada",
-    logo: "/logos/athabascau_logo.jpg",
-    startDate: "06/2025",
-    endDate: "09/2025",
-    grade: "A+",
-    highlights: [
-      "Completed comprehensive CS coursework",
-      "Achieved A+ in all courses",
-      "Focused on data structures & algorithms"
-    ]
-  },
-  {
     school: "Broward College",
     degree: "Associate of Science in Computer Science",
     location: "Florida, USA",
@@ -275,6 +261,8 @@ export const METRICS = [
 
 // Constants
 export const CURRENT_YEAR = new Date().getFullYear();
+export const CURRENT_MONTH = new Date().toLocaleString("default", { month: "long" });
+export const CURRENT_DATE = new Date().getDate();
 export const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
 
 // Framer Motion animation variants

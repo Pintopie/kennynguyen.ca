@@ -63,20 +63,19 @@ export default function AuroraBackground({ dark }: AuroraBackgroundProps) {
         window.addEventListener("mousemove", handleMouseMove);
 
         // Colors based on theme
-        // We use hex/rgba for canvas performance avoiding computed styles in loop if possible
-        // Light mode: Slate/Gray dots. Dark mode: Blue/Primary dots.
+        // Updated for High Contrast Dark Mode
         const getColors = () => {
             if (dark) {
                 return {
-                    particle: "rgba(100, 116, 139, 0.5)", // Slate 500
-                    link: "rgba(100, 116, 139, 0.15)",
-                    highlight: "rgba(56, 189, 248, 0.4)", // Sky 400
+                    particle: "rgba(167, 139, 250, 0.5)", // Violet 400
+                    link: "rgba(139, 92, 246, 0.2)",      // Violet 500
+                    highlight: "rgba(192, 132, 252, 0.8)", // Bright Purple highlight
                 };
             } else {
                 return {
-                    particle: "rgba(148, 163, 184, 0.5)", // Slate 400
-                    link: "rgba(148, 163, 184, 0.2)",
-                    highlight: "rgba(14, 165, 233, 0.4)", // Sky 500
+                    particle: "rgba(99, 102, 241, 0.4)",  // Indigo 500
+                    link: "rgba(99, 102, 241, 0.15)",     // Indigo 500
+                    highlight: "rgba(79, 70, 229, 0.5)",  // Indigo 600
                 };
             }
         };

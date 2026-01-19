@@ -5,6 +5,23 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { EXPERIENCE, EDUCATION, containerVariants, itemVariants } from "@/constants";
 
+const getBadgeStyles = (tech: string) => {
+    const styles = [
+        "bg-blue-500/10 text-blue-700 border-blue-500/20 dark:text-blue-300",
+        "bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-300",
+        "bg-purple-500/10 text-purple-700 border-purple-500/20 dark:text-purple-300",
+        "bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-300",
+        "bg-pink-500/10 text-pink-700 border-pink-500/20 dark:text-pink-300",
+        "bg-cyan-500/10 text-cyan-700 border-cyan-500/20 dark:text-cyan-300",
+        "bg-indigo-500/10 text-indigo-700 border-indigo-500/20 dark:text-indigo-300",
+    ];
+    let hash = 0;
+    for (let i = 0; i < tech.length; i++) {
+        hash = tech.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return styles[Math.abs(hash) % styles.length];
+};
+
 export default function Experience() {
     return (
         <section className="w-full max-w-5xl mb-16" id="experience">
@@ -69,7 +86,7 @@ export default function Experience() {
                                             transition={{ delay: idx * 0.08 + hIdx * 0.04 + 0.2 }}
                                             className="text-sm text-[var(--muted-foreground)] flex gap-2"
                                         >
-                                            <span className="text-[var(--primary)] mt-0.5">•</span>
+                                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/50" aria-hidden />
                                             <span>{highlight}</span>
                                         </motion.li>
                                     ))}
@@ -86,7 +103,7 @@ export default function Experience() {
                                         <motion.span
                                             key={tech}
                                             variants={itemVariants}
-                                            className="inline-block px-2 py-1 rounded-full bg-[var(--primary)]/10 border border-[var(--primary)]/30 text-xs text-[var(--primary)] font-mono"
+                                            className={`inline-block px-2.5 py-1 rounded-full border text-xs font-medium ${getBadgeStyles(tech)}`}
                                         >
                                             {tech}
                                         </motion.span>
@@ -95,7 +112,7 @@ export default function Experience() {
 
                                 {idx < EXPERIENCE.length - 1 && (
                                     <div className="mt-5 flex justify-center">
-                                        <div className="h-2 w-20 rounded-full bg-[var(--primary)]/15" />
+                                        <div className="h-2 w-20 rounded-full bg-primary/15" />
                                     </div>
                                 )}
                             </motion.div>
@@ -153,18 +170,6 @@ export default function Experience() {
                                     </div>
                                 </div>
 
-                                {(item.gpa || item.grade) && (
-                                    <motion.p
-                                        className="text-sm font-semibold text-[var(--primary)] mb-3"
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 + 0.2 }}
-                                    >
-                                        {item.gpa ? `GPA: ${item.gpa}` : `Grade: ${item.grade}`}
-                                    </motion.p>
-                                )}
-
                                 <ul className="space-y-2">
                                     {item.highlights.map((highlight, hIdx) => (
                                         <motion.li
@@ -183,7 +188,7 @@ export default function Experience() {
 
                                 {idx < EDUCATION.length - 1 && (
                                     <div className="mt-5 flex justify-center">
-                                        <div className="h-2 w-20 rounded-full bg-[var(--primary)]/12" />
+                                        <div className="h-2 w-20 rounded-full bg-primary/12" />
                                     </div>
                                 )}
                             </motion.div>
