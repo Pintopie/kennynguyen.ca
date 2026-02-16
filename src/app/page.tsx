@@ -25,7 +25,7 @@ export default function Home() {
       <NavBar dark={dark} setDark={setDark} />
       <AuroraBackground dark={dark} />
       <main className="relative z-10 min-h-screen w-full text-[var(--foreground)] flex flex-col items-center gap-16 px-4 sm:px-8 py-12 sm:py-24 font-[family-name:var(--font-geist-sans)]">
-        <Hero onOpenResume={() => setShowResumePreview(true)} />
+        <Hero />
         <About />
         <Skills />
         <Experience />

@@ -1,5 +1,5 @@
 import { FaReact, FaNodeJs, FaCloud, FaRobot, FaCode } from "react-icons/fa";
-import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter } from "react-icons/si";
+import { SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiFastapi, SiDocker, SiGit, SiGithub, SiPostgresql, SiAmazonwebservices, SiJupyter, SiFigma } from "react-icons/si";
 // NOTE: no extraneous imports
 
 // Navigation Links
@@ -47,6 +47,24 @@ export const PROJECTS = [
       { label: "Model notebook", href: "https://github.com/Pintopie/Liver-Tumor-ML/blob/main/Model.ipynb" },
     ],
     tech: ["PyTorch", "Python", "Medical Imaging", "Deep Learning", "Jupyter"],
+    featured: true,
+  },
+  {
+    title: "Study Mascot",
+    description:
+      "A UX case study on designing a mascot-based accountability app for students. Features mixed-methods research, affinity mapping, and iterative prototyping.",
+    highlights: [
+      "Conducted surveys & interviews with 26+ students",
+      "Designed 'passive accountability' features to reduce social pressure",
+      "Created low-fi & mid-fi prototypes with Figma",
+      "Validated concept through usability testing"
+    ],
+    link: "/projects/study-mascot-case-study",
+    links: [
+      { label: "Demo", href: "/projects/study-mascot-case-study" },
+      { label: "Course Context", href: "https://ischool.utoronto.ca/course/information-design-studio-ii-how-to-design/" },
+    ],
+    tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],
     featured: true,
   },
 ];
@@ -138,7 +156,8 @@ export const EDUCATION = [
     school: "Broward College",
     degree: "Associate of Science in Computer Science",
     location: "Florida, USA",
-    endDate: "2023",
+    startDate: "09/2022",
+    endDate: "05/2024",
     gpa: "3.94/4.0",
     logo: "/logos/broward_college_logo.jpg",
     highlights: [
@@ -236,6 +255,12 @@ export const TOOLING = [
     href: "https://jupyter.org/",
     icon: SiJupyter,
   },
+  {
+    name: "Figma",
+    detail: "Collaborative interface design tool for high-fidelity prototyping and user testing.",
+    href: "https://www.figma.com/",
+    icon: SiFigma,
+  },
 ];
 
 // Skills
@@ -250,6 +275,7 @@ export const SKILLS = [
   { label: "Docker", tooltip: "Docker – Containerization", icon: SiDocker, color: "#2496ED" },
   { label: "Git", tooltip: "Git – Version control", icon: SiGit, color: "#F05032" },
   { label: "GitHub", tooltip: "GitHub – Collaboration", icon: SiGithub, color: "#000000" },
+  { label: "Figma", tooltip: "Figma – Design & UX", icon: SiFigma, color: "#7e36fa" },
   { label: "Cloud", tooltip: "Cloud – Deployments", icon: FaCloud, color: "#13a5b2ff" },
 ];
 

@@ -6,14 +6,13 @@ import { motion } from "framer-motion";
 import { METRICS, AVATAR_URL, CURRENT_DATE, CURRENT_YEAR, CURRENT_MONTH} from "@/constants";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Mail, Eye } from "lucide-react";
+import { Mail, Eye, ArrowUpRight } from "lucide-react";
 
 
 interface HeroProps {
-    onOpenResume: () => void;
 }
 
-export default function Hero({ onOpenResume }: HeroProps) {
+export default function Hero({ }: HeroProps) {
     const [typingIndex, setTypingIndex] = useState(0);
     const [typingText, setTypingText] = useState("");
     const typingRoles = useMemo(
@@ -127,8 +126,9 @@ export default function Hero({ onOpenResume }: HeroProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.55, duration: 0.6 }}
-                    className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full sm:w-fit"
+                    className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-fit"
                 >
+
                     <motion.a
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
@@ -140,16 +140,17 @@ export default function Hero({ onOpenResume }: HeroProps) {
                         <Mail className="w-4 h-4 text-[var(--primary)]" />
                         <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Contact via LinkedIn</span>
                     </motion.a>
-                    <motion.button
+                    <motion.a
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
-                        type="button"
-                        onClick={onOpenResume}
+                        href="https://docs.google.com/document/d/1F9rAZXCzFa28XcxsBtjAspJGUK9-ynaLZXxcKrnZ5fA/edit?usp=sharing"
+                        target="_blank"
+                        rel="noreferrer"
                         className="group flex flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)]/50 px-3 py-2 transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)]"
                     >
                         <Eye className="w-4 h-4 text-[var(--primary)]" />
-                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Download Resume</span>
-                    </motion.button>
+                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">View Resume</span>
+                    </motion.a>
                 </motion.div>
             </motion.div>
             <motion.div

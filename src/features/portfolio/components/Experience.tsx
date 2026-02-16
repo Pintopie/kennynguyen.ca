@@ -160,10 +160,17 @@ export default function Experience() {
                                         <div className="flex items-start justify-between gap-3 flex-wrap">
                                             <div>
                                                 <h4 className="text-lg font-bold text-[var(--foreground)]">{item.degree}</h4>
-                                                <p className="text-sm text-[var(--primary)] font-semibold">{item.school}</p>
+                                                <div className="flex items-center gap-2">
+                                                    <p className="text-sm text-[var(--primary)] font-semibold">{item.school}</p>
+                                                    {item.gpa && (
+                                                        <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-bold border border-[var(--primary)]/20 whitespace-nowrap">
+                                                            GPA: {item.gpa}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                             <span className="text-xs uppercase tracking-wide text-[var(--muted-foreground)] whitespace-nowrap">
-                                                {item.startDate && `${item.startDate} – ${item.endDate}`}
+                                                {item.startDate ? `${item.startDate} – ${item.endDate}` : item.endDate}
                                             </span>
                                         </div>
                                         <p className="text-xs text-[var(--muted-foreground)] mt-1">{item.location}</p>

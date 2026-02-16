@@ -67,10 +67,16 @@ export default function CommandMenu({ dark, setDark, onOpenResume }: CommandMenu
                 action: () => setDark((d) => !d),
             },
             {
+                label: "View Study Mascot Case Study",
+                description: "UX design & prototype project",
+                shortcut: "S",
+                action: () => window.location.href = "/projects/study-mascot-case-study",
+            },
+            {
                 label: "Preview resume",
-                description: "Open inline resume modal",
+                description: "Open resume in Google Docs",
                 shortcut: "R",
-                action: () => onOpenResume(),
+                action: () => window.open("https://docs.google.com/document/d/1F9rAZXCzFa28XcxsBtjAspJGUK9-ynaLZXxcKrnZ5fA/edit?usp=sharing", "_blank"),
             },
             {
                 label: "Copy LinkedIn",
