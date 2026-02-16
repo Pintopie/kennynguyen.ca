@@ -427,16 +427,20 @@ export default function StudyMascotCaseStudy() {
                     </div>
 
                     <div className="gsap-fade-up mb-24">
-                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
-                            <Image
-                                src="/images/case-study/study-mascot/persona.png"
-                                alt="Persona: Sofia the Student (Full Details)"
-                                width={2400}
-                                height={1350}
-                                className="w-full h-auto rounded-2xl"
-                                priority
-                            />
-                        </div>
+                            <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-6 md:p-8 flex items-center justify-center">
+                                <div className="text-center max-w-lg">
+                                    <p className="mb-4 text-[var(--muted-foreground)]">Persona and large imagery are omitted from this published build to reduce asset size. View the full research artifacts and visuals in the Figma prototype.</p>
+                                    <a
+                                        href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card)]/50 hover:bg-[var(--primary)]/5 transition"
+                                    >
+                                        View in Figma
+                                        <ArrowUpRight size={16} />
+                                    </a>
+                                </div>
+                            </div>
                     </div>
 
                         {/* Need Statements */}
@@ -478,17 +482,13 @@ export default function StudyMascotCaseStudy() {
                         <p className="text-[var(--muted-foreground)] mb-12 max-w-3xl mx-auto text-center">
                             To better understand Sofia's mindset, we created an empathy map outlining her thoughts, feelings, and experiences during a typical study session.
                         </p>
-                        <div className="gsap-fade-up bg-gradient-to-b from-[var(--card)]/50 to-[var(--card)]/30 border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-1 max-w-4xl mx-auto">
-                            <div className="relative w-full rounded-2xl overflow-hidden bg-[var(--card)]/30">
-                                <Image
-                                    src="/images/case-study/study-mascot/empathy_map.png"
-                                    alt="Empathy Map showing user thoughts, feelings, and experiences"
-                                    width={2400}
-                                    height={1350}
-                                    className="w-full h-auto"
-                                />
+                            <div className="gsap-fade-up border border-[var(--border)] rounded-3xl p-6 max-w-4xl mx-auto text-center">
+                                <p className="text-[var(--muted-foreground)] mb-4">Empathy map images are available in the project Figma file. To keep this deployment lightweight, we've linked directly to the prototype and assets.</p>
+                                <a href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-[var(--border)] hover:bg-[var(--primary)]/5 transition">
+                                    Open Research Artifacts in Figma
+                                    <ArrowUpRight size={14} />
+                                </a>
                             </div>
-                        </div>
                     </div>
 
                     {/* As-Is Scenario (Current Journey) */}
@@ -599,20 +599,14 @@ export default function StudyMascotCaseStudy() {
 
                 {/* Ideation */}
                 <Section id="ideation" title="Ideation" eyebrow="Generating Solutions">
-                    <div className="gsap-fade-up mb-12">
+                        <div className="gsap-fade-up mb-12">
                         <h3 className="text-3xl font-bold mb-6">Ideas</h3>
-                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
-                            <Image
-                                src="/images/case-study/study-mascot/Sticky%20Notes.png"
-                                alt="Sticky notes grouped into themes with dot votes highlighting priorities"
-                                width={2200}
-                                height={1400}
-                                className="w-full h-auto rounded-2xl"
-                                priority
-                            />
-                            <p className="text-sm text-[var(--muted-foreground)] mt-4 px-2 md:px-4 pb-2">
-                                Dot voting on the clusters steered us toward accountability and quick-guidance features while parking heavier distraction blockers for later.
-                            </p>
+                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl p-6 max-w-4xl">
+                            <p className="text-[var(--muted-foreground)] mb-4">Workshop artifacts (sticky notes, dot voting) are available in the Figma project file. To keep the deployed build under Cloudflare Workers' asset limits, we've linked to the canonical source.</p>
+                            <a href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card)]/50 hover:bg-[var(--primary)]/5 transition">
+                                Open Workshop Artifacts in Figma
+                                <ArrowUpRight size={16} />
+                            </a>
                         </div>
                     </div>
 
@@ -639,14 +633,12 @@ export default function StudyMascotCaseStudy() {
                             <h3 className="text-3xl font-bold mb-6">Prioritization Grid</h3>
                             <span className="text-m font-semibold text-[var(--muted-foreground)]">Impact vs Feasibility</span>
                         </div>
-                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
-                            <Image
-                                src="/images/case-study/study-mascot/prioritization_grid.png"
-                                alt="Prioritization Grid: Impact vs Feasibility"
-                                width={2400}
-                                height={1350}
-                                className="w-full h-auto rounded-2xl"
-                            />
+                        <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl p-6">
+                            <p className="text-[var(--muted-foreground)] mb-4">Prioritization visuals are included in the Figma prototype. Open the file to inspect the grid and rationale behind feature prioritization.</p>
+                            <a href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-[var(--border)] hover:bg-[var(--primary)]/5 transition">
+                                View Prioritization Grid in Figma
+                                <ArrowUpRight size={14} />
+                            </a>
                         </div>
                         <div className="text-[var(--muted-foreground)] mt-6 max-w-4xl space-y-3 leading-relaxed">
                             <p className="text-3xl mb-6 mt-12 text-[var(--foreground)] font-semibold">Prioritization Grid Summary</p>
@@ -875,58 +867,15 @@ export default function StudyMascotCaseStudy() {
                         </p>
                     </div>
 
-                    <div className="mb-16 space-y-12">
-                        {[ 
-                            {
-                                title: "Flow 1: Add tasks + Focus Mode",
-                                screens: [
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Add tasks.png", label: "Step 1 — Add tasks" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Focus mode_running.png", label: "Step 2 — Focus mode" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Session ended.png", label: "Step 3 — Session ended" }
-                                ]
-                            },
-                            {
-                                title: "Flow 2: Social Photo Feed",
-                                screens: [
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Upload photo.png", label: "Step 1 — Upload Study Photo" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Upload photo_private group.png", label: "Step 2 — Choose Private or Public" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Activity_Main.png", label: "Step 3 — View Friends Feed" }
-                                ]
-                            },
-                            {
-                                title: "Flow 3: Mascot Customization + Shop",
-                                screens: [
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/My Mascot_main.png", label: "Step 1 — View Mascot" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Customization_add hat.png", label: "Step 2 — Customize Mascot" },
-                                    { src: "/images/case-study/study-mascot/mid_fi_screens/Shop_list of items.png", label: "Step 3 — Shop for Mascot Items" }
-                                ]
-                            }
-                        ].map((flow) => (
-                            <div key={flow.title} className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 backdrop-blur-sm p-5 space-y-4">
-                                <div className="text-2xl font-bold text-[var(--foreground)]">{flow.title}</div>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    {flow.screens.map((screen, idx) => (
-                                        <div key={screen.src} className="flex flex-col gap-2">
-                                            <div className="flex items-center gap-2 text-xs font-medium text-[var(--muted-foreground)]">
-                                                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] text-[11px] font-semibold">
-                                                    {idx + 1}
-                                                </span>
-                                                <span>{screen.label}</span>
-                                            </div>
-                                            <div className="w-full rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-sm">
-                                                <Image
-                                                    src={screen.src}
-                                                    alt={`Mid-fi screen: ${screen.label}`}
-                                                    width={640}
-                                                    height={1280}
-                                                    className="w-full h-auto"
-                                                />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
+                    <div className="mb-16">
+                        <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 backdrop-blur-sm p-6 text-center">
+                            <h4 className="text-xl font-bold text-[var(--foreground)] mb-3">Medium-fidelity screens omitted</h4>
+                            <p className="text-[var(--muted-foreground)] mb-4">To avoid shipping large image assets with this build, the detailed mid-fidelity screen images are hosted in the Figma file. Use the embedded prototype below or open Figma for full-resolution screens.</p>
+                            <a href="https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card)]/50 hover:bg-[var(--primary)]/5 transition">
+                                Open Mid-Fidelity Screens in Figma
+                                <ArrowUpRight size={16} />
+                            </a>
+                        </div>
                     </div>
                     <h3 className="text-3xl font-bold mb-8 text-center text-[var(--muted-foreground)]">Embedded Figma Prototype</h3>
                     {/* Figma Embed */}

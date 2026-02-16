@@ -61,7 +61,7 @@ export const PROJECTS = [
     ],
     link: "/projects/study-mascot-case-study",
     links: [
-      { label: "Demo", href: "/projects/study-mascot-case-study" },
+      { label: "Demo", href: "https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" },
       { label: "Course Context", href: "https://ischool.utoronto.ca/course/information-design-studio-ii-how-to-design/" },
     ],
     tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],
