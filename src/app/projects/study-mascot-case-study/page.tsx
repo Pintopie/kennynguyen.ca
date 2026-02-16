@@ -3,7 +3,6 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, Check, Zap, ArrowUpRight } from "lucide-react";
 import { useThemePreference } from "@/shared/hooks/useTheme";
 import AuroraBackground from "@/shared/layout/AuroraBackground";
@@ -11,43 +10,100 @@ import { Section } from "@/features/case-study/components/Section";
 import { StatCard } from "@/features/case-study/components/StatCard";
 import { Callout } from "@/features/case-study/components/Callout";
 import Footer from "@/shared/layout/Footer";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
-// Animation Variants
-const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } }
-};
-
-const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.2
-        }
-    }
-};
+gsap.registerPlugin(ScrollTrigger);
 
 export default function StudyMascotCaseStudy() {
     const { dark, setDark } = useThemePreference();
     const containerRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"]
-    });
+    const navRef = useRef(null);
+    const headerRef = useRef(null);
 
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-    const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
-    const heroY = useTransform(scrollYProgress, [0, 0.2], [0, 50]);
+    useGSAP(() => {
+        // Nav animation
+        gsap.from(navRef.current, {
+            y: -100,
+            duration: 0.5,
+            ease: "power2.out"
+        });
+
+        // Hero Parallax
+        if (headerRef.current) {
+            gsap.to(headerRef.current, {
+                opacity: 0,
+                scale: 0.95,
+                y: 50,
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top top",
+                    end: "20% top",
+                    scrub: true
+                }
+            });
+            
+            // Hero content fade in
+            gsap.from(".hero-content", {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                delay: 0.2
+            });
+            
+            // Hero stats stagger
+            gsap.from(".hero-stat", {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                stagger: 0.1,
+                delay: 0.4
+            });
+        }
+
+        // Generic fade up sections
+        const fadeUps = gsap.utils.toArray<HTMLElement>(".gsap-fade-up");
+        fadeUps.forEach(elem => {
+            gsap.from(elem, {
+                opacity: 0,
+                y: 40,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: elem,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+        
+        // Stagger containers
+        const staggers = gsap.utils.toArray<HTMLElement>(".gsap-stagger-container");
+        staggers.forEach(container => {
+            const children = container.querySelectorAll(".gsap-stagger-item");
+            if(children.length > 0) {
+                 gsap.from(children, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top 80%",
+                    }
+                });
+            }
+        });
+
+    }, { scope: containerRef });
 
     return (
         <div ref={containerRef} className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden selection:bg-[var(--primary)]/20 selection:text-[var(--primary)]">
             <AuroraBackground dark={dark} />
             {/* Navigation */}
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
+            <nav
+                ref={navRef}
                 className="fixed top-0 z-50 w-full bg-[var(--background)]/80 backdrop-blur-sm border-b border-[var(--border)] supports-[backdrop-filter]:bg-[var(--background)]/40"
             >
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -78,19 +134,15 @@ export default function StudyMascotCaseStudy() {
                         )}
                     </button>
                 </div>
-            </motion.nav>
+            </nav>
             {/* Main Content */}
             <main className="relative z-10 pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
                 {/* 1. Hero */}
-                <motion.header
-                    style={{ opacity: heroOpacity, scale: heroScale, y: heroY }}
+                <header
+                    ref={headerRef}
                     className="max-w-5xl mx-auto mb-32 origin-top"
                 >
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
-                    >
+                    <div className="hero-content">
                         <div className="mb-10 inline-flex items-center gap-3 rounded-full border border-[var(--border)] bg-[var(--card)]/70 px-3 py-2 shadow-sm">
                             <Image
                                 src="/logos/university_of_toronto_logo.jpg"
@@ -111,26 +163,21 @@ export default function StudyMascotCaseStudy() {
                         <p className="text-xl md:text-2xl text-[var(--muted-foreground)] max-w-2xl mb-6 leading-relaxed font-light">
                             Students don't need another timer. They need a <span className="text-[var(--foreground)] font-medium underline">companion</span>. We designed a mascot-based system to turn isolation into passive connection.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        animate="visible"
-                        className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 border-t border-[var(--border)]/40 pt-8"
-                    >
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 border-t border-[var(--border)]/40 pt-8">
                         {[
                             { label: "Role", value: "UX Researcher & Interaction Designer" },
                             { label: "Team", value: "5 Members" },
                             { label: "Tools", value: "Figma, Miro, Paper Prototypes" },
                             { label: "Timeline", value: "Sep - Dec 2025" }
                         ].map((item, i) => (
-                            <motion.div key={i} variants={fadeInUp}>
+                            <div key={i} className="hero-stat">
                                 <div className="text-xs uppercase tracking-wider text-[var(--muted-foreground)]/60 mb-2">{item.label}</div>
                                 <div className="font-semibold text-[var(--foreground)]/90">{item.value}</div>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
 
                     <div className="mt-10 grid md:grid-cols-4 gap-4">
                         {[
@@ -148,16 +195,10 @@ export default function StudyMascotCaseStudy() {
                             </div>
                         ))}
                     </div>
-                </motion.header>
+                </header>
 
                 {/* Design Thinking Process */}
-                <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={staggerContainer}
-                    className="mb-32"
-                >
+                <div className="mb-32 gsap-stagger-container">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-bold text-[var(--foreground)]">Design Thinking Process</h2>
                     </div>
@@ -173,10 +214,9 @@ export default function StudyMascotCaseStudy() {
                                 { num: "05", title: "TEST", desc: "Usability sessions to validate motivation, clarity, and trust." },
                                 { num: "06", title: "REFINE", desc: "Tighten interactions, states, and accessibility details." }
                             ].map((step, idx) => (
-                                <motion.div
+                                <div
                                     key={step.num}
-                                    variants={fadeInUp}
-                                    className="relative flex-1 min-w-[180px]"
+                                    className="relative flex-1 min-w-[180px] gsap-stagger-item"
                                 >
                                     {/* Connector dot for desktop */}
                                     <div className="hidden lg:block absolute -top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--primary)]/70 ring-4 ring-[var(--primary)]/15" />
@@ -195,24 +235,19 @@ export default function StudyMascotCaseStudy() {
                                             <div className="h-6 w-px bg-gradient-to-b from-[var(--primary)]/20 to-[var(--primary)]/0" />
                                         </div>
                                     )}
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Secondary Research */}
                 <Section id="overview" title="Secondary Research" eyebrow="Understanding the Problem">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-3xl mb-16 text-[var(--muted-foreground)]"
-                    >
+                    <div className="prose prose-lg dark:prose-invert max-w-3xl mb-16 text-[var(--muted-foreground)] gsap-fade-up">
                         <p>
                             We analyzed five key sources to understand why students struggle with consistency.
                         </p>
-                    </motion.div>
+                    </div>
 
                     <div className="grid md:grid-cols-2 gap-8 mb-16">
                         {[
@@ -236,30 +271,21 @@ export default function StudyMascotCaseStudy() {
                                 insight: "Habits are Acquired", 
                                 desc: "Study habits are patterns acquired through repetition. Inconsistent habits lead to stress, while good routines enhance retention. We can 'train' consistency." 
                             }
-                        ].map((item, i) => (
-                            <motion.div
+                        ].map((item) => (
+                            <div
                                 key={item.source}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="p-6 rounded-2xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm hover:bg-[var(--card)]/80 transition-colors"
+                                className="p-6 rounded-2xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm hover:bg-[var(--card)]/80 transition-colors gsap-fade-up"
                             >
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="text-sm font-bold text-[var(--primary)] uppercase tracking-wide">{item.insight}</div>
                                 </div>
                                 <p className="font-bold text-[var(--foreground)] mb-2">{item.source}</p>
                                 <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{item.desc}</p>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                     
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="p-8 rounded-3xl bg-[var(--primary)]/5 border border-[var(--primary)]/10"
-                    >
+                    <div className="p-8 rounded-3xl bg-[var(--primary)]/5 border border-[var(--primary)]/10 gsap-fade-up">
                         <h3 className="flex items-center gap-2 font-bold text-[var(--foreground)] text-lg mb-4">
                             <Zap className="text-[var(--primary)]" size={20} />
                             The Core Behavioral Challenge
@@ -267,29 +293,19 @@ export default function StudyMascotCaseStudy() {
                         <p className="text-[var(--muted-foreground)] leading-relaxed italic">
                             "Procrastination is a self-defeating behavior that provides short-term relief but leads to long-term anxiety. It reflects a <strong className="text-[var(--foreground)]">lack of structure, not motivation</strong>." - A Guide to Understanding Procrastination
                         </p>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Primary Research */}
                 <Section id="primary-research" title="Primary Research" eyebrow="Methodology">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-3xl mb-16 text-[var(--muted-foreground)]"
-                    >
+                    <div className="prose prose-lg dark:prose-invert max-w-3xl mb-16 text-[var(--muted-foreground)] gsap-fade-up">
                         <p>
                             We conducted mixed-method research over a two-week period to gather both quantitative and qualitative data from the UofT student community.
                         </p>
-                    </motion.div>
+                    </div>
 
                     <div className="grid md:grid-cols-2 gap-8 mb-24">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="p-8 rounded-3xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm"
-                        >
+                        <div className="p-8 rounded-3xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm gsap-fade-up">
                             <div className="text-xs uppercase tracking-widest text-[var(--primary)] font-bold mb-6">SEMI-STRUCTURED INTERVIEWS</div>
                             <div className="space-y-4 text-[var(--muted-foreground)]">
                                 <div className="flex justify-between border-b border-[var(--border)]/50 pb-2">
@@ -305,14 +321,9 @@ export default function StudyMascotCaseStudy() {
                                     <span className="font-bold text-[var(--foreground)]">15–25 minutes</span>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
 
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="p-8 rounded-3xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm"
-                        >
+                        <div className="p-8 rounded-3xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm gsap-fade-up">
                             <div className="text-xs uppercase tracking-widest text-[var(--primary)] font-bold mb-6">ONLINE SURVEYS</div>
                             <div className="space-y-4 text-[var(--muted-foreground)]">
                                 <div className="flex justify-between border-b border-[var(--border)]/50 pb-2">
@@ -328,30 +339,19 @@ export default function StudyMascotCaseStudy() {
                                     <span className="font-bold text-[var(--foreground)]">1 week</span>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
 
                     <h3 className="text-3xl font-bold mb-8">Quantitative Findings</h3>
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24"
-                    >
-                        <motion.div variants={fadeInUp}><StatCard value="65%" label="Inconsistent" caption="17 of 26 students reported lack of a stable routine." /></motion.div>
-                        <motion.div variants={fadeInUp}><StatCard value="31%" label="Top Barrier" caption="Digital distractions (social media) was the #1 blocker." /></motion.div>
-                        <motion.div variants={fadeInUp}><StatCard value="88.5%" label="Want Accountability" caption="Believe social proof would help them stay on track." /></motion.div>
-                        <motion.div variants={fadeInUp}><StatCard value="61.5%" label="Market Fit" caption="Would use a 'BeReal-style' app for studying." /></motion.div>
-                    </motion.div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24 gsap-stagger-container">
+                        <div className="gsap-stagger-item"><StatCard value="65%" label="Inconsistent" caption="17 of 26 students reported lack of a stable routine." /></div>
+                        <div className="gsap-stagger-item"><StatCard value="31%" label="Top Barrier" caption="Digital distractions (social media) was the #1 blocker." /></div>
+                        <div className="gsap-stagger-item"><StatCard value="88.5%" label="Want Accountability" caption="Believe social proof would help them stay on track." /></div>
+                        <div className="gsap-stagger-item"><StatCard value="61.5%" label="Market Fit" caption="Would use a 'BeReal-style' app for studying." /></div>
+                    </div>
 
                     {/* Affinity Diagram */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <h3 className="text-3xl font-bold mb-4">Qualitative Analysis</h3>
                         <p className="text-[var(--muted-foreground)] mb-12 max-w-3xl">
                             We used an affinity diagram to synthesize interview data into key themes. The core recurring pattern was an <strong className="text-[var(--foreground)]">emotional cycle of procrastination</strong>.
@@ -383,14 +383,10 @@ export default function StudyMascotCaseStudy() {
                                         "Desire for 'Passive Social' (presence without pressure)."
                                     ]
                                 }
-                            ].map((category, i) => (
-                                <motion.div
+                            ].map((category) => (
+                                <div
                                     key={category.title}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="p-6 rounded-2xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm"
+                                    className="gsap-fade-up p-6 rounded-2xl bg-[var(--card)]/50 border border-[var(--border)] backdrop-blur-sm"
                                 >
                                     <div className="text-xs uppercase tracking-widest text-[var(--primary)] font-bold mb-4">{category.title}</div>
                                     <ul className="space-y-3">
@@ -401,7 +397,7 @@ export default function StudyMascotCaseStudy() {
                                             </li>
                                         ))}
                                     </ul>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
 
@@ -419,28 +415,18 @@ export default function StudyMascotCaseStudy() {
                                 </div>
                             </Callout>
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Persona */}
                 <Section id="research" title="Persona" eyebrow="Meet the User">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-full mb-12 text-[var(--muted-foreground)]"
-                    >
+                    <div className="gsap-fade-up prose prose-lg dark:prose-invert max-w-full mb-12 text-[var(--muted-foreground)]">
                         <p>
                             Based on our research, we created <strong>Sofia the Student</strong>, a user persona representing the typical UofT student struggle.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
                                 src="/images/case-study/study-mascot/persona.png"
@@ -451,7 +437,7 @@ export default function StudyMascotCaseStudy() {
                                 priority
                             />
                         </div>
-                    </motion.div>
+                    </div>
 
                         {/* Need Statements */}
                         <div className="space-y-6">
@@ -474,19 +460,15 @@ export default function StudyMascotCaseStudy() {
                                     desc: "Sofia needs a way to organize her time between studying, work, and life to avoid burnout."
                                 }
                             ].map((need, i) => (
-                                <motion.div
+                                <div
                                     key={i}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="p-6 bg-[var(--card)]/30 border border-[var(--border)] rounded-2xl"
+                                    className="gsap-fade-up p-6 bg-[var(--card)]/30 border border-[var(--border)] rounded-2xl"
                                 >
                                     <h4 className="font-bold text-[var(--foreground)] mb-2">{need.title}</h4>
                                     <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
                                         "{need.desc}"
                                     </p>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     
@@ -496,12 +478,7 @@ export default function StudyMascotCaseStudy() {
                         <p className="text-[var(--muted-foreground)] mb-12 max-w-3xl mx-auto text-center">
                             To better understand Sofia's mindset, we created an empathy map outlining her thoughts, feelings, and experiences during a typical study session.
                         </p>
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            className="bg-gradient-to-b from-[var(--card)]/50 to-[var(--card)]/30 border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-1 max-w-4xl mx-auto"
-                        >
+                        <div className="gsap-fade-up bg-gradient-to-b from-[var(--card)]/50 to-[var(--card)]/30 border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-1 max-w-4xl mx-auto">
                             <div className="relative w-full rounded-2xl overflow-hidden bg-[var(--card)]/30">
                                 <Image
                                     src="/images/case-study/study-mascot/empathy_map.png"
@@ -511,16 +488,11 @@ export default function StudyMascotCaseStudy() {
                                     className="w-full h-auto"
                                 />
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* As-Is Scenario (Current Journey) */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <h3 className="text-3xl font-bold mb-8">As-Is Scenario (Current Journey)</h3>
                         <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
                             Sofia's current study routine is marked by procrastination and distraction. Below is a breakdown of her emotional journey through a typical study session, highlighting key pain points: distractions, lack of structure, inconsistent study schedule, and lack of motivation.
@@ -620,19 +592,14 @@ export default function StudyMascotCaseStudy() {
                                 </div>
                             ))}
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
 
 
                 {/* Ideation */}
                 <Section id="ideation" title="Ideation" eyebrow="Generating Solutions">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="mb-12"
-                    >
+                    <div className="gsap-fade-up mb-12">
                         <h3 className="text-3xl font-bold mb-6">Ideas</h3>
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
@@ -647,14 +614,9 @@ export default function StudyMascotCaseStudy() {
                                 Dot voting on the clusters steered us toward accountability and quick-guidance features while parking heavier distraction blockers for later.
                             </p>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-4xl mb-12 text-[var(--muted-foreground)] leading-relaxed prose-headings:tracking-tight prose-headings:text-[var(--foreground)] prose-p:leading-relaxed prose-ul:pl-6 prose-li:leading-relaxed prose-strong:text-[var(--foreground)]"
-                    >
+                    <div className="gsap-fade-up prose prose-lg dark:prose-invert max-w-4xl mb-12 text-[var(--muted-foreground)] leading-relaxed prose-headings:tracking-tight prose-headings:text-[var(--foreground)] prose-p:leading-relaxed prose-ul:pl-6 prose-li:leading-relaxed prose-strong:text-[var(--foreground)]">
                         <h3 className="text-3xl font-semibold text-[var(--foreground)] mb-6">Ideation Summary</h3>
                         <ul>
                             <li>
@@ -670,14 +632,9 @@ export default function StudyMascotCaseStudy() {
                         <p>
                             <strong>Outcome:</strong> a practical direction that still carries the imaginative spark from the earliest round.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
                             <h3 className="text-3xl font-bold mb-6">Prioritization Grid</h3>
                             <span className="text-m font-semibold text-[var(--muted-foreground)]">Impact vs Feasibility</span>
@@ -700,17 +657,12 @@ export default function StudyMascotCaseStudy() {
                                 <li><strong>Further exploration</strong>: unclear or low-value items parked so the roadmap stays focused on high-impact, buildable tools.</li>
                             </ul>
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* To-Be Scenario */}
                 <Section title="To-Be Scenario" eyebrow="The Ideal Journey">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <p className="text-[var(--muted-foreground)] mb-8 max-w-full">
                             With our proposed solution, Sofia's study sessions become structured and supported by her digital mascot. Below is a breakdown of her improved emotional journey through a typical study session.
                         </p>
@@ -802,27 +754,17 @@ export default function StudyMascotCaseStudy() {
                                 </div>
                             ))}
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Low-Fidelity Prototype */}
                 <Section id="design" title="Low-Fidelity Prototype" eyebrow="Phase 3: Paper Prototypes">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert max-w-4xl mb-16 text-[var(--muted-foreground)]"
-                    >
+                    <div className="gsap-fade-up prose prose-lg dark:prose-invert max-w-4xl mb-16 text-[var(--muted-foreground)]">
                         <p>
                             We started with hand-drawn paper sketches to quickly test our core concepts without getting distracted by visual design. We used a "Human Computer" method where one team member manually swapped screens based on user interactions.
                         </p>
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    </div>
+                    <div className="gsap-fade-up mb-24">
                         <div className="bg-[var(--card)]/50 backdrop-blur border border-[var(--border)] rounded-3xl overflow-hidden shadow-2xl p-2 md:p-4">
                             <Image
                                 src="/images/case-study/study-mascot/low_fi.jpeg"
@@ -832,17 +774,12 @@ export default function StudyMascotCaseStudy() {
                                 className="w-full h-auto rounded-2xl"
                             />
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Low-Fidelity Evaluation */}
                 <Section title="Low-Fidelity Evaluation" eyebrow="Validation Round 1">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-16"
-                    >
+                    <div className="gsap-fade-up mb-16">
                         <div className="bg-[var(--card)]/60 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-10 space-y-6">
                             <div className="flex flex-wrap gap-3 text-xs font-semibold tracking-wide uppercase text-[var(--muted-foreground)]">
                                 <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">Paper prototype</span>
@@ -927,21 +864,16 @@ export default function StudyMascotCaseStudy() {
                                 The evaluation confirmed the concept resonates with our target audience: focus sessions, social accountability, and gamified rewards are engaging and motivating. Key findings surface usability gaps, mainly around system status visibility, privacy clarity, and user control that will guide the mid-fidelity prototype iteration.
                             </p>
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Medium-Fidelity Prototype */}
                 <Section id="prototypes" title="Medium-Fidelity Prototype" eyebrow="Phase 4: Clickable Mocks">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="prose prose-lg dark:prose-invert mb-16 text-[var(--muted-foreground)]"
-                    >
+                    <div className="gsap-fade-up prose prose-lg dark:prose-invert mb-16 text-[var(--muted-foreground)]">
                         <p>
                             We incorporated the feedback to build a clickable Figma prototype. We focused on the three core flows: <strong className="text-[var(--foreground)]">Adding a Task</strong>, <strong className="text-[var(--foreground)]">Social Feed</strong>, and <strong className="text-[var(--foreground)]">Shop Customization</strong>.
                         </p>
-                    </motion.div>
+                    </div>
 
                     <div className="mb-16 space-y-12">
                         {[ 
@@ -998,12 +930,7 @@ export default function StudyMascotCaseStudy() {
                     </div>
                     <h3 className="text-3xl font-bold mb-8 text-center text-[var(--muted-foreground)]">Embedded Figma Prototype</h3>
                     {/* Figma Embed */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <div className="mx-auto w-full max-w-[420px] sm:max-w-[520px] md:max-w-[620px]">
                             <div className="relative w-full aspect-[9/16] overflow-hidden rounded-4xl border border-[var(--border)] bg-[var(--card)] shadow-2xl">
                                 <iframe
@@ -1014,17 +941,12 @@ export default function StudyMascotCaseStudy() {
                                 />
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* Medium-Fidelity Evaluation */}
                 <Section title="Medium-Fidelity Evaluation" eyebrow="Validation Round 2">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-24"
-                    >
+                    <div className="gsap-fade-up mb-24">
                         <div className="bg-[var(--card)]/60 backdrop-blur border border-[var(--border)] p-8 rounded-3xl mb-10 space-y-6">
                             <div className="flex flex-wrap gap-3 text-xs font-semibold tracking-wide uppercase text-[var(--muted-foreground)]">
                                 <span className="px-3 py-1 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]">3 students</span>
@@ -1100,17 +1022,13 @@ export default function StudyMascotCaseStudy() {
                             </p>
                         </div>
 
-                    </motion.div>
+                    </div>
                 </Section>
 
                 {/* 7. Reflection */}
                 <Section id="reflection" className="mt-0" title="Personal Reflection" eyebrow="What I Learned">
                     <div className="max-w-4xl mx-auto text-center">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            className="mb-16"
-                        >
+                        <div className="gsap-fade-up mb-16">
                             <Callout type="quote">
                                 <div className="space-y-3">
                                     <p>
@@ -1121,26 +1039,20 @@ export default function StudyMascotCaseStudy() {
                                     </p>
                                 </div>
                             </Callout>
-                        </motion.div>
+                        </div>
 
                         <div className="grid md:grid-cols-2 gap-12 text-left">
-                            <motion.div
-                                whileHover={{ y: -5 }}
-                                className="p-8 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-3xl border border-[var(--primary)]/20"
-                            >
+                            <div className="hover:-translate-y-1 transition-transform p-8 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-3xl border border-[var(--primary)]/20">
                                 <h3 className="font-bold text-xl mb-4 text-[var(--primary)]">Wrap it up...</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
                                     This project reinforced INF352's core principles: <strong className="text-[var(--foreground)]">iterative testing and user empathy</strong>. "Passive social" emerged as a powerful insight as students crave presence without judgment, not surveillance.
                                 </p>
-                            </motion.div>
-                            <motion.div
-                                whileHover={{ y: -5 }}
-                                className="p-8 bg-[var(--card)]/50 backdrop-blur rounded-3xl border border-[var(--border)]"
-                            >
+                            </div>
+                            <div className="hover:-translate-y-1 transition-transform p-8 bg-[var(--card)]/50 backdrop-blur rounded-3xl border border-[var(--border)]">
                                 <h3 className="font-bold text-xl mb-4">What's Next?</h3>
                                 <p className="text-[var(--muted-foreground)] leading-relaxed">
                                     Refine the Friends List structure, harden session controls, and add accessibility modes. The goal: a design so seamless it becomes invisible.</p>
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
                 </Section>
@@ -1150,8 +1062,6 @@ export default function StudyMascotCaseStudy() {
         </div>
     );
 }
-
-<footer />
 
 
 

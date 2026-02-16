@@ -1,37 +1,53 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxBackgroundProps {
     dark?: boolean;
 }
 
 export default function ParallaxBackground({ dark = false }: ParallaxBackgroundProps) {
-    const { scrollY } = useScroll();
-    const [windowHeight, setWindowHeight] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const shape1Ref = useRef<HTMLDivElement>(null);
+    const shape2Ref = useRef<HTMLDivElement>(null);
+    const shape3Ref = useRef<HTMLDivElement>(null);
+    const lightBeamRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const updateHeight = () => setWindowHeight(window.innerHeight);
-        updateHeight();
-        window.addEventListener("resize", updateHeight);
-        return () => window.removeEventListener("resize", updateHeight);
-    }, []);
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: document.body,
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1,
+            },
+        });
 
-    const smoothScrollY = useSpring(scrollY, {
-        stiffness: 80,
-        damping: 40,
-        restDelta: 0.001,
-    });
+        tl.to(shape1Ref.current, { y: -window.innerHeight * 0.5, rotation: 45, ease: "none" }, 0)
+          .to(shape2Ref.current, { y: -window.innerHeight * 0.2, rotation: -60, ease: "none" }, 0)
+          .to(shape3Ref.current, { y: -window.innerHeight * 0.8, ease: "none" }, 0);
 
-    const y1 = useTransform(smoothScrollY, [0, windowHeight * 2], [0, -windowHeight * 0.5]);
-    const y2 = useTransform(smoothScrollY, [0, windowHeight * 2], [0, -windowHeight * 0.2]);
-    const y3 = useTransform(smoothScrollY, [0, windowHeight * 2], [0, -windowHeight * 0.8]);
-    const rotate1 = useTransform(smoothScrollY, [0, windowHeight * 2], [0, 45]);
-    const rotate2 = useTransform(smoothScrollY, [0, windowHeight * 2], [0, -60]);
+        // Light beam animation
+         gsap.to(lightBeamRef.current, {
+            scrollTrigger: {
+                trigger: document.body,
+                start: "top top",
+                end: "300px top",
+                scrub: true,
+            },
+            opacity: 0,
+            scale: 1.15,
+        });
+
+    }, { scope: containerRef });
 
     return (
-        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div ref={containerRef} className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
             {/* Base gradient background */}
             <div
                 className="absolute inset-0 transition-colors duration-1000"
@@ -49,27 +65,24 @@ export default function ParallaxBackground({ dark = false }: ParallaxBackgroundP
                 }}
             />
             {/* Floating shapes – clearer and color‑adjusted */}
-            <motion.div
-                style={{ y: y1, rotate: rotate1 }}
+            <div
+                ref={shape1Ref}
                 className={`absolute top-[12%] left-[8%] w-[30vw] h-[30vw] rounded-full ${dark ? 'bg-[#67B7FF]/25' : 'bg-[#2563EB]/25'} opacity-[0.12] blur-3xl`}
             />
-            <motion.div
-                style={{ y: y2, rotate: rotate2 }}
+            <div
+                ref={shape2Ref}
                 className={`absolute top-[45%] right-[12%] w-[40vw] h-[40vw] rounded-full ${dark ? 'bg-[#06B6D4]/20' : 'bg-[#06B6D4]/20'} opacity-[0.1] blur-3xl`}
             />
-            <motion.div
-                style={{ y: y3 }}
+            <div
+                ref={shape3Ref}
                 className={`absolute top-[78%] left-[22%] w-[25vw] h-[25vw] rounded-full ${dark ? 'bg-[#67B7FF]/30' : 'bg-[#2563EB]/30'} opacity-[0.14] blur-3xl`}
             />
             {/* Grid pattern – subtle */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
             {/* Dynamic light beam */}
-            <motion.div
-                style={{
-                    opacity: useTransform(smoothScrollY, [0, 300], [0.5, 0]),
-                    scale: useTransform(smoothScrollY, [0, 300], [1, 1.15]),
-                }}
-                className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_top,var(--primary-accent),transparent_70%)] blur-3xl"
+            <div
+                ref={lightBeamRef}
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_top,var(--primary-accent),transparent_70%)] blur-3xl opacity-50 scale-100 origin-top"
             />
         </div>
     );

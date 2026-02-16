@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/constants";
 import { Moon, Sun } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 interface NavBarProps {
     dark: boolean;
@@ -13,57 +14,79 @@ interface NavBarProps {
 
 export default function NavBar({ dark, setDark }: NavBarProps) {
     const [hoveredPath, setHoveredPath] = useState<string | null>(null);
-    const [scrolled, setScrolled] = useState(false);
+    const navRef = useRef<HTMLElement>(null);
+    const themeButtonRef = useRef<HTMLButtonElement>(null);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    useGSAP(() => {
+        gsap.from(navRef.current, {
+            y: -100,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out",
+            delay: 0.5
+        });
+    });
+
+    useGSAP(() => {
+        if (themeButtonRef.current) {
+            gsap.fromTo(themeButtonRef.current, 
+                { rotate: -180, scale: 0.5 },
+                { rotate: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }
+            );
+        }
+    }, [dark]);
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        // Only interception for hash links on the main page
+        if (href.startsWith("#")) {
+            e.preventDefault();
+            const targetId = href.replace('#', '');
+            const elem = document.getElementById(targetId);
+            if (elem) {
+                // Scroll to center of the viewport
+                elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    };
 
     return (
-        <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className={`fixed top-0 inset-x-0 z-50 h-16 transition-all duration-300 ${scrolled
-                    ? "bg-[var(--background)]/80 backdrop-blur-xs border-b border-[var(--border)]/80 shadow-sm"
-                    : "bg-transparent border-transparent"
-                }`}
+        <nav
+            ref={navRef}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
         >
-            <div className="max-w-6xl mx-auto h-full flex items-center justify-between px-4 sm:px-6">
+            <div className="flex items-center gap-2 p-1.5 pl-5 pr-2 rounded-full bg-[var(--background)]/40 dark:bg-[var(--background)]/20 backdrop-blur-xl border border-[var(--border)]/40 shadow-2xl transition-all duration-300 hover:bg-[var(--background)]/60 hover:scale-[1.02]">
                 {/* Logo Area */}
                 <Link
                     href="/"
-                    className="relative group shrink-0 flex items-center gap-2"
+                    className="relative group shrink-0 flex items-center mr-2"
                 >
-                    <span className="font-bold text-lg tracking-tight text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors hidden sm:block">
-                        Kenny Nguyen
+                    <span className="font-bold text-lg tracking-tight text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
+                        KN
                     </span>
                 </Link>
 
+                {/* Divider */}
+                <div className="h-4 w-[1px] bg-[var(--border)]/50 hidden md:block mx-1" />
+
                 {/* Desktop Navigation */}
-                <ul className="hidden md:flex items-center gap-1 bg-[var(--background)]/50 p-1 rounded-full border border-[var(--border)]/50 backdrop-blur-sm shadow-sm">
+                <ul className="hidden md:flex items-center gap-1">
                     {NAV_LINKS.map((link) => (
                         <li key={link.href} className="relative">
                             <Link
                                 href={link.href}
-                                className={`relative z-10 block px-4 py-1.5 text-sm font-medium transition-colors ${hoveredPath === link.href ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]"
+                                onClick={(e) => handleNavClick(e, link.href)}
+                                className={`relative z-10 block px-4 py-1.5 text-sm font-medium transition-colors rounded-full ${
+                                    hoveredPath === link.href 
+                                        ? "text-[var(--foreground)]" 
+                                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                                     }`}
                                 onMouseEnter={() => setHoveredPath(link.href)}
                                 onMouseLeave={() => setHoveredPath(null)}
                             >
                                 {link.label}
                                 {hoveredPath === link.href && (
-                                    <motion.div
-                                        layoutId="navbar-hover"
-                                        className="absolute inset-0 -z-10 rounded-full bg-[var(--background)] border border-[var(--border)] shadow-sm"
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        transition={{ duration: 0.2, ease: "easeOut" }}
+                                    <div
+                                        className="absolute inset-0 -z-10 rounded-full bg-[var(--foreground)]/5 border border-[var(--foreground)]/5 transition-all duration-300"
                                     />
                                 )}
                             </Link>
@@ -71,30 +94,22 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
                     ))}
                 </ul>
 
+                {/* Divider */}
+                <div className="h-4 w-[1px] bg-[var(--border)]/50 hidden md:block mx-1" />
+
                 {/* Right Side Actions */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center">
                     {/* Theme Toggle */}
-                    <motion.button
-                        whileHover={{ scale: 1.15 }}
-                        whileTap={{ scale: 0.95 }}
+                    <button
+                        ref={themeButtonRef}
                         onClick={() => setDark(!dark)}
-                        className="relative p-2.5 rounded-full border border-[var(--border)] bg-[var(--background)]/50 hover:bg-[var(--accent)] text-[var(--foreground)] transition-colors shadow-sm"
+                        className="relative p-2.5 rounded-full bg-[var(--foreground)]/5 hover:bg-[var(--foreground)]/10 text-[var(--foreground)] transition-all shadow-sm focus:outline-none"
                         aria-label="Toggle theme"
                     >
-                        <AnimatePresence mode="wait" initial={false}>
-                            <motion.div
-                                key={dark ? "dark" : "light"}
-                                initial={{ y: -20, opacity: 0, rotate: -90 }}
-                                animate={{ y: 0, opacity: 1, rotate: 0 }}
-                                exit={{ y: 20, opacity: 0, rotate: 90 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {dark ? <Moon size={18} /> : <Sun size={18} />}
-                            </motion.div>
-                        </AnimatePresence>
-                    </motion.button>
+                        {dark ? <Moon size={16} /> : <Sun size={16} />}
+                    </button>
                 </div>
             </div>
-        </motion.nav>
+        </nav>
     );
 }

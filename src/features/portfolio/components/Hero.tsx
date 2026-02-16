@@ -2,19 +2,32 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { METRICS, AVATAR_URL, CURRENT_DATE, CURRENT_YEAR, CURRENT_MONTH} from "@/constants";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { Mail, Eye, ArrowUpRight } from "lucide-react";
+import { CURRENT_YEAR, AVATAR_URL } from "@/constants";
+import { Mail, Eye } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
-
-interface HeroProps {
-}
-
-export default function Hero({ }: HeroProps) {
+export default function Hero() {
     const [typingIndex, setTypingIndex] = useState(0);
     const [typingText, setTypingText] = useState("");
+    const containerRef = useRef<HTMLElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const imageRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+
+        tl.from(containerRef.current, { opacity: 0, duration: 1 })
+          .from(imageRef.current, { scale: 0.8, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.5")
+          .from(contentRef.current, { y: 30, opacity: 0, duration: 0.8 }, "-=0.6")
+          .from(".hero-anim", { 
+              opacity: 0, 
+              y: 20, 
+              duration: 0.6, 
+              stagger: 0.1 
+          }, "-=0.4");
+    }, { scope: containerRef });
+
     const typingRoles = useMemo(
         () => [
             "Software Engineer",
@@ -23,6 +36,7 @@ export default function Hero({ }: HeroProps) {
         ],
         []
     );
+
     const [roleIdx, setRoleIdx] = useState(0);
     const typingTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -46,135 +60,64 @@ export default function Hero({ }: HeroProps) {
         };
     }, [typingIndex, roleIdx, typingRoles]);
 
-    useEffect(() => {
-        AOS.init({ duration: 700, once: true });
-    }, []);
-
     return (
-        <section className="w-full max-w-6xl grid gap-8 lg:grid-cols-[1.15fr,0.85fr] items-stretch mb-16 mt-6" data-aos="fade-up">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)]/70 backdrop-blur-md p-8 shadow-[0_25px_50px_rgba(15,23,42,0.18)]"
-            >
-                <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
-                    <div className="absolute -top-32 -right-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-                    <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+        <section
+            ref={containerRef}
+            className="w-full max-w-[95vw] mx-auto relative pt-32 pb-20 flex flex-col items-center justify-center text-center min-h-[85vh]"
+        >
+            <div ref={imageRef} className="relative z-10 mb-8">
+                 <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[var(--background)] shadow-2xl ring-2 ring-[var(--border)]">
+                    <Image
+                        src={AVATAR_URL}
+                        alt="Kenny Nguyen"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 </div>
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1, duration: 0.5 }}
-                    className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)] mb-4"
-                >
-                    Portfolio - as of {CURRENT_MONTH} {CURRENT_DATE}, {CURRENT_YEAR}
-                </motion.p>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
-                    className="flex items-center gap-5 mb-4"
-                >
-                    <motion.div
-                        className="relative flex-shrink-1 w-full h-full sm:w-30 sm:h-30 rounded-2xl overflow-hidden border border-[var(--border)] shadow-xl bg-gradient-to-br from-[var(--background)] via-[var(--card)] to-[var(--primary)]/25"
-                    >
-                        <Image src={AVATAR_URL} alt="Kenny Nguyen avatar" fill className="object-cover" priority sizes="160px" />
-                    </motion.div>
-                    <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight">Kenny Nguyen</h1>
-                </motion.div>
-                <motion.h2
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.35, duration: 0.6 }}
-                    className="text-xl sm:text-2xl font-medium text-primary mb-4 min-h-[2.5rem]"
-                >
-                    <span className="inline-flex items-center gap-2">
-                        <span className="inline-block w-1 h-6 rounded-full bg-primary" />
-                        <span className="font-mono">{typingText}</span>
-                    </span>
-                </motion.h2>
+            </div>
 
-
-
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.52, duration: 0.6 }}
-                    className="mt-5 rounded-2xl border border-[var(--border)] bg-[var(--background)]/40 p-4"
-                >
-                    <p className="text-xs uppercase tracking-[0.3em] text-[var(--muted-foreground)]">About me</p>
-                    <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.4, duration: 0.6 }}
-                        className="text-base sm:text-lg text-[var(--muted-foreground)] mt-4 "
-                    >
-                        Hi! I'm Kenny, a third-year University of Toronto student who builds full-stack products and cares deeply about UX.
-                        I enjoy turning research + data into clear flows, strong information hierarchy, and interfaces people can trust.
-                    </motion.p>
+            <div
+                ref={contentRef}
+                className="relative z-10 flex flex-col items-center max-w-5xl"
+            >
+                <div className="hero-anim mb-6 flex flex-col items-center">
+                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--primary)] mb-4">
+                        Based in Toronto • {CURRENT_YEAR}
+                    </p>
                     
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.55, duration: 0.6 }}
-                    className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 w-full sm:w-fit"
-                >
+                    <h1 className="text-6xl sm:text-8xl lg:text-9xl font-extrabold tracking-tighter text-[var(--foreground)] mb-6 leading-[0.9]">
+                        Kenny Nguyen
+                    </h1>
 
-                    <motion.a
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.98 }}
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-[var(--muted-foreground)] mb-10 tracking-tight min-h-[3rem]">
+                        <span className="font-mono">{typingText}</span>
+                        <span className="animate-pulse text-[var(--primary)] ml-1">|</span>
+                    </h2>
+                </div>
+
+                
+                <div className="hero-anim flex flex-wrap gap-4 justify-center">
+                    <a
                         href="https://www.linkedin.com/in/kennyngdev-ca/"
                         target="_blank"
                         rel="noreferrer"
-                        className="group flex flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)]/50 px-3 py-2 transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)]"
+                        className="group flex flex-row items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm px-8 py-4 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 hover:-translate-y-0.5"
                     >
-                        <Mail className="w-4 h-4 text-[var(--primary)]" />
-                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">Contact via LinkedIn</span>
-                    </motion.a>
-                    <motion.a
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.98 }}
+                        <Mail className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
+                        <span className="text-base font-semibold text-[var(--foreground)]">Contact via LinkedIn</span>
+                    </a>
+                    <a
                         href="https://docs.google.com/document/d/1F9rAZXCzFa28XcxsBtjAspJGUK9-ynaLZXxcKrnZ5fA/edit?usp=sharing"
                         target="_blank"
                         rel="noreferrer"
-                        className="group flex flex-row items-center justify-center gap-2 rounded-xl border border-dashed border-[var(--border)] bg-[var(--background)]/50 px-3 py-2 transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)]"
+                        className="group flex flex-row items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm px-8 py-4 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 hover:-translate-y-0.5"
                     >
-                        <Eye className="w-4 h-4 text-[var(--primary)]" />
-                        <span className="text-sm font-medium text-[var(--muted-foreground)] group-hover:text-[var(--foreground)]">View Resume</span>
-                    </motion.a>
-                </motion.div>
-            </motion.div>
-            <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="mt-8 grid grid-cols-2 gap-3"
-            >
-                {METRICS.map((metric, idx) => (
-                    <motion.div
-                        key={metric.label}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.65 + idx * 0.05, duration: 0.5 }}
-                        whileHover={{ y: -4 }}
-                        className="rounded-2xl border border-[var(--border)] bg-[var(--background)]/70 p-4 shadow-sm"
-                    >
-                        <p className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">{metric.label}</p>
-                        <p className="text-lg font-semibold text-[var(--foreground)]">{metric.value}</p>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </section >
+                        <Eye className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
+                        <span className="text-base font-semibold text-[var(--foreground)]">View Resume</span>
+                    </a>
+                </div>
+            </div>
+        </section>
     );
 }

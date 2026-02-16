@@ -291,37 +291,3 @@ export const CURRENT_MONTH = new Date().toLocaleString("default", { month: "long
 export const CURRENT_DATE = new Date().getDate();
 export const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
 
-// Framer Motion animation variants
-export const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-export const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
-  },
-};
-
-export const cardVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
-  hover: {
-    y: -8,
-    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
-    transition: { duration: 0.3, ease: "easeOut" as const },
-  },
-};

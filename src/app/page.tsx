@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import NavBar from "@/shared/layout/NavBar";
 import AuroraBackground from "@/shared/layout/AuroraBackground";
 import Footer from "@/shared/layout/Footer";
@@ -12,13 +11,10 @@ import Hackathons from "@/features/portfolio/components/Hackathons";
 import Projects from "@/features/portfolio/components/Projects";
 import Tooling from "@/features/portfolio/components/Tooling";
 import ContactChart from "@/features/portfolio/components/ContactChart";
-import ResumePreview from "@/features/portfolio/components/ResumePreview";
-import CommandMenu from "@/features/portfolio/components/CommandMenu";
 import { useThemePreference } from "@/shared/hooks/useTheme";
 
 export default function Home() {
   const { dark, setDark } = useThemePreference();
-  const [showResumePreview, setShowResumePreview] = useState(false);
 
   return (
     <>
@@ -35,13 +31,6 @@ export default function Home() {
         <ContactChart />
         <Footer />
       </main>
-
-      <ResumePreview isOpen={showResumePreview} onClose={() => setShowResumePreview(false)} />
-      <CommandMenu
-        dark={dark}
-        setDark={setDark}
-        onOpenResume={() => setShowResumePreview(true)}
-      />
     </>
   );
 }

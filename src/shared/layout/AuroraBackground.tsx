@@ -73,9 +73,9 @@ export default function AuroraBackground({ dark }: AuroraBackgroundProps) {
                 };
             } else {
                 return {
-                    particle: "rgba(99, 102, 241, 0.4)",  // Indigo 500
-                    link: "rgba(99, 102, 241, 0.15)",     // Indigo 500
-                    highlight: "rgba(79, 70, 229, 0.5)",  // Indigo 600
+                    particle: "rgba(59, 130, 246, 0.3)",  // Blue 500
+                    link: "rgba(59, 130, 246, 0.1)",     // Blue 500
+                    highlight: "rgba(37, 99, 235, 0.4)",  // Blue 600
                 };
             }
         };
