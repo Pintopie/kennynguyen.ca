@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { NAV_LINKS } from "@/constants";
 import { Moon, Sun } from "lucide-react";
@@ -14,6 +14,7 @@ interface NavBarProps {
 
 export default function NavBar({ dark, setDark }: NavBarProps) {
     const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+    const [activePath, setActivePath] = useState<string | null>(null);
     const navRef = useRef<HTMLElement>(null);
     const themeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -49,6 +50,46 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
         }
     };
 
+    // Observe sections on the page and set the active nav link
+    useEffect(() => {
+        const hashLinks = NAV_LINKS.map((l) => l.href).filter((h) => h.startsWith("#"));
+        const observed: Element[] = [];
+
+        if (!window || hashLinks.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                // Pick the entry with largest intersectionRatio that's intersecting
+                const visible = entries.filter((e) => e.isIntersecting);
+                if (visible.length === 0) return;
+                const best = visible.reduce((a, b) => (a.intersectionRatio > b.intersectionRatio ? a : b));
+                if (best && best.target && best.target.id) {
+                    setActivePath(`#${best.target.id}`);
+                }
+            },
+            { root: null, rootMargin: "-40% 0px -40% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+        );
+
+        hashLinks.forEach((hash) => {
+            const id = hash.replace("#", "");
+            const el = document.getElementById(id);
+            if (el) {
+                observer.observe(el);
+                observed.push(el);
+            }
+        });
+
+        // Initialize from current hash (if present)
+        if (window.location.hash) {
+            setActivePath(window.location.hash);
+        }
+
+        return () => {
+            observed.forEach((el) => observer.unobserve(el));
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <nav
             ref={navRef}
@@ -75,18 +116,25 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
                             <Link
                                 href={link.href}
                                 onClick={(e) => handleNavClick(e, link.href)}
+                                aria-current={activePath === link.href ? "page" : undefined}
                                 className={`relative z-10 block px-4 py-1.5 text-sm font-medium transition-colors rounded-full ${
-                                    hoveredPath === link.href 
-                                        ? "text-[var(--foreground)]" 
-                                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+                                    activePath === link.href
+                                        ? "text-[var(--foreground)]"
+                                        : hoveredPath === link.href
+                                            ? "text-[var(--foreground)]"
+                                            : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
                                     }`}
                                 onMouseEnter={() => setHoveredPath(link.href)}
                                 onMouseLeave={() => setHoveredPath(null)}
                             >
                                 {link.label}
-                                {hoveredPath === link.href && (
+                                {(hoveredPath === link.href || activePath === link.href) && (
                                     <div
-                                        className="absolute inset-0 -z-10 rounded-full bg-[var(--foreground)]/5 border border-[var(--foreground)]/5 transition-all duration-300"
+                                        className={`absolute inset-0 -z-10 rounded-full transition-all duration-300 ${
+                                            activePath === link.href
+                                                ? "bg-[var(--primary)]/10 border border-[var(--primary)]/20"
+                                                : "bg-[var(--foreground)]/5 border border-[var(--foreground)]/5"
+                                        }`}
                                     />
                                 )}
                             </Link>
