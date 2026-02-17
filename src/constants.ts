@@ -49,23 +49,25 @@ export const PROJECTS = [
     tech: ["PyTorch", "Python", "Medical Imaging", "Deep Learning", "Jupyter"],
     featured: true,
   },
+
   {
-    title: "Study Mascot",
+    title: "Interactive Mall Kiosk",
     description:
-      "A UX case study on designing a mascot-based accountability app for students. Features mixed-methods research, affinity mapping, and iterative prototyping.",
+      "Design and prototype of an interactive shopping mall kiosk focused on fast wayfinding, large touch targets, and task-oriented navigation informed by secondary research across large malls and public kiosks.",
     highlights: [
-      "Conducted surveys & interviews with 26+ students",
-      "Designed 'passive accountability' features to reduce social pressure",
-      "Created low-fi & mid-fi prototypes with Figma",
-      "Validated concept through usability testing"
+      "Secondary research across Eaton Centre, Sherway Gardens, airports, and museum kiosks",
+      "Large touch targets and map-centric interface with a clear ‘You are here’ marker",
+      "Search with auto-suggestions and category browsing for discovery",
+      "Minimal text, strong icons, high contrast for public visibility",
+      "Automatic reset and idle behavior; clear floor indicators and step-by-step directions",
+      "Design prioritizes clarity and the happy path: Search/Browse → Store Details → Directions"
     ],
-    link: "/projects/study-mascot-case-study",
+    link: "https://www.figma.com/proto/135DaakbAQaYCw99Xwsttw/Interactive-Shopping-Mall-Kiosk?node-id=148-6898&starting-point-node-id=148%3A6898&t=wm8LKGjyLEe9Tcxx-1",
     links: [
-      { label: "Demo", href: "https://www.figma.com/proto/gZGDMwAZt8D3Xlscso90Cg/Design-Part-2" },
-      { label: "Course Context", href: "https://ischool.utoronto.ca/course/information-design-studio-ii-how-to-design/" },
+      { label: "Demo", href: "https://www.figma.com/proto/135DaakbAQaYCw99Xwsttw/Interactive-Shopping-Mall-Kiosk?node-id=148-6898&starting-point-node-id=148%3A6898&t=wm8LKGjyLEe9Tcxx-1" },
     ],
-    tech: ["Figma", "User Research", "Prototyping", "Design Systems", "Storytelling"],
-    featured: true,
+    tech: ["Figma", "Wayfinding", "Kiosk Design", "UX Research"],
+    featured: false,
   },
 ];
 
