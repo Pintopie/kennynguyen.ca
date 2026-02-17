@@ -43,5 +43,8 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.59.2"
+  },
+  "optionalDependencies": {
+    "@next/swc-win32-x64-msvc": "^15.5.12"
   }
 }
