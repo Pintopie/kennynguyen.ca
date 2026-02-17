@@ -6,34 +6,15 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
-import { Heart, Sparkles, MoonStar, Stars, Flower2, ChevronLeft, ChevronRight, Gift, ChevronDown } from "lucide-react";
-import photo01 from "./z7541317101999_a18ba1f500c7e6e494937175f616ac8a.jpg";
-import photo02 from "./z7541317260810_2b3cd5c58153ce7eb3793ecadff78b0d.jpg";
-import photo03 from "./z7541316915661_baf462883132f118eeeaeb93e235c0aa.jpg";
-import photo04 from "./z7541316751595_d2ed1c1ffde2d8ba3cf1dad559acc5fa.jpg";
-import photo05 from "./z7541316593172_e21bdcfd5f20446d4840b15724232a5f.jpg";
-import photo06 from "./z7541316425274_88311f106dd3af38093182b9685c9196.jpg";
-import photo07 from "./z7541316279470_16ac0e4dee9114d915339acb6122cd4f.jpg";
-import photo08 from "./z7541316119602_9c6dc373fb1f22ceee7e2f2541f0ea1b.jpg";
-import photo09 from "./z7541316004340_ad163cf52e92333e9673cedefc283a26.jpg";
-import photo10 from "./z7541315855227_f2c03f386c58f8615a96e68706da022f.jpg";
-import photo11 from "./z7541315700614_b2b40be77d69db2c3f1712e4cfd5bcc1.jpg";
-import photo12 from "./z7541315529903_9f07bb492b95c7d94ff4b0b5dc1f6024.jpg";
-import photo13 from "./z7541317405971_b6af493444646a62e7bc319a7286c683.jpg";
-import photo14 from "./z7541315348124_fae0ff2a85206b75d5810a4c0fb308d4.jpg";
-import photo15 from "./z7541317682577_14da181151695441f58917ad172d1320.jpg";
-import photo16 from "./z7541317548607_9bd54565dcf010b3fd44afcfeca32cb4.jpg";
-import photo17 from "./z7541317841905_7b8839557f21eeab89561b143e025c54.jpg";
-import photo18 from "./z7541320811625_29ce7346f7a1f031fc99207921783b3b.jpg";
-import photo19 from "./z7541320695914_17670ec45b57ee82fd06c1d4ad0aa2c0.jpg";
-import photo20 from "./z7541320563796_0d52830943d6a0c3abfacfd8e3c0cf44.jpg";
-import photo21 from "./z7541320416535_808c76fb006fecb76c4fc7057fed9b1f.jpg";
-import photo22 from "./z7541320244786_ef16f3920818bf05d42658318d3d4438.jpg";
-import photo23 from "./z7541320135059_1aaefa20f0852b58439a3ad17cf8750e.jpg";
-import photo24 from "./z7541320012524_12012e50e32f2ca0d2554126c4b46f3c.jpg";
-import photo25 from "./z7541319907985_1235e84cbe270da8446e1249911cc583.jpg";
-import photo26 from "./z7541318144169_16946e8f81cb6b3fb0756db27011d1fb.jpg";
-import photo27 from "./z7541318035530_05c9bb7e7ff1ebcbf1bca3b51b150378.jpg";
+import { Heart, Sparkles, Stars, Flower2, ChevronLeft, ChevronRight, Gift, ChevronDown } from "lucide-react";
+import photo01 from "./photo01.jpg";
+import photo02 from "./photo02.jpg";
+import photo03 from "./photo03.jpg";
+import photo04 from "./photo04.jpg";
+import photo05 from "./photo05.jpg";
+import photo06 from "./photo06.jpg";
+import photo07 from "./photo07.jpg";
+import photo08 from "./photo08.jpg";
 
 const floatingItems = [
   { left: "7%", delay: "0s", duration: "9s", icon: Flower2 },
@@ -55,39 +36,16 @@ const galleryImages = [
   photo06,
   photo07,
   photo08,
-  photo09,
-  photo10,
-  photo11,
-  photo12,
-  photo13,
-  photo14,
-  photo15,
-  photo16,
-  photo17,
-  photo18,
-  photo19,
-  photo20,
-  photo21,
-  photo22,
-  photo23,
-  photo24,
-  photo25,
-  photo26,
-  photo27,
 ];
 
 function ParallaxItem({ 
   children, 
   amount = 30, 
-  reveal = true,
-  start = "top 90%", 
-  end = "bottom 10%" 
+  reveal = true
 }: { 
   children: React.ReactNode; 
   amount?: number; 
   reveal?: boolean;
-  start?: string; 
-  end?: string 
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -203,8 +161,8 @@ export default function Feb14LunarWishPage() {
 
                   <p>Tết và Valentine này, anh chỉ mong em có những ngày ấm áp, được ôm bởi những điều tốt lành và được yêu thương thật sự. Cám ơn em vì tất cả KQuynh vì những kỷ niệm, vì những bài học, và vì đã là một phần quan trọng của anh </p>
 
-                  <p className="mt-4 font-semibold">Anh luôn nhớ và trân trọng,</p>
-                  <p className="text-sm opacity-70"> Kéo xún ik </p>
+                  <p className="mt-4 font-semibold">Anh nhớ em</p>
+                  <p className="text-sm opacity-70"> Ở dưới có người đẹp </p>
                 </div>
 
                 <button

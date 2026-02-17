@@ -8,33 +8,14 @@ var react_2 = require("@gsap/react");
 var ScrollTrigger_1 = require("gsap/ScrollTrigger");
 gsap_1["default"].registerPlugin(ScrollTrigger_1.ScrollTrigger);
 var lucide_react_1 = require("lucide-react");
-var z7541317101999_a18ba1f500c7e6e494937175f616ac8a_jpg_1 = require("./z7541317101999_a18ba1f500c7e6e494937175f616ac8a.jpg");
-var z7541317260810_2b3cd5c58153ce7eb3793ecadff78b0d_jpg_1 = require("./z7541317260810_2b3cd5c58153ce7eb3793ecadff78b0d.jpg");
-var z7541316915661_baf462883132f118eeeaeb93e235c0aa_jpg_1 = require("./z7541316915661_baf462883132f118eeeaeb93e235c0aa.jpg");
-var z7541316751595_d2ed1c1ffde2d8ba3cf1dad559acc5fa_jpg_1 = require("./z7541316751595_d2ed1c1ffde2d8ba3cf1dad559acc5fa.jpg");
-var z7541316593172_e21bdcfd5f20446d4840b15724232a5f_jpg_1 = require("./z7541316593172_e21bdcfd5f20446d4840b15724232a5f.jpg");
-var z7541316425274_88311f106dd3af38093182b9685c9196_jpg_1 = require("./z7541316425274_88311f106dd3af38093182b9685c9196.jpg");
-var z7541316279470_16ac0e4dee9114d915339acb6122cd4f_jpg_1 = require("./z7541316279470_16ac0e4dee9114d915339acb6122cd4f.jpg");
-var z7541316119602_9c6dc373fb1f22ceee7e2f2541f0ea1b_jpg_1 = require("./z7541316119602_9c6dc373fb1f22ceee7e2f2541f0ea1b.jpg");
-var z7541316004340_ad163cf52e92333e9673cedefc283a26_jpg_1 = require("./z7541316004340_ad163cf52e92333e9673cedefc283a26.jpg");
-var z7541315855227_f2c03f386c58f8615a96e68706da022f_jpg_1 = require("./z7541315855227_f2c03f386c58f8615a96e68706da022f.jpg");
-var z7541315700614_b2b40be77d69db2c3f1712e4cfd5bcc1_jpg_1 = require("./z7541315700614_b2b40be77d69db2c3f1712e4cfd5bcc1.jpg");
-var z7541315529903_9f07bb492b95c7d94ff4b0b5dc1f6024_jpg_1 = require("./z7541315529903_9f07bb492b95c7d94ff4b0b5dc1f6024.jpg");
-var z7541317405971_b6af493444646a62e7bc319a7286c683_jpg_1 = require("./z7541317405971_b6af493444646a62e7bc319a7286c683.jpg");
-var z7541315348124_fae0ff2a85206b75d5810a4c0fb308d4_jpg_1 = require("./z7541315348124_fae0ff2a85206b75d5810a4c0fb308d4.jpg");
-var z7541317682577_14da181151695441f58917ad172d1320_jpg_1 = require("./z7541317682577_14da181151695441f58917ad172d1320.jpg");
-var z7541317548607_9bd54565dcf010b3fd44afcfeca32cb4_jpg_1 = require("./z7541317548607_9bd54565dcf010b3fd44afcfeca32cb4.jpg");
-var z7541317841905_7b8839557f21eeab89561b143e025c54_jpg_1 = require("./z7541317841905_7b8839557f21eeab89561b143e025c54.jpg");
-var z7541320811625_29ce7346f7a1f031fc99207921783b3b_jpg_1 = require("./z7541320811625_29ce7346f7a1f031fc99207921783b3b.jpg");
-var z7541320695914_17670ec45b57ee82fd06c1d4ad0aa2c0_jpg_1 = require("./z7541320695914_17670ec45b57ee82fd06c1d4ad0aa2c0.jpg");
-var z7541320563796_0d52830943d6a0c3abfacfd8e3c0cf44_jpg_1 = require("./z7541320563796_0d52830943d6a0c3abfacfd8e3c0cf44.jpg");
-var z7541320416535_808c76fb006fecb76c4fc7057fed9b1f_jpg_1 = require("./z7541320416535_808c76fb006fecb76c4fc7057fed9b1f.jpg");
-var z7541320244786_ef16f3920818bf05d42658318d3d4438_jpg_1 = require("./z7541320244786_ef16f3920818bf05d42658318d3d4438.jpg");
-var z7541320135059_1aaefa20f0852b58439a3ad17cf8750e_jpg_1 = require("./z7541320135059_1aaefa20f0852b58439a3ad17cf8750e.jpg");
-var z7541320012524_12012e50e32f2ca0d2554126c4b46f3c_jpg_1 = require("./z7541320012524_12012e50e32f2ca0d2554126c4b46f3c.jpg");
-var z7541319907985_1235e84cbe270da8446e1249911cc583_jpg_1 = require("./z7541319907985_1235e84cbe270da8446e1249911cc583.jpg");
-var z7541318144169_16946e8f81cb6b3fb0756db27011d1fb_jpg_1 = require("./z7541318144169_16946e8f81cb6b3fb0756db27011d1fb.jpg");
-var z7541318035530_05c9bb7e7ff1ebcbf1bca3b51b150378_jpg_1 = require("./z7541318035530_05c9bb7e7ff1ebcbf1bca3b51b150378.jpg");
+var photo01_jpg_1 = require("./photo01.jpg");
+var photo02_jpg_1 = require("./photo02.jpg");
+var photo03_jpg_1 = require("./photo03.jpg");
+var photo04_jpg_1 = require("./photo04.jpg");
+var photo05_jpg_1 = require("./photo05.jpg");
+var photo06_jpg_1 = require("./photo06.jpg");
+var photo07_jpg_1 = require("./photo07.jpg");
+var photo08_jpg_1 = require("./photo08.jpg");
 var floatingItems = [
     { left: "7%", delay: "0s", duration: "9s", icon: lucide_react_1.Flower2 },
     { left: "16%", delay: "1.1s", duration: "11s", icon: lucide_react_1.Heart },
@@ -46,36 +27,17 @@ var floatingItems = [
     { left: "91%", delay: "1.6s", duration: "12s", icon: lucide_react_1.Sparkles },
 ];
 var galleryImages = [
-    z7541317101999_a18ba1f500c7e6e494937175f616ac8a_jpg_1["default"],
-    z7541317260810_2b3cd5c58153ce7eb3793ecadff78b0d_jpg_1["default"],
-    z7541316915661_baf462883132f118eeeaeb93e235c0aa_jpg_1["default"],
-    z7541316751595_d2ed1c1ffde2d8ba3cf1dad559acc5fa_jpg_1["default"],
-    z7541316593172_e21bdcfd5f20446d4840b15724232a5f_jpg_1["default"],
-    z7541316425274_88311f106dd3af38093182b9685c9196_jpg_1["default"],
-    z7541316279470_16ac0e4dee9114d915339acb6122cd4f_jpg_1["default"],
-    z7541316119602_9c6dc373fb1f22ceee7e2f2541f0ea1b_jpg_1["default"],
-    z7541316004340_ad163cf52e92333e9673cedefc283a26_jpg_1["default"],
-    z7541315855227_f2c03f386c58f8615a96e68706da022f_jpg_1["default"],
-    z7541315700614_b2b40be77d69db2c3f1712e4cfd5bcc1_jpg_1["default"],
-    z7541315529903_9f07bb492b95c7d94ff4b0b5dc1f6024_jpg_1["default"],
-    z7541317405971_b6af493444646a62e7bc319a7286c683_jpg_1["default"],
-    z7541315348124_fae0ff2a85206b75d5810a4c0fb308d4_jpg_1["default"],
-    z7541317682577_14da181151695441f58917ad172d1320_jpg_1["default"],
-    z7541317548607_9bd54565dcf010b3fd44afcfeca32cb4_jpg_1["default"],
-    z7541317841905_7b8839557f21eeab89561b143e025c54_jpg_1["default"],
-    z7541320811625_29ce7346f7a1f031fc99207921783b3b_jpg_1["default"],
-    z7541320695914_17670ec45b57ee82fd06c1d4ad0aa2c0_jpg_1["default"],
-    z7541320563796_0d52830943d6a0c3abfacfd8e3c0cf44_jpg_1["default"],
-    z7541320416535_808c76fb006fecb76c4fc7057fed9b1f_jpg_1["default"],
-    z7541320244786_ef16f3920818bf05d42658318d3d4438_jpg_1["default"],
-    z7541320135059_1aaefa20f0852b58439a3ad17cf8750e_jpg_1["default"],
-    z7541320012524_12012e50e32f2ca0d2554126c4b46f3c_jpg_1["default"],
-    z7541319907985_1235e84cbe270da8446e1249911cc583_jpg_1["default"],
-    z7541318144169_16946e8f81cb6b3fb0756db27011d1fb_jpg_1["default"],
-    z7541318035530_05c9bb7e7ff1ebcbf1bca3b51b150378_jpg_1["default"],
+    photo01_jpg_1["default"],
+    photo02_jpg_1["default"],
+    photo03_jpg_1["default"],
+    photo04_jpg_1["default"],
+    photo05_jpg_1["default"],
+    photo06_jpg_1["default"],
+    photo07_jpg_1["default"],
+    photo08_jpg_1["default"],
 ];
 function ParallaxItem(_a) {
-    var children = _a.children, _b = _a.amount, amount = _b === void 0 ? 30 : _b, _c = _a.reveal, reveal = _c === void 0 ? true : _c, _d = _a.start, start = _d === void 0 ? "top 90%" : _d, _e = _a.end, end = _e === void 0 ? "bottom 10%" : _e;
+    var children = _a.children, _b = _a.amount, amount = _b === void 0 ? 30 : _b, _c = _a.reveal, reveal = _c === void 0 ? true : _c;
     var ref = react_1.useRef(null);
     react_2.useGSAP(function () {
         var el = ref.current;
@@ -152,8 +114,8 @@ function Feb14LunarWishPage() {
                                 React.createElement("p", null, "Anh kh\u00F4ng th\u1EC3 quay l\u1EA1i \u0111\u1EC3 thay \u0111\u1ED5i t\u1EA5t c\u1EA3, nh\u01B0ng anh c\u00F3 th\u1EC3 nh\u00ECn th\u1EB3ng v\u00E0o l\u1ED7i l\u1EA7m v\u00E0 h\u1ECDc c\u00E1ch t\u1ED1t h\u01A1n. Nh\u1EDD em, anh bi\u1EBFt y\u00EAu th\u01B0\u01A1ng kh\u00F4ng ch\u1EC9 l\u00E0 c\u1EA3m x\u00FAc m\u00E0 c\u00F2n l\u00E0 tr\u00E1ch nhi\u1EC7m, l\u00E0 l\u1EAFng nghe v\u00E0 l\u00E0 s\u1EF1 \u1EDF l\u1EA1i khi c\u1EA7n. Anh bi\u1EBFt \u01A1n t\u1EEBng kho\u1EA3nh kh\u1EAFc em \u0111\u00E3 chia s\u1EBB, t\u1EEBng gi\u00E2y em \u0111\u00E3 tin t\u01B0\u1EDFng anh."),
                                 React.createElement("p", null, "Anh lu\u00F4n mong em \u0111\u01B0\u1EE3c b\u00ECnh y\u00EAn, \u0111\u01B0\u1EE3c c\u01B0\u1EDDi nhi\u1EC1u h\u01A1n v\u00E0 g\u1EB7p nh\u1EEFng ng\u01B0\u1EDDi th\u01B0\u01A1ng em theo c\u00E1ch em x\u1EE9ng \u0111\u00E1ng. N\u1EBFu duy\u00EAn c\u00F2n, n\u1EBFu \u0111\u1EDDi cho ch\u00FAng ta m\u1ED9t l\u1EA7n g\u1EB7p l\u1EA1i, anh hy v\u1ECDng s\u1EBD l\u00E0 ng\u01B0\u1EDDi \u0111\u00E3 tr\u01B0\u1EDFng th\u00E0nh h\u01A1n, bi\u1EBFt tr\u00E2n tr\u1ECDng v\u00E0 \u0111\u1EE1 che ch\u1EDF cho em nhi\u1EC1u h\u01A1n tr\u01B0\u1EDBc."),
                                 React.createElement("p", null, "T\u1EBFt v\u00E0 Valentine n\u00E0y, anh ch\u1EC9 mong em c\u00F3 nh\u1EEFng ng\u00E0y \u1EA5m \u00E1p, \u0111\u01B0\u1EE3c \u00F4m b\u1EDFi nh\u1EEFng \u0111i\u1EC1u t\u1ED1t l\u00E0nh v\u00E0 \u0111\u01B0\u1EE3c y\u00EAu th\u01B0\u01A1ng th\u1EADt s\u1EF1. C\u00E1m \u01A1n em v\u00EC t\u1EA5t c\u1EA3 KQuynh v\u00EC nh\u1EEFng k\u1EF7 ni\u1EC7m, v\u00EC nh\u1EEFng b\u00E0i h\u1ECDc, v\u00E0 v\u00EC \u0111\u00E3 l\u00E0 m\u1ED9t ph\u1EA7n quan tr\u1ECDng c\u1EE7a anh "),
-                                React.createElement("p", { className: "mt-4 font-semibold" }, "Anh lu\u00F4n nh\u1EDB v\u00E0 tr\u00E2n tr\u1ECDng,"),
-                                React.createElement("p", { className: "text-sm opacity-70" }, " K\u00E9o x\u00FAn ik ")),
+                                React.createElement("p", { className: "mt-4 font-semibold" }, "Anh nh\u1EDB em"),
+                                React.createElement("p", { className: "text-sm opacity-70" }, " \u1EDE d\u01B0\u1EDBi c\u00F3 ng\u01B0\u1EDDi \u0111\u1EB9p ")),
                             React.createElement("button", { type: "button", onClick: function () { return setIsMessageOpen(true); }, className: "gift-cover absolute inset-0 z-20 flex flex-col items-center justify-center rounded-2xl bg-[#ffe4de]/98 text-[#9b5959] transition-all duration-700 " + (isMessageOpen ? "pointer-events-none opacity-0 scale-105" : "opacity-100 scale-100"), "aria-label": "M\u1EDF qu\u00E0 \u0111\u1EC3 \u0111\u1ECDc l\u1EDDi nh\u1EAFn" },
                                 React.createElement("div", { className: "gift-box mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#e8b2b2] bg-[#fff5f1] shadow-md" },
                                     React.createElement(lucide_react_1.Gift, { className: "h-10 w-10 text-[#ca7a7a]" })),
