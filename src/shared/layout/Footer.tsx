@@ -10,15 +10,20 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Footer() {
     const footerRef = useRef<HTMLElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        gsap.from(footerRef.current, {
+        if (!footerRef.current || !innerRef.current) return;
+
+        // Footer "reveal" — content slides up as footer appears
+        gsap.from(innerRef.current, {
+            y: 40,
             opacity: 0,
-            y: 10,
             duration: 0.8,
+            ease: "power3.out",
             scrollTrigger: {
                 trigger: footerRef.current,
-                start: "top 95%",
+                start: "top 92%",
             }
         });
     }, { scope: footerRef });
@@ -26,9 +31,24 @@ export default function Footer() {
     return (
         <footer
             ref={footerRef}
-            className="w-full text-center text-xs text-[var(--muted-foreground)] mt-auto pt-8 border-t border-[var(--border)]"
+            className="relative w-full mt-auto pt-16 pb-8 border-t border-[var(--border)]"
         >
-            &copy; {CURRENT_YEAR} Kenny Nguyen. Built with React + Next.js, and a lot of Timmies. 
+            {/* Gradient fade at top */}
+            <div
+                className="absolute top-0 left-0 right-0 h-24 pointer-events-none"
+                style={{
+                    background: "linear-gradient(to bottom, hsl(var(--background)), transparent)",
+                    transform: "translateY(-100%)",
+                }}
+            />
+            <div ref={innerRef} className="flex flex-col items-center gap-4">
+                <p className="text-sm font-medium text-[var(--foreground)] tracking-tight">
+                    Kenny Nguyen
+                </p>
+                <p className="text-xs text-[var(--muted-foreground)]">
+                    &copy; {CURRENT_YEAR} · Built with React + Next.js, and a lot of Timmies.
+                </p>
+            </div>
         </footer>
     );
 }
