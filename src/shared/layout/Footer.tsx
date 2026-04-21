@@ -46,7 +46,7 @@ export default function Footer() {
                     Kenny Nguyen
                 </p>
                 <p className="text-xs text-[var(--muted-foreground)]">
-                    &copy; {CURRENT_YEAR} · Built with React + Next.js, and a lot of Timmies.
+                    &copy; {CURRENT_YEAR} · Built with React + Next.js, and a lot of Tim's coffee.
                 </p>
             </div>
         </footer>
