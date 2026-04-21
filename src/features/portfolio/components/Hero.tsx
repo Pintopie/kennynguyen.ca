@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Image from "next/image";
 import { CURRENT_YEAR, AVATAR_URL } from "@/constants";
-import { Mail, Eye } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -156,9 +156,9 @@ export default function Hero() {
 
     const typingRoles = useMemo(
         () => [
-            "Software Engineer",
-            "Developer who is always curious",
-            "AI enthusiast – loves solving real-world problems",
+            "Information Science student at U of T",
+            "Backend engineer focused on AI systems",
+            "Product-minded builder with a design eye",
         ],
         []
     );
@@ -209,7 +209,7 @@ export default function Hero() {
             >
                 <div className="hero-anim mb-6 flex flex-col items-center">
                     <p ref={badgeRef} className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--primary)] mb-4">
-                        Based in Toronto • {CURRENT_YEAR}
+                        Toronto, ON M6A 1T4 • {CURRENT_YEAR}
                     </p>
                     
                     <h1
@@ -236,17 +236,17 @@ export default function Hero() {
                         rel="noreferrer"
                         className="group flex flex-row items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm px-8 py-4 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/5"
                     >
-                        <Mail className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
-                        <span className="text-base font-semibold text-[var(--foreground)]">Contact via LinkedIn</span>
+                        <Linkedin className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
+                        <span className="text-base font-semibold text-[var(--foreground)]">LinkedIn</span>
                     </MagneticButton>
                     <MagneticButton
-                        href="https://docs.google.com/document/d/1F9rAZXCzFa28XcxsBtjAspJGUK9-ynaLZXxcKrnZ5fA/edit?usp=sharing"
+                        href="https://github.com/Pintopie"
                         target="_blank"
                         rel="noreferrer"
                         className="group flex flex-row items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/50 backdrop-blur-sm px-8 py-4 transition-all hover:border-[var(--primary)] hover:bg-[var(--primary)]/5"
                     >
-                        <Eye className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
-                        <span className="text-base font-semibold text-[var(--foreground)]">View Resume</span>
+                        <Github className="w-5 h-5 text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors" />
+                        <span className="text-base font-semibold text-[var(--foreground)]">GitHub</span>
                     </MagneticButton>
                 </div>
             </div>

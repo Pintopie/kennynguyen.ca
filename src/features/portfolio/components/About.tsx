@@ -18,25 +18,23 @@ export default function About() {
                     
                     <div className="space-y-2">
                         <h3 className="text-3xl md:text-4xl font-bold text-[var(--foreground)]">
-                            From Terminal to <span className="text-primary">Human Experience</span>.
+                            Building <span className="text-primary">useful software</span> across AI, web, and UX.
                         </h3>
                         <div className="h-1 w-20 bg-primary rounded-full" />
                     </div>
 
                     <div className="prose dark:prose-invert text-[var(--muted-foreground)] leading-relaxed text-lg">
                         <p>
-                            My journey began in the rigid world of Computer Science, where I fell in love with the logic of backend
-                            systems and the efficiency of clean code.
+                            I am an Information Science student at the University of Toronto, with a software development
+                            background from Broward College and hands-on experience in backend engineering, web delivery, and AI.
                         </p>
                         <p>
-                            But as I built more complex systems, I realized a crucial truth:{" "}
-                            <strong className="text-[var(--foreground)]">
-                                resilient infrastructure means nothing if the user experience is broken.
-                            </strong>
+                            I have built FastAPI services, containerized deployment pipelines, and responsive web experiences,
+                            while also working directly on redesigns, content updates, hosting, and SEO improvements.
                         </p>
                         <p>
-                            Today, I operate at the intersection of these two worlds. I'm a full-stack engineer who builds with the
-                            empathy of a designer, and a problem-solver who ensures that every pixel serves a purpose.
+                            The common thread is simple: I like work that is technically solid, easy to use, and ready for real
+                            users.
                         </p>
 
                     </div>
@@ -79,13 +77,13 @@ export default function About() {
                                 <span className="text-red-600 dark:text-red-400">name</span>: <span className="text-green-600 dark:text-green-400">"Kenny Nguyen"</span>,
                             </div>
                             <div className="pl-4">
-                                <span className="text-red-600 dark:text-red-400">location</span>: <span className="text-green-600 dark:text-green-400">"Toronto, Canada CA"</span>,
+                                <span className="text-red-600 dark:text-red-400">location</span>: <span className="text-green-600 dark:text-green-400">"Toronto, ON M6A 1T4"</span>,
                             </div>
                             <div className="pl-4">
                                 <span className="text-red-600 dark:text-red-400">education</span>: <span className="text-green-600 dark:text-green-400">"University of Toronto"</span>,
                             </div>
                             <div className="pl-4">
-                                <span className="text-red-600 dark:text-red-400">focus</span>: <span className="text-yellow-600 dark:text-yellow-400">["Full Stack", "AI Integration", "UX"]</span>,
+                                <span className="text-red-600 dark:text-red-400">focus</span>: <span className="text-yellow-600 dark:text-yellow-400">["Backend", "AI", "UX"]</span>,
                             </div>
                              <div className="pl-4">
                                 <span className="text-red-600 dark:text-red-400">traits</span>: <span className="text-yellow-600 dark:text-yellow-400">{"{"}</span>
@@ -100,7 +98,7 @@ export default function About() {
                                 <span className="text-yellow-600 dark:text-yellow-400">{"}"}</span>,
                             </div>
                             <div className="pl-4">
-                                <span className="text-[var(--muted-foreground)]">{"// Ready to build the future"}</span>
+                                <span className="text-[var(--muted-foreground)]">{"// Ready for internships and full-time roles"}</span>
                             </div>
                             <div className="pl-4">
                                 <span className="text-red-600 dark:text-red-400">status</span>: <span className="text-green-600 dark:text-green-400">"Open to opportunities"</span>

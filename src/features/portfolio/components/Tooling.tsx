@@ -15,19 +15,19 @@ const CATEGORIES = [
         id: "stack",
         label: "Core Stack",
         icon: Cpu,
-        items: ["React + TypeScript", "Node.js + npm", "FastAPI + Python", "PostgreSQL + MongoDB"]
+        items: ["Next.js + React", "React + TypeScript", "FastAPI + Python", "Node.js + npm"]
     },
     {
         id: "infra",
-        label: "Infrastructure",
+        label: "Delivery",
         icon: Cloud,
-        items: ["Docker & Compose", "AWS + Cloud Services", "Git + GitHub"]
+        items: ["Docker & Compose", "GitHub Actions", "Git + GitHub", "PostgreSQL + MongoDB"]
     },
     {
         id: "workspace",
-        label: "Workspace",
+        label: "Workspace & AI",
         icon: PenTool,
-        items: ["VS Code + Extensions", "Figma", "Jupyter Notebooks", "LangChain + Ollama"]
+        items: ["VS Code + Extensions", "Figma", "Jupyter Notebooks", "LangChain + Ollama", "Confluence + Trello", "Claude Code CLI", "Copilot CLI", "OpenClaw AI"]
     }
 ];
 
@@ -84,9 +84,6 @@ export default function Tooling() {
                                             <h4 className="font-medium text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
                                                 {tool.name}
                                             </h4>
-                                            <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mt-1">
-                                                {tool.detail}
-                                            </p>
                                         </div>
                                     </li>
                                 );
