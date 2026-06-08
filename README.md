@@ -1,76 +1,109 @@
 # Kenny Nguyen Portfolio
 
-Modern, animated personal site built with Next.js 15, React 19, and Tailwind CSS v4. The experience highlights projects, work history, education, and tools with motion-first UI and a keyboard-driven command palette.
+Personal portfolio
+Live site: [kennynguyen.ca](https://kennynguyen.ca)
 
-Primary domain: https://kennynguyen.ca
+## Overview
 
-## What’s Inside
-- Animated hero with rotating roles, current date badge, and metric cards fed by [src/constants.ts](src/constants.ts)
-- Resume preview modal and downloadable PDF from [public/resumes/resume.pdf](public/resumes/resume.pdf)
-- Command palette (Cmd/Ctrl+K) with navigation, theme toggle, and quick links; uses [src/features/portfolio/components/CommandMenu.tsx](src/features/portfolio/components/CommandMenu.tsx)
-- Light/dark theme persisted in localStorage via [src/shared/hooks/useTheme.ts](src/shared/hooks/useTheme.ts)
-- Aurora canvas background reacting to theme in [src/shared/layout/AuroraBackground.tsx](src/shared/layout/AuroraBackground.tsx)
-- Section lineup: About, Skills, Work Experience, Education, Projects, Hackathons, Tools, GitHub contribution chart, contact shortcuts
-- Framer Motion and AOS for staggered scroll-reveals; shared motion variants live in [src/constants.ts](src/constants.ts)
-- Data-driven content for jobs, projects, hackathons, skills, and tooling editable in one place
+The site presents my professional story through:
 
-## Stack
-- Next.js 15 (App Router) and React 19 with TypeScript
-- Tailwind CSS v4 for theming and utility styling ([src/app/globals.css](src/app/globals.css))
-- Framer Motion 12 for interaction and enter/exit animations; AOS for progressive scroll effects
-- Keyboard shortcuts with react-hotkeys-hook; iconography from Lucide and react-icons
-- Cloudflare Workers hosting via @opennextjs/cloudflare and Wrangler; fonts from Geist and Outfit
+- A focused hero with profile links
+- About and education sections
+- Selected projects with engineering outcomes
+- Full-stack, interface, and AI capability areas
+- Professional experience and company links
+- Resume, email, LinkedIn, and GitHub access
+- Persistent light and dark themes
+
+The interface intentionally uses restrained motion and a static blue/violet
+visual theme. Most hierarchy comes from typography, spacing, and content rather
+than decorative effects.
+
+## Technology
+
+- Next.js 15 with the App Router
+- React 19 and TypeScript
+- Tailwind CSS 4
+- GSAP for hero interactions
+- Lucide React icons
+- OpenNext and Wrangler for Cloudflare deployment
 
 ## Project Structure
-- [src/app/layout.tsx](src/app/layout.tsx) – global fonts, metadata, and initial loading screen
-- [src/app/page.tsx](src/app/page.tsx) – page assembly and section ordering
-- [src/features/portfolio/components](src/features/portfolio/components) – section components (Hero, About, Skills, Experience, Hackathons, Projects, Tooling, ContactChart, ResumePreview, CommandMenu)
-- [src/shared/layout](src/shared/layout) – NavBar, AuroraBackground, Footer
-- [src/shared/ui](src/shared/ui) – AnimatedCard, ScrollReveal helpers
-- [src/shared/hooks/useTheme.ts](src/shared/hooks/useTheme.ts) – theme persistence
-- [public/](public/) – logos, resumes, and images
 
-## Run Locally
-Prerequisites: Node.js 18+ and npm.
+```text
+src/
+  app/
+    globals.css          Global theme and layout system
+    layout.tsx           Fonts and site metadata
+    page.tsx             Portfolio section composition
+  features/portfolio/
+    components/          Hero, About, Education, Projects, Skills,
+                         Experience, and Contact sections
+  shared/
+    hooks/useTheme.ts    Persistent light/dark theme
+    layout/              Navigation and footer
+  constants.ts           Projects, experience, education, and competition data
+public/
+  logos/                 Company and school marks
+  resume/Resume.pdf      Public resume
+```
 
-1) Install dependencies
+## Local Development
+
+Requires Node.js 20 or later and npm.
+
 ```bash
 npm install
-```
-2) Start dev server
-```bash
 npm run dev
 ```
-Open http://localhost:3000.
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
-- npm run dev — start Next.js dev server
-- npm run build — production build
-- npm run start — serve the built app
-- npm run lint — run ESLint
-- npm run build:worker — compile for Cloudflare (OpenNext)
-- npm run preview — build then preview on Cloudflare
-- npm run deploy — build then deploy via Wrangler
-- npm run upload — build then upload assets via Wrangler
-- npm run cf-typegen — generate Cloudflare env types to cloudflare-env.d.ts
 
-## Content Editing
-- Copy and data live in [src/constants.ts](src/constants.ts): nav links, skills, projects, experience, education, hackathons, and tooling.
-- Replace the resume at [public/resumes/resume.pdf](public/resumes/resume.pdf) to update the modal/download.
-- Avatar and logos live under [public/logos](public/logos).
+```bash
+npm run dev          # Start the Next.js development server
+npm run lint         # Run ESLint against src/
+npm run build        # Create a production Next.js build
+npm run start        # Serve the production build
+npm run build:worker # Build for Cloudflare with OpenNext
+npm run preview      # Build and preview the Cloudflare worker
+npm run deploy       # Build and deploy to Cloudflare
+npm run upload       # Build and upload the worker
+npm run cf-typegen   # Generate Cloudflare environment types
+```
 
-## Styling and Motion
-- Theme tokens and radii are defined in [src/app/globals.css](src/app/globals.css). Dark mode is applied by toggling the html.dark class.
-- Shared motion variants (container/item/card) are exported from [src/constants.ts](src/constants.ts) and reused by AnimatedCard and ScrollReveal.
+## Updating Content
 
-## Deployment (Cloudflare Workers)
-- OpenNext config: [open-next.config.ts](open-next.config.ts)
-- Worker entrypoint and routing: [wrangler.jsonc](wrangler.jsonc)
-- Build and preview locally: `npm run preview`
-- Deploy to configured custom domains (kennynguyen.ca, www.kennynguyen.ca): `npm run deploy`
+- Edit projects, work history, education, and competition data in
+  [`src/constants.ts`](src/constants.ts).
+- Edit section copy and structure in
+  [`src/features/portfolio/components`](src/features/portfolio/components).
+- Replace [`public/resume/Resume.pdf`](public/resume/Resume.pdf) to update the
+  resume link.
+- Add or replace organization images under [`public/logos`](public/logos).
+- Update theme tokens and responsive layout rules in
+  [`src/app/globals.css`](src/app/globals.css).
 
-## Notes and Constraints
-- No runtime env vars required for the current UI; all data is static.
-- Three.js packages are available for future 3D sections but not currently rendered.
+## Quality Checks
 
-Last updated: January 2026
+Run these before deployment:
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
+The interface targets WCAG 2.2 AA with keyboard focus states, reduced-motion
+support, responsive layouts, semantic headings, and accessible link labels.
+
+## Cloudflare Deployment
+
+Cloudflare configuration lives in:
+
+- [`open-next.config.ts`](open-next.config.ts)
+- [`wrangler.jsonc`](wrangler.jsonc)
+- [`public/_headers`](public/_headers)
+
+Preview locally with `npm run preview`, then deploy with `npm run deploy`.
