@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Image from "next/image";
-import { CURRENT_YEAR, AVATAR_URL } from "@/constants";
+import { AVATAR_URL } from "@/constants";
 import { Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -116,18 +116,6 @@ export default function Hero() {
             },
         });
 
-        // CTA buttons float up and fade
-        gsap.to(".hero-cta-row", {
-            y: -20,
-            opacity: 0,
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "30% top",
-                end: "60% top",
-                scrub: 1,
-            },
-        });
-
     }, { scope: containerRef });
 
     // Character-level name animation
@@ -156,9 +144,9 @@ export default function Hero() {
 
     const typingRoles = useMemo(
         () => [
-            "Information Science student at U of T",
+            "Undergraduate at University of Toronto",
             "Backend engineer focused on AI systems",
-            "Product-minded builder with a design eye",
+            "Product-minded engineer with a design eye",
         ],
         []
     );
@@ -209,7 +197,7 @@ export default function Hero() {
             >
                 <div className="hero-anim mb-6 flex flex-col items-center">
                     <p ref={badgeRef} className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--primary)] mb-4">
-                        Toronto, ON M6A 1T4 • {CURRENT_YEAR}
+                        Toronto, ON
                     </p>
                     
                     <h1

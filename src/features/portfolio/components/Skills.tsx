@@ -1,51 +1,47 @@
-"use client";
-
-import React from "react";
-import { SKILLS } from "@/constants";
-import AnimatedCard from "@/shared/ui/AnimatedCard";
-import ScrollReveal from "@/shared/ui/ScrollReveal";
-import { Zap } from "lucide-react";
+const CAPABILITIES = [
+    {
+        title: "Product interfaces",
+        description:
+            "Responsive web experiences shaped around clear hierarchy, accessible interaction, and maintainable component systems.",
+        skills: ["React", "Next.js", "TypeScript", "Figma", "Responsive UI", "Accessibility"],
+    },
+    {
+        title: "Backend systems",
+        description:
+            "Typed APIs and deployment workflows built for reliable operation, secure access, and straightforward maintenance.",
+        skills: ["Python", "FastAPI", "Node.js", "PostgreSQL", "Docker", "CI/CD"],
+    },
+    {
+        title: "AI and data workflows",
+        description:
+            "Applied machine learning and retrieval systems that keep source quality, explainability, and user needs in view.",
+        skills: ["LangChain", "Ollama", "RAG", "Jupyter", "Machine Learning", "SHAP"],
+    },
+];
 
 export default function Skills() {
     return (
-        <section className="w-full max-w-5xl mb-16" id="skills">
-            <ScrollReveal className="mb-12">
-                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
-                            <Zap size={24} />
-                        </div>
-                        <h2 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Skills</h2>
-                    </div>
-                    <p className="text-xs uppercase tracking-[0.4em] text-[var(--muted-foreground)] hidden sm:block">Stack favorites</p>
-                </div>
-            </ScrollReveal>
-            <div
-                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            >
-                {SKILLS.map((skill, idx) => {
-                    const Icon = skill.icon;
-                    return (
-                        <AnimatedCard
-                            key={skill.label}
-                            delay={idx * 0.05}
-                            className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/85 p-4 shadow-sm"
-                        >
-                            <div className="flex items-center gap-3 transition-transform hover:translate-x-1">
-                                <span
-                                    className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--background)]/70 transition-transform hover:scale-110 hover:rotate-6"
-                                    style={{ color: skill.color }}
-                                >
-                                    <Icon size={22} />
-                                </span>
-                                <div>
-                                    <p className="font-semibold text-[var(--foreground)]">{skill.label}</p>
-                                    <p className="text-xs text-[var(--muted-foreground)]">{skill.tooltip}</p>
-                                </div>
-                            </div>
-                        </AnimatedCard>
-                    );
-                })}
+        <section className="portfolio-section capabilities-section" id="skills">
+            <header className="section-heading">
+                <h2>How I contribute</h2>
+                <p>
+                    I work across interface design and implementation, backend delivery,
+                    and applied AI. The focus stays on usable outcomes rather than tools alone.
+                </p>
+            </header>
+
+            <div className="capability-list">
+                {CAPABILITIES.map((capability) => (
+                    <article className="capability-row" key={capability.title}>
+                        <h3>{capability.title}</h3>
+                        <p>{capability.description}</p>
+                        <ul className="tag-list" aria-label={`${capability.title} skills`}>
+                            {capability.skills.map((skill) => (
+                                <li key={skill}>{skill}</li>
+                            ))}
+                        </ul>
+                    </article>
+                ))}
             </div>
         </section>
     );

@@ -1,29 +1,3 @@
-import { FaReact, FaNodeJs, FaRobot, FaCode, FaTerminal } from "react-icons/fa";
-import {
-  SiNextdotjs,
-  SiTypescript,
-  SiPython,
-  SiFastapi,
-  SiDocker,
-  SiGit,
-  SiGithub,
-  SiPostgresql,
-  SiJupyter,
-  SiFigma,
-  SiGithubactions,
-  SiConfluence,
-  SiTrello,
-} from "react-icons/si";
-
-export const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#stack", label: "Tools" },
-  { href: "#contact", label: "Contact" },
-];
-
 export const PROJECTS = [
   {
     title: "AI Clinical Assistant \"JarvisMD\"",
@@ -36,7 +10,7 @@ export const PROJECTS = [
       "Maintained 99.9% uptime with Python health checks and Zulip bot alerts",
     ],
     links: [
-      { label: "Live Site", href: "https://mvp.healthbridgeai.com" },
+      { label: "Live Site", href: "https://jarvismd.healthbridgeai.com/" },
       { label: "Company", href: "https://healthbridgeai.com" },
     ],
     tech: ["Python", "FastAPI", "Docker", "Nginx", "Keycloak", "JWT"],
@@ -80,6 +54,7 @@ export const EXPERIENCE = [
     endDate: "05/2026",
     location: "Toronto, ON, CA",
     logo: "/logos/s_sutton_logo.jpg",
+    website: "https://ssutton-and-associates.com/",
     highlights: [
       "Led responsive website redesigns and content updates to improve mobile usability, site structure, and user experience across core web pages.",
       "Managed hosting operations including GoDaddy, DNS configuration, SSL certificates, and domain administration, helping maintain 99.99% uptime across production web properties.",
@@ -96,6 +71,7 @@ export const EXPERIENCE = [
     endDate: "07/2025",
     location: "Remote",
     logo: "/logos/healthbridgeai.jpg",
+    website: "https://healthbridgeai.com/",
     highlights: [
       "Built FastAPI services with structured authentication and authorization using Keycloak, supporting 10,000+ active users and sessions.",
       "Integrated LLM-powered workflows with LangChain and OpenAI APIs to automate diagnosis and reduce processing time by 68% for doctors.",
@@ -105,12 +81,14 @@ export const EXPERIENCE = [
     tech: ["FastAPI", "Python", "Docker", "GitHub Actions", "Keycloak", "LangChain"],
   },
   {
-    company: "Netpalm",
+    company: "Netpalm.AI",
     role: "Software Developer Intern",
     startDate: "10/2024",
     endDate: "02/2025",
     location: "Remote",
     logo: "/logos/netpalm.jpg",
+    website:
+      "https://netpalm.ai",
     highlights: [
       "Built React and Umi.js features that improved user flow and reduced UI bugs, contributing to a 50% decrease in frontend issue reports.",
       "Developed Python Scrapy crawlers to collect structured data for internal analysis and reduce manual collection effort.",
@@ -173,131 +151,5 @@ export const HACKATHONS = [
   },
 ];
 
-export const TOOLING = [
-  {
-    name: "Next.js + React",
-    detail: "Front-end framework and component model for the portfolio and production web apps.",
-    href: "https://nextjs.org/",
-    icon: SiNextdotjs,
-  },
-  {
-    name: "React + TypeScript",
-    detail: "Type-safe component libraries and hooks for scalable front-end development.",
-    href: "https://react.dev/",
-    icon: FaReact,
-  },
-  {
-    name: "FastAPI + Python",
-    detail: "Typed Python APIs for ML services, instrumented with OpenAPI and Pydantic.",
-    href: "https://fastapi.tiangolo.com/",
-    icon: SiFastapi,
-  },
-  {
-    name: "LangChain + Ollama",
-    detail: "Local inference plus retrieval orchestration for AI workflows and assistants.",
-    href: "https://www.langchain.com/",
-    icon: FaRobot,
-  },
-  {
-    name: "Docker & Compose",
-    detail: "Reproducible dev containers for backend services and AI projects.",
-    href: "https://www.docker.com/",
-    icon: SiDocker,
-  },
-  {
-    name: "GitHub Actions",
-    detail: "Automated builds and deploys for staging and production delivery.",
-    href: "https://github.com/features/actions",
-    icon: SiGithubactions,
-  },
-  {
-    name: "Node.js + npm",
-    detail: "Backend services and CLI tools with async/await and the npm ecosystem.",
-    icon: FaNodeJs,
-  },
-  {
-    name: "PostgreSQL + MongoDB",
-    detail: "SQL and NoSQL databases for diverse data storage needs.",
-    icon: SiPostgresql,
-  },
-  {
-    name: "Git + GitHub",
-    detail: "Version control and collaboration for shipped projects and team workflows.",
-    href: "https://github.com/",
-    icon: SiGit,
-  },
-  {
-    name: "Confluence + Trello",
-    detail: "Documentation and task tracking for collaborative delivery.",
-    href: "https://www.atlassian.com/software/confluence",
-    icon: SiConfluence,
-  },
-  {
-    name: "VS Code + Extensions",
-    detail: "Modern editor with Vim, Copilot, and language servers for productivity.",
-    href: "https://code.visualstudio.com/",
-    icon: FaCode,
-  },
-  {
-    name: "Jupyter Notebooks",
-    detail: "Interactive notebooks for data exploration, prototyping, and ML experiments.",
-    href: "https://jupyter.org/",
-    icon: SiJupyter,
-  },
-  {
-    name: "Figma",
-    detail: "Collaborative interface design tool for high-fidelity prototyping and user testing.",
-    href: "https://www.figma.com/",
-    icon: SiFigma,
-  },
-  {
-    name: "Trello",
-    detail: "Lightweight project tracking for sprint planning and team coordination.",
-    href: "https://trello.com/",
-    icon: SiTrello,
-  },
-    {
-      name: "Claude Code CLI",
-      detail: "AI CLI tool for fast codebase reasoning and generation.",
-      icon: FaTerminal,
-    },
-    {
-      name: "Copilot CLI",
-      detail: "AI-assisted terminal intelligence and shell commands.",
-      icon: FaTerminal,
-    },
-    {
-      name: "OpenClaw AI",
-      detail: "AI agent for environment tasks and automated development workflows.",
-      icon: FaRobot,
-    },
-  ];
-
-export const SKILLS = [
-  { label: "React", tooltip: "React - UI library", icon: FaReact, color: "#61DAFB" },
-  { label: "Next.js", tooltip: "Next.js - React framework", icon: SiNextdotjs, color: "#000000" },
-  { label: "TypeScript", tooltip: "TypeScript - typed JavaScript", icon: SiTypescript, color: "#3178C6" },
-  { label: "Python", tooltip: "Python - backend and ML", icon: SiPython, color: "#3776AB" },
-  { label: "FastAPI", tooltip: "FastAPI - Python web APIs", icon: SiFastapi, color: "#009688" },
-  { label: "Docker", tooltip: "Docker - containerization", icon: SiDocker, color: "#2496ED" },
-  { label: "GitHub Actions", tooltip: "GitHub Actions - CI/CD", icon: SiGithubactions, color: "#2088FF" },
-  { label: "Git", tooltip: "Git - version control", icon: SiGit, color: "#F05032" },
-  { label: "GitHub", tooltip: "GitHub - collaboration", icon: SiGithub, color: "#000000" },
-  { label: "Figma", tooltip: "Figma - design and UX", icon: SiFigma, color: "#7e36fa" },
-  { label: "SQL", tooltip: "PostgreSQL and MongoDB", icon: SiPostgresql, color: "#336791" },
-  { label: "AI/ML", tooltip: "LangChain, Ollama, and applied machine learning", icon: FaRobot, color: "#F97316" },
-    { label: "Claude Code", tooltip: "Claude Code CLI - AI coding assistant", icon: FaTerminal, color: "#d97757" },
-    { label: "Copilot CLI", tooltip: "Copilot CLI - Terminal intelligence", icon: FaTerminal, color: "#000000" },
-    { label: "OpenClaw AI", tooltip: "OpenClaw AI - Environment agent", icon: FaRobot, color: "#61DAFB" },
-];
-
-export const METRICS = [
-  { label: "Timezone", value: "Toronto - EST" },
-  { label: "Focus", value: "Backend, AI, and Product Design" },
-];
-
 export const CURRENT_YEAR = new Date().getFullYear();
-export const CURRENT_MONTH = new Date().toLocaleString("default", { month: "long" });
-export const CURRENT_DATE = new Date().getDate();
 export const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";
-

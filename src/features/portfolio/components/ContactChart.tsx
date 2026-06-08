@@ -1,102 +1,52 @@
-"use client";
-
-import React from "react";
-import Image from "next/image";
-import ScrollReveal from "@/shared/ui/ScrollReveal";
-import { Mail, Github, Linkedin, FileText } from "lucide-react";
+import { ArrowUpRight, FileText, Github, Linkedin, Mail } from "lucide-react";
 
 export default function ContactChart() {
     return (
-        <section className="w-full max-w-2xl mb-8" id="contact">
-             <div className="flex items-center justify-center gap-3 mb-12">
-                <div className="p-2 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
-                    <Mail size={24} />
-                </div>
-                <h2 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Contact</h2>
+        <section className="portfolio-section contact-section" id="contact">
+            <div>
+                <h2>Let&apos;s work together</h2>
+                <p>
+                    I am open to full-stack, product engineering, backend, and
+                    UI-focused opportunities where careful implementation matters.
+                </p>
             </div>
 
-            <ScrollReveal className="flex flex-col items-center justify-center gap-4">
+            <div className="contact-actions">
+                <a className="primary-action" href="mailto:hoangnhan20192@gmail.com">
+                    <Mail aria-hidden="true" size={18} />
+                    Email Kenny
+                </a>
                 <a
-                    href="https://github.com/Pintopie"
+                    className="secondary-action"
+                    href="/resume/Resume.pdf"
                     target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub activity graph"
-                    className="block w-full max-w-xl transition-transform hover:scale-[1.02]"
+                    rel="noreferrer"
                 >
-                    <Image
-                        src="https://ghchart.rshah.org/Pintopie"
-                        alt="GitHub activity graph for Pintopie"
-                        width={900}
-                        height={200}
-                        className="rounded-lg border border-[var(--border)] bg-[var(--card)]"
-                        priority
-                    />
+                    <FileText aria-hidden="true" size={18} />
+                    View resume
                 </a>
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-xl">
-                <a
-                    href="mailto:hoangnhan20192@gmail.com"
-                    className="block rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 hover:shadow-lg transition-transform hover:-translate-y-1"
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-[var(--primary)]/10 p-2 text-[var(--primary)]">
-                            <Mail size={18} />
-                        </div>
-                        <div>
-                            <p className="font-semibold text-[var(--foreground)]">Email</p>
-                            <p className="text-sm text-[var(--muted-foreground)]">hoangnhan20192@gmail.com</p>
-                        </div>
-                    </div>
-                </a>
+            </div>
+
+            <div className="social-links" aria-label="Professional profiles">
                 <a
                     href="https://www.linkedin.com/in/kennyngdev-ca/"
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 hover:shadow-lg transition-transform hover:-translate-y-1"
+                    rel="noreferrer"
                 >
-                    <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-[var(--primary)]/10 p-2 text-[var(--primary)]">
-                            <Linkedin size={18} />
-                        </div>
-                        <div>
-                            <p className="font-semibold text-[var(--foreground)]">LinkedIn</p>
-                            <p className="text-sm text-[var(--muted-foreground)]">linkedin.com/in/kennyngdev-ca</p>
-                        </div>
-                    </div>
+                    <Linkedin aria-hidden="true" size={18} />
+                    LinkedIn
+                    <ArrowUpRight aria-hidden="true" size={15} />
                 </a>
                 <a
                     href="https://github.com/Pintopie"
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 hover:shadow-lg transition-transform hover:-translate-y-1"
+                    rel="noreferrer"
                 >
-                    <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-[var(--primary)]/10 p-2 text-[var(--primary)]">
-                            <Github size={18} />
-                        </div>
-                        <div>
-                            <p className="font-semibold text-[var(--foreground)]">GitHub</p>
-                            <p className="text-sm text-[var(--muted-foreground)]">github.com/Pintopie</p>
-                        </div>
-                    </div>
+                    <Github aria-hidden="true" size={18} />
+                    GitHub
+                    <ArrowUpRight aria-hidden="true" size={15} />
                 </a>
-                <a
-                    href="/resume/Resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 hover:shadow-lg transition-transform hover:-translate-y-1"
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="rounded-xl bg-[var(--primary)]/10 p-2 text-[var(--primary)]">
-                            <FileText size={18} />
-                        </div>
-                        <div>
-                            <p className="font-semibold text-[var(--foreground)]">Resume PDF</p>
-                            <p className="text-sm text-[var(--muted-foreground)]">View my resume</p>
-                        </div>
-                    </div>
-                </a>
-                </div>
-            </ScrollReveal>
+            </div>
         </section>
     );
 }

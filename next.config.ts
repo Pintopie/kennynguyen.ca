@@ -9,14 +9,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
-      {
-        protocol: "https",
-        hostname: "ghchart.rshah.org",
-      },
-      {
-        protocol: "https",
-        hostname: "github-readme-stats.vercel.app",
-      },
     ],
   },
   onDemandEntries: {
