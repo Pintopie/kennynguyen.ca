@@ -6,22 +6,19 @@ export default function About() {
     return (
         <section className="portfolio-section about-section" id="about">
             <div className="about-story">
-                <h2>About me</h2>
+                <div>
+                    <p className="eyebrow">About</p>
+                    <h2>Software engineer with a product eye.</h2>
+                </div>
                 <div className="about-copy">
                     <p>
-                        I am an Information Science student at the University of Toronto
-                        with a software development background from Broward College.
+                        I started in Software Development at Broward College and now study
+                        Information Science at the University of Toronto.
                     </p>
                     <p>
-                        My experience spans responsive website redesigns, backend APIs,
-                        containerized deployments, and AI-assisted workflows. Working
-                        across those layers taught me to treat usability and engineering
-                        quality as parts of the same problem.
-                    </p>
-                    <p>
-                        I am most useful on teams that need someone who can understand the
-                        interface, trace the system behind it, and make both easier to use
-                        and maintain.
+                        Most of my work sits between product and infrastructure: responsive
+                        pages, backend services, Docker deployments, analytics, and AI-assisted
+                        workflows.
                     </p>
                 </div>
             </div>
@@ -35,7 +32,8 @@ export function Education() {
     return (
         <section className="portfolio-section" id="education">
             <header className="section-heading">
-                <h2>Education</h2>
+                <p className="eyebrow">Education</p>
+                <h2>Study and project work.</h2>
                 <p>
                     Formal study in information systems, software development,
                     interface design, and applied machine learning.

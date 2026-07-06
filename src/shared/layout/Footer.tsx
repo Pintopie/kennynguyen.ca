@@ -5,7 +5,7 @@ export default function Footer() {
         <footer className="site-footer">
             <div className="site-footer__inner">
                 <p><strong>Kenny Nguyen</strong> </p>
-                <p>&copy; {CURRENT_YEAR}. Built with Next.js & Deployed on Cloudflare.</p>
+                <p>&copy; {CURRENT_YEAR}. Built with Next.js and deployed on Cloudflare.</p>
             </div>
         </footer>
     );

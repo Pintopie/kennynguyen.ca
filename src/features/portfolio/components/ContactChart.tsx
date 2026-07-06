@@ -4,17 +4,17 @@ export default function ContactChart() {
     return (
         <section className="portfolio-section contact-section" id="contact">
             <div>
-                <h2>Let&apos;s work together</h2>
+                <p className="eyebrow">Contact</p>
+                <h2>Reach out to me!</h2>
                 <p>
-                    I am open to full-stack, product engineering, backend, and
-                    UI-focused opportunities where careful implementation matters.
+                    I am open to full-stack, product engineering, backend, and UI-focused opportunities where careful implementation matters.
                 </p>
             </div>
 
             <div className="contact-actions">
                 <a className="primary-action" href="mailto:hoangnhan20192@gmail.com">
                     <Mail aria-hidden="true" size={18} />
-                    Email Kenny
+                    Send me an Email
                 </a>
                 <a
                     className="secondary-action"
@@ -23,7 +23,7 @@ export default function ContactChart() {
                     rel="noreferrer"
                 >
                     <FileText aria-hidden="true" size={18} />
-                    View resume
+                    View my resume
                 </a>
             </div>
 

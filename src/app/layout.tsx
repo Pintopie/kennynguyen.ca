@@ -1,26 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import { Archivo_Black, DM_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const archivoBlack = Archivo_Black({
+  variable: "--font-display",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-body",
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-mono",
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Kenny Nguyen | Full-stack Developer",
+  title: "Kenny Nguyen | Software Engineer",
   description:
-    "Portfolio of Kenny Nguyen, a Toronto-based full-stack developer focused on reliable systems and thoughtful user experiences.",
+    "Portfolio of Kenny Nguyen, a Toronto-based software engineer with a product and UX design lens.",
   icons: {
     icon: "https://avatars.githubusercontent.com/u/134212302?v=4",
   },
@@ -34,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
+        className={`${archivoBlack.variable} ${dmSans.variable} ${spaceMono.variable} antialiased`}
       >
         {children}
       </body>

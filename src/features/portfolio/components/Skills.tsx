@@ -23,10 +23,11 @@ export default function Skills() {
     return (
         <section className="portfolio-section capabilities-section" id="skills">
             <header className="section-heading">
-                <h2>How I contribute</h2>
+                <p className="eyebrow">Capabilities</p>
+                <h2>How I build.</h2>
                 <p>
-                    I work across interface design and implementation, backend delivery,
-                    and applied AI. The focus stays on usable outcomes rather than tools alone.
+                    I work across interface implementation, backend delivery, and applied AI.
+                    The tools matter, but the main goal is a product that works clearly.
                 </p>
             </header>
 

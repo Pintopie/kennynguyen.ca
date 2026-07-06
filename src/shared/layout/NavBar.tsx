@@ -1,28 +1,19 @@
-"use client";
-
 import Link from "next/link";
-import { Moon, Sun } from "lucide-react";
 
 const NAV_LINKS = [
-    { href: "#about", label: "About" },
-    { href: "#education", label: "Education" },
     { href: "#projects", label: "Work" },
-    { href: "#skills", label: "Capabilities" },
+    { href: "#skills", label: "Skills" },
     { href: "#experience", label: "Experience" },
-    { href: "#contact", label: "Contact" },
+    { href: "#education", label: "Education" },
 ];
 
-interface NavBarProps {
-    dark: boolean;
-    setDark: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function NavBar({ dark, setDark }: NavBarProps) {
+export default function NavBar() {
     return (
-        <nav className="site-nav" aria-label="Primary navigation">
+        <header className="site-nav" aria-label="Primary navigation">
             <div className="site-nav__inner">
                 <Link href="/" className="site-nav__brand" aria-label="Kenny Nguyen, home">
-                    KN
+                    <span>KN</span>
+                    <span>Kenny Nguyen</span>
                 </Link>
 
                 <ul className="site-nav__links">
@@ -33,19 +24,10 @@ export default function NavBar({ dark, setDark }: NavBarProps) {
                     ))}
                 </ul>
 
-                <button
-                    type="button"
-                    onClick={() => setDark(!dark)}
-                    className="theme-toggle"
-                    aria-label={`Switch to ${dark ? "light" : "dark"} theme`}
-                >
-                    {dark ? (
-                        <Sun aria-hidden="true" size={17} />
-                    ) : (
-                        <Moon aria-hidden="true" size={17} />
-                    )}
-                </button>
+                <Link className="nav-contact" href="#contact">
+                    Contact
+                </Link>
             </div>
-        </nav>
+        </header>
     );
 }

@@ -2,16 +2,31 @@ import Link from "next/link";
 import { PROJECTS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 
+const UX_CASE_STUDIES = [
+    {
+        title: "Figma case studies",
+        status: "Returning soon",
+        description:
+            "Reserved for product design case studies covering research, flows, interface decisions, and prototype links.",
+    },
+    {
+        title: "Design systems work",
+        status: "In progress",
+        description:
+            "A place for component logic, responsive layouts, accessibility notes, and the tradeoffs behind UI decisions.",
+    },
+];
+
 export default function Projects() {
     const isInternalHref = (href: string) => href.startsWith("/");
 
     return (
         <section className="portfolio-section" id="projects">
             <header className="section-heading">
-                <h2>Selected work</h2>
+                <p className="eyebrow">Selected work</p>
+                <h2>Software & UX cases.</h2>
                 <p>
-                    Production systems and applied AI projects, selected for the
-                    problems they solve and the engineering decisions behind them.
+                    A selection of software and product work across backend APIs, product UI, AI workflows, and deployments
                 </p>
             </header>
 
@@ -58,6 +73,20 @@ export default function Projects() {
                                 ))}
                             </ul>
                         </div>
+                    </article>
+                ))}
+            </div>
+
+            <div className="case-study-lane" aria-label="UX case study slots">
+                <div>
+                    <p className="eyebrow">UX / UI</p>
+                    <h3>Case-study lane</h3>
+                </div>
+                {UX_CASE_STUDIES.map((study) => (
+                    <article className="case-study-card" key={study.title}>
+                        <span>{study.status}</span>
+                        <h4>{study.title}</h4>
+                        <p>{study.description}</p>
                     </article>
                 ))}
             </div>
