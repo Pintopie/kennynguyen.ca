@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { ArrowDownRight, FileText, Github, Linkedin, Mail } from "lucide-react";
-import { AVATAR_URL } from "@/constants";
+import RetroAvatar from "./RetroAvatar";
 
 const FOCUS_AREAS = [
     "Backend APIs",
@@ -44,16 +43,7 @@ export default function Hero() {
                 </div>
 
                 <aside className="hero-card" aria-label="Portfolio snapshot">
-                    <div className="portrait-card">
-                        <Image
-                            src={AVATAR_URL}
-                            alt="Kenny Nguyen"
-                            fill
-                            priority
-                            sizes="(max-width: 760px) 68vw, 320px"
-                            className="object-cover"
-                        />
-                    </div>
+                    <RetroAvatar />
 
                     <div className="hero-note">
                         <strong>Toronto, ON</strong>

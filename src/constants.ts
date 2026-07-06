@@ -14,7 +14,6 @@ export const PROJECTS = [
       { label: "Company", href: "https://healthbridgeai.com" },
     ],
     tech: ["Python", "FastAPI", "Docker", "Nginx", "Keycloak", "JWT"],
-    featured: true,
   },
   {
     title: "LocalYoutubeRAG",
@@ -28,7 +27,6 @@ export const PROJECTS = [
     ],
     links: [{ label: "GitHub", href: "https://github.com/Pintopie/LocalYoutubeRAG" }],
     tech: ["Python", "FastAPI", "React", "Vite", "Ollama", "RAG"],
-    featured: true,
   },
   {
     title: "Liver Tumor Analysis",
@@ -42,7 +40,6 @@ export const PROJECTS = [
     ],
     links: [{ label: "GitHub", href: "https://github.com/Pintopie/Liver-Tumor-ML" }],
     tech: ["Python", "Machine Learning", "Docker", "Jupyter", "Medical Imaging"],
-    featured: false,
   },
 ];
 
@@ -137,7 +134,6 @@ export const HACKATHONS = [
     startDate: "11/2025",
     endDate: "02/2026",
     location: "University of Toronto Mississauga",
-    logo: "/logos/imi_bigdata_hub.webp",
     summary:
       "Built an explainable AML pipeline for an extremely imbalanced dataset by merging 7 transaction channels with KYC data, engineering risk features, balancing the classes, and explaining predictions with SHAP.",
     highlights: [
@@ -152,4 +148,3 @@ export const HACKATHONS = [
 ];
 
 export const CURRENT_YEAR = new Date().getFullYear();
-export const AVATAR_URL = "https://avatars.githubusercontent.com/u/134212302?v=4";

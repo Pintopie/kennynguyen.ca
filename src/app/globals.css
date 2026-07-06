@@ -36,6 +36,7 @@ html {
 body {
   min-width: 320px;
   margin: 0;
+  overflow-x: clip;
   background: var(--memphis-cream);
   color: var(--memphis-ink);
   font-family: var(--font-body), sans-serif;
@@ -261,7 +262,7 @@ li {
 .site-nav__links a:hover {
   color: var(--memphis-red);
   text-decoration: underline;
-  text-transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .nav-contact {
@@ -375,7 +376,10 @@ li {
   transform: rotate(2deg);
 }
 
-.portrait-card {
+.retro-avatar {
+  --avatar-look-x: 0px;
+  --avatar-look-y: 0px;
+  --avatar-tilt: 0deg;
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
@@ -383,6 +387,51 @@ li {
   border-radius: var(--radius-lg);
   background: var(--memphis-surface);
   box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.retro-avatar:hover,
+.retro-avatar:focus-visible {
+  box-shadow: 6px 8px 0 0 var(--memphis-ink);
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+.retro-avatar__image {
+  object-fit: cover;
+  object-position: 50% 45%;
+  transform: translate(var(--avatar-look-x), var(--avatar-look-y)) scale(1.1) rotate(var(--avatar-tilt));
+  transform-origin: center 42%;
+  transition: transform 180ms ease-out, filter 180ms ease-out;
+  user-select: none;
+}
+
+.retro-avatar:hover .retro-avatar__image,
+.retro-avatar:focus-visible .retro-avatar__image {
+  filter: saturate(1.04) contrast(1.03);
+}
+
+.retro-avatar__label {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 7px 10px;
+  border: 2px solid var(--memphis-ink);
+  border-radius: var(--radius-md);
+  background: var(--memphis-yellow);
+  box-shadow: 2px 3px 0 var(--memphis-ink);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(8px) rotate(-3deg);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.retro-avatar:hover .retro-avatar__label,
+.retro-avatar:focus-visible .retro-avatar__label {
+  opacity: 1;
+  transform: translateY(0) rotate(-3deg);
 }
 
 .hero-note {
@@ -1209,6 +1258,7 @@ li {
 
   .site-nav__inner {
     min-height: 56px;
+    padding: 8px;
   }
 
   .hero-section,
@@ -1219,6 +1269,16 @@ li {
 
   .hero-section {
     padding-top: 104px;
+  }
+
+  .hero-copy {
+    gap: 20px;
+  }
+
+  .hero-copy h1 {
+    max-width: 9ch;
+    font-size: clamp(2.65rem, 14vw, 3.4rem);
+    letter-spacing: 0;
   }
 
   .hero-board {
