@@ -1,5 +1,4 @@
 import { ArrowDownRight, FileText, Github, Linkedin, Mail } from "lucide-react";
-import RetroAvatar from "./RetroAvatar";
 
 const FOCUS_AREAS = [
     "Backend APIs",
@@ -41,15 +40,6 @@ export default function Hero() {
                         </a>
                     </div>
                 </div>
-
-                <aside className="hero-card" aria-label="Portfolio snapshot">
-                    <RetroAvatar />
-
-                    <div className="hero-note">
-                        <strong>Toronto, ON</strong>
-                        <span>University of Toronto, Bachelor of Information</span>
-                    </div>
-                </aside>
             </div>
 
             <div className="hero-board" aria-label="Portfolio focus areas">

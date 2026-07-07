@@ -1,21 +1,35 @@
 const CAPABILITIES = [
     {
-        title: "Product interfaces",
+        step: "01",
+        label: "Frame the work",
+        title: "Product planning",
         description:
-            "Responsive web experiences shaped around clear hierarchy, accessible interaction, and maintainable component systems.",
-        skills: ["React", "Next.js", "TypeScript", "Figma", "Responsive UI", "Accessibility"],
+            "Start with the user flow, constraints, edge cases, and the smallest version that can prove the idea.",
+        skills: ["Scope", "User flows", "Figma", "Requirements", "Tradeoffs"],
     },
     {
-        title: "Backend systems",
+        step: "02",
+        label: "Map the system",
+        title: "Technical design",
         description:
-            "Typed APIs and deployment workflows built for reliable operation, secure access, and straightforward maintenance.",
-        skills: ["Python", "FastAPI", "Node.js", "PostgreSQL", "Docker", "CI/CD"],
+            "Plan the API shape, data flow, auth boundaries, deployment path, and failure cases before writing the main build.",
+        skills: ["APIs", "Auth", "Data flow", "Docker", "CI/CD"],
     },
     {
-        title: "AI and data workflows",
+        step: "03",
+        label: "Build the path",
+        title: "Product engineering",
         description:
-            "Applied machine learning and retrieval systems that keep source quality, explainability, and user needs in view.",
-        skills: ["LangChain", "Ollama", "RAG", "Jupyter", "Machine Learning", "SHAP"],
+            "Ship the interface and backend together, with readable components, typed services, and checks around risky paths.",
+        skills: ["React", "Next.js", "TypeScript", "Python", "FastAPI"],
+    },
+    {
+        step: "04",
+        label: "Set up agents",
+        title: "AI workflow setup",
+        description:
+            "Use agents for research, repo navigation, UI iteration, and review, while keeping human decisions in the planning loop.",
+        skills: ["Agent docs", "RAG", "LangChain", "Ollama", "Review loops"],
     },
 ];
 
@@ -24,16 +38,19 @@ export default function Skills() {
         <section className="portfolio-section capabilities-section" id="skills">
             <header className="section-heading">
                 <p className="eyebrow">Capabilities</p>
-                <h2>How I build.</h2>
+                <h2>How I plan and ship.</h2>
                 <p>
-                    I work across interface implementation, backend delivery, and applied AI.
-                    The tools matter, but the main goal is a product that works clearly.
+                    I like building from product logic into system design, then using AI agents to speed up the parts that benefit from a second pair of hands.
                 </p>
             </header>
 
-            <div className="capability-list">
+            <div className="capability-workflow" aria-label="Capability workflow">
                 {CAPABILITIES.map((capability) => (
-                    <article className="capability-row" key={capability.title}>
+                    <article className="capability-step" key={capability.title}>
+                        <div className="capability-step__marker" aria-hidden="true">
+                            <span>{capability.step}</span>
+                        </div>
+                        <p className="capability-step__label">{capability.label}</p>
                         <h3>{capability.title}</h3>
                         <p>{capability.description}</p>
                         <ul className="tag-list" aria-label={`${capability.title} skills`}>

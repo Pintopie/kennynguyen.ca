@@ -21,11 +21,11 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kenny Nguyen | Software Engineer",
+  title: "Kenny Nguyen | Software + Product",
   description:
-    "Portfolio of Kenny Nguyen, a Toronto-based software engineer with a product and UX design lens.",
+    "Portfolio of Kenny Nguyen, a Toronto-based software engineer working across product UI, backend systems, and AI workflows.",
   icons: {
-    icon: "https://avatars.githubusercontent.com/u/134212302?v=4",
+    icon: "/icon.svg",
   },
 };
 
